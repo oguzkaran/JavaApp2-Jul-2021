@@ -1,4 +1,4 @@
-# JavaApp1-Feb-2021
+# JavaApp2-Jul-2021
 KAYNAK GÖSTERMEK KOŞULUYLA HER TÜRLÜ ALINTI YAPILABİLİR
 
 #java
@@ -18,4 +18,17 @@ KAYNAK GÖSTERMEK KOŞULUYLA HER TÜRLÜ ALINTI YAPILABİLİR
 #postgresql
 #rxjava
 #crudrepository
+#tcp
+#socket
+#iot
+#websocket
+#udp
+#datastructures
+#algorithms
+#rcursion
+#docker
+#mongodb
+#nosql
+#cryptography
+#garbacecollector
 
