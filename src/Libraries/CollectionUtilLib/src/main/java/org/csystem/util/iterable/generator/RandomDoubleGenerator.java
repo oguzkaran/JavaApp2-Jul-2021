@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.function.DoubleSupplier;
 
-public class RandomDoubleGenerator implements Iterable<Double> {
+public final class RandomDoubleGenerator implements Iterable<Double> {
     private final int m_count;
     private final DoubleSupplier m_supplier;
 

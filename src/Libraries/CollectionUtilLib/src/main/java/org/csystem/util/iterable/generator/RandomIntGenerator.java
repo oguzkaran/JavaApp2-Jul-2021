@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.function.IntSupplier;
 
-public class RandomIntGenerator implements Iterable<Integer> {
+public final class RandomIntGenerator implements Iterable<Integer> {
     private final int m_count;
     private final IntSupplier m_supplier;
 
