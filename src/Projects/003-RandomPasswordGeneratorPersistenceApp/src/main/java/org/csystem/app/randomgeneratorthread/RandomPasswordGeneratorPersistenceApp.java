@@ -48,6 +48,7 @@ public class RandomPasswordGeneratorPersistenceApp {
 
             for (int i = 0; i < numberOfFiles; ++i) {
                 var suffix = i + 1;
+
                 new Thread(() -> runnableCallback(count, max, filePrefix, suffix, ext)).start();
             }
         }

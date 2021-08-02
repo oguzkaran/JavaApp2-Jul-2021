@@ -1,58 +1,38 @@
 /*----------------------------------------------------------------------------------------------------------------------
-    Runnable arayüzünü implemente eden bir sınıf da thread sınıfı gibi kullanabilir
+    Thread sınıfının isAlive metodu bir thread akışının devam edip etmediği bilgisini döndürür
 ----------------------------------------------------------------------------------------------------------------------*/
 package org.csystem.app;
 
 import org.csystem.util.console.Console;
-import org.csystem.util.iterable.generator.RandomIntGenerator;
 import org.csystem.util.thread.ThreadUtil;
 
 import java.util.Random;
 
 class App {
-    public static void main(String[] args)
+    public static void main(String[] args) throws InterruptedException
     {
-        MyApplication.run()
+        var random = new Random();
+        var n = random.nextInt(10) + 5;
+
+        var thread = new Thread(() -> {
+            var name = Thread.currentThread().getName();
+            
+            Console.writeLine("n = %d", n);
+            for (int k = 0; k < n; ++k) {
+                Console.writeLine("%s:%d", name, k);
+                ThreadUtil.sleep(1000);
+            }
+        });
+
+        var millis = random.nextInt(10000) + 4000;
+
+        Console.writeLine("millis = %d", millis);
+        thread.start();
+
+        thread.join(random.nextInt(10000) + 6000);
+        Console.writeLine(thread.isAlive() ? "Thread devam ediyor" : "Thread sonlandı");
     }
 }
 
-class MyApplication {
-    //...
-    public static void run()
-    {
-
-    }
-}
 
 
-class RandomIntGeneratorThread implements Runnable {
-    private final int m_count;
-    private final int m_min;
-    private final int m_max;
-
-    public RandomIntGeneratorThread(int count, int min, int max)
-    {
-        //...
-        m_count = count;
-        m_min = min;
-        m_max = max;
-    }
-
-    @Override
-    public void run()
-    {
-        var r = new Random();
-        var self = Thread.currentThread();
-
-        Console.writeLine("Name:%s", self.getName());
-
-        for (int i = 0; i < m_count; ++i) {
-            int val = r.nextInt(m_max - m_min + 1) + m_min;
-
-            Console.write("%02d ", val);
-            ThreadUtil.sleep(1000);
-        }
-
-        Console.writeLine();
-    }
-}
