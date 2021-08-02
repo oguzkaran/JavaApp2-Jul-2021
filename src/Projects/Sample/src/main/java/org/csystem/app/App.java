@@ -1,38 +1,45 @@
 /*----------------------------------------------------------------------------------------------------------------------
-    Thread sınıfının isAlive metodu bir thread akışının devam edip etmediği bilgisini döndürür
+    Bir thread aşağıdaki durumlardan biri ile sonlanır:
+    - Thread akışına ilişkin metot normal olarak sonlanır
+    - Thread akışı içerisinde oluşan bir exception yakalanamaz ise thread sonlanır
+    - Thread'in ait olduğu process sonlandığında tüm thread'ler sonlanır. Örneğin process içerisinde herhangi bir
+    yerde System.exit çağrıldığında bu durum oluşur
+    - Thread daemon bir thread ise ve ait olduğu process içerisinde tüm non-daemon thread'ler sonlanmışsa daemon olan
+    thread de sonlanır
 ----------------------------------------------------------------------------------------------------------------------*/
 package org.csystem.app;
 
 import org.csystem.util.console.Console;
 import org.csystem.util.thread.ThreadUtil;
 
-import java.util.Random;
-
 class App {
-    public static void main(String[] args) throws InterruptedException
+    public static void main(String[] args)
     {
-        var random = new Random();
-        var n = random.nextInt(10) + 5;
+        for (int c = 0; c < 10; ++c) {
+            var thread = new Thread(() -> {
+                var self = Thread.currentThread();
+                int i = 0;
 
-        var thread = new Thread(() -> {
-            var name = Thread.currentThread().getName();
-            
-            Console.writeLine("n = %d", n);
-            for (int k = 0; k < n; ++k) {
-                Console.writeLine("%s:%d", name, k);
+                for (;;) {
+                    Console.writeLine("%s:%d", self.getName(), i++);
+                    ThreadUtil.sleep(1000);
+                }
+            });
+
+            thread.setDaemon(true);
+            thread.start();
+        }
+
+        ThreadUtil.sleep(3000);
+
+        new Thread(() -> {
+            for (int i = 0; i < 10; ++i) {
                 ThreadUtil.sleep(1000);
             }
-        });
 
-        var millis = random.nextInt(10000) + 4000;
+            Console.writeLine("Last non-daemon thread ends");
+        }).start();
 
-        Console.writeLine("millis = %d", millis);
-        thread.start();
-
-        thread.join(random.nextInt(10000) + 6000);
-        Console.writeLine(thread.isAlive() ? "Thread devam ediyor" : "Thread sonlandı");
+        Console.writeLine("main ends");
     }
 }
-
-
-
