@@ -1,45 +1,60 @@
 /*----------------------------------------------------------------------------------------------------------------------
-    Bir thread aşağıdaki durumlardan biri ile sonlanır:
-    - Thread akışına ilişkin metot normal olarak sonlanır
-    - Thread akışı içerisinde oluşan bir exception yakalanamaz ise thread sonlanır
-    - Thread'in ait olduğu process sonlandığında tüm thread'ler sonlanır. Örneğin process içerisinde herhangi bir
-    yerde System.exit çağrıldığında bu durum oluşur
-    - Thread daemon bir thread ise ve ait olduğu process içerisinde tüm non-daemon thread'ler sonlanmışsa daemon olan
-    thread de sonlanır
+    Aşağıdaki örnekte m_val değerinin beklenen değerinde olmadığına dikkat ediniz
 ----------------------------------------------------------------------------------------------------------------------*/
 package org.csystem.app;
 
 import org.csystem.util.console.Console;
-import org.csystem.util.thread.ThreadUtil;
+
+import java.util.ArrayList;
 
 class App {
     public static void main(String[] args)
     {
-        for (int c = 0; c < 10; ++c) {
-            var thread = new Thread(() -> {
-                var self = Thread.currentThread();
-                int i = 0;
+        var inc = new Incrementer(3, 10_000_000);
 
-                for (;;) {
-                    Console.writeLine("%s:%d", self.getName(), i++);
-                    ThreadUtil.sleep(1000);
-                }
-            });
+        inc.run();
 
-            thread.setDaemon(true);
-            thread.start();
+        Console.writeLine("val:%d", inc.getVal());
+    }
+}
+
+class Incrementer {
+    private int m_val;
+    private final int m_numberOfThreads;
+    private final long m_count;
+
+    private void threadCallback()
+    {
+        for (long i = 0; i < m_count; ++i)
+            ++m_val;
+    }
+
+    public Incrementer(int numberOfThreads, long count)
+    {
+        m_numberOfThreads = numberOfThreads;
+        m_count = count;
+    }
+
+    public int getVal()
+    {
+        return m_val;
+    }
+    public void run()
+    {
+        var threads = new ArrayList<Thread>();
+
+        for (int i = 0; i < m_numberOfThreads; ++i) {
+            var t = new Thread(this::threadCallback);
+            t.start();
+            threads.add(t);
         }
 
-        ThreadUtil.sleep(3000);
+        try {
+            for (var thread : threads)
+                thread.join();
+        }
+        catch (InterruptedException ignore) {
 
-        new Thread(() -> {
-            for (int i = 0; i < 10; ++i) {
-                ThreadUtil.sleep(1000);
-            }
-
-            Console.writeLine("Last non-daemon thread ends");
-        }).start();
-
-        Console.writeLine("main ends");
+        }
     }
 }
