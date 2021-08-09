@@ -1,5 +1,13 @@
 /*----------------------------------------------------------------------------------------------------------------------
-    Aşağıdaki örnekte m_val değerinin beklenen değerinde olmadığına dikkat ediniz
+    Static bir metot synchronized olarak bildirildiğinde çağrı atomic yapılır. Aşağıdaki örnekte this.increment
+    çağrısının (increment synchronized değilse) yaklaşık eşdeğeri şu şekildedir:
+        synchronized (IncrementUtility.class) {
+            increment();
+        }
+    Benzer şekilde this.decrement çağrısının (decrement synchronized değilse) yaklaşık eşdeğeri şu şekildedir:
+        synchronized (IncrementUtility.class) {
+            decrement();
+        }
 ----------------------------------------------------------------------------------------------------------------------*/
 package org.csystem.app;
 
@@ -10,45 +18,26 @@ import java.util.ArrayList;
 class App {
     public static void main(String[] args)
     {
-        var inc = new Incrementer(3, 10_000_000);
+        IncrementerUtility.run(10, 10_000_000);
 
-        inc.run();
-
-        Console.writeLine("val:%d", inc.getVal());
+        Console.writeLine("val:%d", IncrementerUtility.getValue());
     }
 }
 
-class Incrementer {
-    private int m_val;
-    private final int m_numberOfThreads;
-    private final long m_count;
+class IncrementerUtility {
+    private static int m_val;
 
-    private void threadCallback()
+    private static void createThreads(ArrayList<Thread> threads, int numberOfThreads, Runnable runnable)
     {
-        for (long i = 0; i < m_count; ++i)
-            ++m_val;
-    }
-
-    public Incrementer(int numberOfThreads, long count)
-    {
-        m_numberOfThreads = numberOfThreads;
-        m_count = count;
-    }
-
-    public int getVal()
-    {
-        return m_val;
-    }
-    public void run()
-    {
-        var threads = new ArrayList<Thread>();
-
-        for (int i = 0; i < m_numberOfThreads; ++i) {
-            var t = new Thread(this::threadCallback);
+        for (int i = 0; i < numberOfThreads; ++i) {
+            var t = new Thread(runnable);
             t.start();
             threads.add(t);
         }
+    }
 
+    private static void joinThreads(ArrayList<Thread> threads)
+    {
         try {
             for (var thread : threads)
                 thread.join();
@@ -56,5 +45,40 @@ class Incrementer {
         catch (InterruptedException ignore) {
 
         }
+    }
+
+    private static synchronized void increment()
+    {
+        ++m_val;
+    }
+
+    private static synchronized void decrement()
+    {
+        --m_val;
+    }
+
+    private static void threadCallbackIncrement(long count)
+    {
+        for (long i = 0; i < count; ++i)
+            increment();
+    }
+
+    private static void threadCallbackDecrement(long count)
+    {
+        for (long i = 0; i < count; ++i)
+            decrement();
+    }
+
+    public static int getValue()
+    {
+        return m_val;
+    }
+    public static void run(int numberOfThreads, long count)
+    {
+        var threads = new ArrayList<Thread>();
+
+        createThreads(threads, numberOfThreads, () -> threadCallbackIncrement(count));
+        createThreads(threads, numberOfThreads, () -> threadCallbackDecrement(count));
+        joinThreads(threads);
     }
 }
