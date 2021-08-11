@@ -1,42 +1,52 @@
 /*----------------------------------------------------------------------------------------------------------------------
-    Static bir metot synchronized olarak bildirildiğinde çağrı atomic yapılır. Aşağıdaki örnekte this.increment
-    çağrısının (increment synchronized değilse) yaklaşık eşdeğeri şu şekildedir:
-        synchronized (IncrementUtility.class) {
-            increment();
-        }
-    Benzer şekilde this.decrement çağrısının (decrement synchronized değilse) yaklaşık eşdeğeri şu şekildedir:
-        synchronized (IncrementUtility.class) {
-            decrement();
-        }
+    Collections utility sınıfının synchronizedXXX metotları ilgili collection grubuna ilişkin interface referansı
+    alarak senkronize edilmiş aynı collection'ı kullananan bir collection referansına geri döner
 ----------------------------------------------------------------------------------------------------------------------*/
 package org.csystem.app;
 
 import org.csystem.util.console.Console;
 
-import java.util.ArrayList;
+import java.util.*;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
+import java.util.stream.StreamSupport;
 
 class App {
     public static void main(String[] args)
     {
-        IncrementerUtility.run(10, 10_000_000);
+        var list = new ArrayList<String>();
+        var appender = new Appender(list, 10, 1_000_000);
 
-        Console.writeLine("val:%d", IncrementerUtility.getValue());
+        appender.run();
+        StreamSupport.stream(appender.spliterator(), false).limit(100).forEach(Console::writeLine);
+        Console.writeLine("Size:%d", appender.size());
+        Console.writeLine("Size:%d", list.size());
     }
 }
 
-class IncrementerUtility {
-    private static int m_val;
+class Appender implements Iterable<String> {
+    private final List<String> m_texts;
+    private final int m_numberOfThreads;
+    private final long m_count;
 
-    private static void createThreads(ArrayList<Thread> threads, int numberOfThreads, Runnable runnable)
+    private void threadCallback()
     {
-        for (int i = 0; i < numberOfThreads; ++i) {
-            var t = new Thread(runnable);
-            t.start();
-            threads.add(t);
-        }
+        var name = Thread.currentThread().getName();
+
+        LongStream.range(0, m_count).forEach(i -> m_texts.add(String.format("%s-%d", name, i)));
     }
 
-    private static void joinThreads(ArrayList<Thread> threads)
+    private void startThreads(ArrayList<Thread> threads)
+    {
+        IntStream.range(0, m_numberOfThreads).forEach(i -> {
+            var thread = new Thread(this::threadCallback, "Appender-" + (i + 1));
+
+            threads.add(thread);
+            thread.start();
+        });
+    }
+
+    private void joinThreads(ArrayList<Thread> threads)
     {
         try {
             for (var thread : threads)
@@ -47,38 +57,32 @@ class IncrementerUtility {
         }
     }
 
-    private static synchronized void increment()
+    public Appender(ArrayList<String> texts, int numberOfThreads, long count)
     {
-        ++m_val;
+        if (numberOfThreads <= 0 || count <= 0)
+            throw new IllegalArgumentException("Invalid Arguments");
+
+        m_numberOfThreads = numberOfThreads;
+        m_count = count;
+        m_texts = Collections.synchronizedList(texts);
     }
 
-    private static synchronized void decrement()
+    public int size()
     {
-        --m_val;
+        return m_texts.size();
     }
 
-    private static void threadCallbackIncrement(long count)
-    {
-        for (long i = 0; i < count; ++i)
-            increment();
-    }
-
-    private static void threadCallbackDecrement(long count)
-    {
-        for (long i = 0; i < count; ++i)
-            decrement();
-    }
-
-    public static int getValue()
-    {
-        return m_val;
-    }
-    public static void run(int numberOfThreads, long count)
+    public void run()
     {
         var threads = new ArrayList<Thread>();
+        this.startThreads(threads);
+        this.joinThreads(threads);
+    }
 
-        createThreads(threads, numberOfThreads, () -> threadCallbackIncrement(count));
-        createThreads(threads, numberOfThreads, () -> threadCallbackDecrement(count));
-        joinThreads(threads);
+    @Override
+    public Iterator<String> iterator()
+    {
+        return m_texts.iterator();
     }
 }
+
