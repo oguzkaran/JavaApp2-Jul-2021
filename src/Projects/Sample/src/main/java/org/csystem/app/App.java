@@ -1,88 +1,57 @@
 /*----------------------------------------------------------------------------------------------------------------------
-    Collections utility sınıfının synchronizedXXX metotları ilgili collection grubuna ilişkin interface referansı
-    alarak senkronize edilmiş aynı collection'ı kullananan bir collection referansına geri döner
+    ExecutorService arayüzünün shutDown metodu "executor service (pool)"'in içerisindeki tüm thread'ler artık boşta
+    kaldığında, yani havuz içerisindeki thread'leri kullanan akışlar "alive" durumdan çıktıklarında, yani
+    tüm thread akışları sonlandığında "pool"'a ilişkin thread'i de sonlandırır
 ----------------------------------------------------------------------------------------------------------------------*/
 package org.csystem.app;
 
 import org.csystem.util.console.Console;
+import org.csystem.util.thread.ThreadUtil;
 
-import java.util.*;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
-import java.util.stream.StreamSupport;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 class App {
     public static void main(String[] args)
     {
-        var list = new ArrayList<String>();
-        var appender = new Appender(list, 10, 1_000_000);
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
 
-        appender.run();
-        StreamSupport.stream(appender.spliterator(), false).limit(100).forEach(Console::writeLine);
-        Console.writeLine("Size:%d", appender.size());
-        Console.writeLine("Size:%d", list.size());
+        var myRunnable1 = new MyRunnable(10, "Ali");
+        var myRunnable2 = new MyRunnable(5, "Veli");
+        var myRunnable3 = new MyRunnable(5, "Selami");
+
+        executorService.execute(myRunnable1);
+        executorService.execute(myRunnable2);
+        executorService.execute(myRunnable3);
+        Console.writeLine("main ends");
+
+        Console.writeLine("main ends");
     }
 }
 
-class Appender implements Iterable<String> {
-    private final List<String> m_texts;
-    private final int m_numberOfThreads;
-    private final long m_count;
+class MyRunnable implements Runnable {
+    private final int m_n;
+    private final String m_myName;
 
-    private void threadCallback()
+    public MyRunnable(int n, String myName)
     {
-        var name = Thread.currentThread().getName();
-
-        LongStream.range(0, m_count).forEach(i -> m_texts.add(String.format("%s-%d", name, i)));
-    }
-
-    private void startThreads(ArrayList<Thread> threads)
-    {
-        IntStream.range(0, m_numberOfThreads).forEach(i -> {
-            var thread = new Thread(this::threadCallback, "Appender-" + (i + 1));
-
-            threads.add(thread);
-            thread.start();
-        });
-    }
-
-    private void joinThreads(ArrayList<Thread> threads)
-    {
-        try {
-            for (var thread : threads)
-                thread.join();
-        }
-        catch (InterruptedException ignore) {
-
-        }
-    }
-
-    public Appender(ArrayList<String> texts, int numberOfThreads, long count)
-    {
-        if (numberOfThreads <= 0 || count <= 0)
-            throw new IllegalArgumentException("Invalid Arguments");
-
-        m_numberOfThreads = numberOfThreads;
-        m_count = count;
-        m_texts = Collections.synchronizedList(texts);
-    }
-
-    public int size()
-    {
-        return m_texts.size();
-    }
-
-    public void run()
-    {
-        var threads = new ArrayList<Thread>();
-        this.startThreads(threads);
-        this.joinThreads(threads);
+        m_n = n;
+        m_myName = myName;
     }
 
     @Override
-    public Iterator<String> iterator()
+    public void run()
     {
-        return m_texts.iterator();
+        var name = Thread.currentThread().getName();
+
+        Console.writeLine("My name is %s", m_myName);
+
+        for (int i = 0; i < m_n; ++i) {
+            Console.writeLine("%s:%d", name, i);
+            ThreadUtil.sleep(1000);
+        }
     }
 }
+
+
 
