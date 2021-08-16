@@ -1,57 +1,35 @@
 /*----------------------------------------------------------------------------------------------------------------------
-    ExecutorService arayüzünün shutDown metodu "executor service (pool)"'in içerisindeki tüm thread'ler artık boşta
-    kaldığında, yani havuz içerisindeki thread'leri kullanan akışlar "alive" durumdan çıktıklarında, yani
-    tüm thread akışları sonlandığında "pool"'a ilişkin thread'i de sonlandırır
+    Aşağıdaki örnekte bekleyen thread'in beklediği thread'in sonlanmasının durumu anlaşılmaktadır. Yani join'in ne
+    durumda sonlandığı test edilmiştir
 ----------------------------------------------------------------------------------------------------------------------*/
 package org.csystem.app;
 
 import org.csystem.util.console.Console;
 import org.csystem.util.thread.ThreadUtil;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.Random;
 
 class App {
-    public static void main(String[] args)
+    public static void main(String[] args) throws InterruptedException
     {
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        var random = new Random();
+        var thread = new Thread(() -> {
+            var name = Thread.currentThread().getName();
 
-        var myRunnable1 = new MyRunnable(10, "Ali");
-        var myRunnable2 = new MyRunnable(5, "Veli");
-        var myRunnable3 = new MyRunnable(5, "Selami");
+            for (int k = 0; k < random.nextInt(10) + 5; ++k) {
+                Console.writeLine("%s:%d", name, k);
+                ThreadUtil.sleep(1000);
+            }
+        });
 
-        executorService.execute(myRunnable1);
-        executorService.execute(myRunnable2);
-        executorService.execute(myRunnable3);
-        Console.writeLine("main ends");
+        thread.start();
+        thread.join(random.nextInt(10000) + 6000);
+
+        if (thread.isAlive())
+            Console.writeLine("Thread hala yaşıyor");
+        else
+            Console.writeLine("Thread sonlandı");
 
         Console.writeLine("main ends");
     }
 }
-
-class MyRunnable implements Runnable {
-    private final int m_n;
-    private final String m_myName;
-
-    public MyRunnable(int n, String myName)
-    {
-        m_n = n;
-        m_myName = myName;
-    }
-
-    @Override
-    public void run()
-    {
-        var name = Thread.currentThread().getName();
-
-        Console.writeLine("My name is %s", m_myName);
-
-        for (int i = 0; i < m_n; ++i) {
-            Console.writeLine("%s:%d", name, i);
-            ThreadUtil.sleep(1000);
-        }
-    }
-}
-
-
-
