@@ -14,4 +14,20 @@ public final class ThreadUtil {
 
         }
     }
+
+    public static void notify(Object object)
+    {
+        object.notify();
+    }
+
+    public static void wait(Object object)
+    {
+        try {
+            object.wait();
+        }
+        catch (InterruptedException ignore) {
+
+        }
+
+    }
 }

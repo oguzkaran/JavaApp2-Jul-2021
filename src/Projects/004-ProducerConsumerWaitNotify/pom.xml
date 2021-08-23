@@ -10,8 +10,13 @@
 	</parent>
 
 	<groupId>org.csystem</groupId>
-	<artifactId>Sample</artifactId>
+	<artifactId>ProducerConsumerWaitNotify</artifactId>
 	<version>1.0.0</version>
+	<name>ProducerConsumerWaitNotify</name>
+
+	<properties>
+		<java.version>11</java.version>
+	</properties>
 
 	<repositories>
 		<repository>
@@ -20,11 +25,12 @@
 		</repository>
 	</repositories>
 
-	<properties>
-		<java.version>11</java.version>
-	</properties>
-
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.csystem</groupId>
 			<artifactId>org-csystem-util</artifactId>
@@ -38,46 +44,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.csystem</groupId>
-			<artifactId>org-csystem-util-scheduler</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.csystem</groupId>
-			<artifactId>org-csystem-util-io</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.csystem</groupId>
-			<artifactId>org-csystem-util-datetime</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.csystem</groupId>
-			<artifactId>org-csystem-util-collection</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/io.reactivex.rxjava3/rxjava -->
-		<dependency>
-			<groupId>io.reactivex.rxjava3</groupId>
-			<artifactId>rxjava</artifactId>
-			<version>3.1.0</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>org.junit.vintage</groupId>
-					<artifactId>junit-vintage-engine</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 	</dependencies>
 
@@ -86,9 +55,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<includeSystemScope>true</includeSystemScope>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
