@@ -5,14 +5,14 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.5.4</version>
+		<version>2.5.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
 	<groupId>org.csystem</groupId>
-	<artifactId>ProducerConsumerQueue</artifactId>
+	<artifactId>RandomPasswordGeneratorServer</artifactId>
 	<version>1.0.0</version>
-	<name>ProducerConsumerQueue</name>
+	<name>RandomPasswordGeneratorServer</name>
 
 	<properties>
 		<java.version>11</java.version>
@@ -29,12 +29,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.csystem</groupId>
-			<artifactId>org-csystem-util</artifactId>
-			<version>3.0.0</version>
 		</dependency>
 
 		<dependency>

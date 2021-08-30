@@ -1,5 +1,6 @@
 package org.csystem.application.producerconsumer.component;
 
+import org.csystem.util.thread.ThreadUtil;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -24,30 +25,18 @@ public class SharedObject {
 
     public void setVal(int val)
     {
-        try {
-            m_producerSemaphore.acquire(m_queue.length);
-            m_queue[m_tail++] = val;
-            m_tail %= m_queue.length;
-            m_consumerSemaphore.release(m_queue.length);
-        }
-        catch (InterruptedException ignore) {
-
-        }
+        ThreadUtil.acquire(m_producerSemaphore, m_queue.length);
+        m_queue[m_tail++] = val;
+        m_tail %= m_queue.length;
+        ThreadUtil.release(m_consumerSemaphore, m_queue.length);
     }
 
     public int getVal()
     {
-        int val = 0;
-
-        try {
-            m_consumerSemaphore.acquire(m_queue.length);
-            val = m_queue[m_head++];
-            m_head %= m_queue.length;
-            m_producerSemaphore.release(m_queue.length);
-        }
-        catch (InterruptedException ignore) {
-
-        }
+        ThreadUtil.acquire(m_consumerSemaphore, m_queue.length);
+        int val = m_queue[m_head++];
+        m_head %= m_queue.length;
+        ThreadUtil.release(m_producerSemaphore, m_queue.length);
 
         return val;
     }
