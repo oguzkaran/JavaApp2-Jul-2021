@@ -12,7 +12,7 @@
     </parent>
 
     <groupId>org.csystem.java</groupId>
-    <artifactId>org-csystem-util-converter</artifactId>
+    <artifactId>org-csystem-util-tuple</artifactId>
     <version>1.0.0</version>
 
     <properties>
