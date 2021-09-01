@@ -10,9 +10,10 @@
 	</parent>
 
 	<groupId>org.csystem</groupId>
-	<artifactId>RandomPasswordGeneratorServer</artifactId>
+	<artifactId>RandomPasswordGeneratorConsoleClient</artifactId>
 	<version>1.0.0</version>
-	<name>RandomPasswordGeneratorServer</name>
+	<name>RandomPasswordGeneratorConsoleClient</name>
+	<description>Generic Application</description>
 
 	<properties>
 		<java.version>11</java.version>
@@ -41,12 +42,6 @@
 			<groupId>org.csystem</groupId>
 			<artifactId>org-csystem-util-exception</artifactId>
 			<version>1.0.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.csystem</groupId>
-			<artifactId>org-csystem-util</artifactId>
-			<version>3.0.0</version>
 		</dependency>
 
 		<dependency>
