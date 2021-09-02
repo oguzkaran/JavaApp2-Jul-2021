@@ -10,6 +10,7 @@ All Rights Free
 -----------------------------------------------------------------------*/
 package org.csystem.util.exception;
 
+import java.io.Closeable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.function.Consumer;
 import java.util.function.Function;
