@@ -11,9 +11,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>org.csystem.java</groupId>
+    <groupId>org.csystem</groupId>
     <artifactId>org-csystem-util-net</artifactId>
-    <version>4.0.0</version>
+    <version>1.0.0</version>
 
     <properties>
         <java.version>8</java.version>
