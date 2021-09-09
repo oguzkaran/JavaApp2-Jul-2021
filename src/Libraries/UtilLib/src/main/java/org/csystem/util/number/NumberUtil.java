@@ -35,7 +35,7 @@ public final class NumberUtil {
         return digits;
     }
 
-    private static int getSum(int val, int n)
+    private static int getPowSum(int val, int n)
     {
         int sum = 0;
 
@@ -178,16 +178,16 @@ public final class NumberUtil {
     public static String getLetters(String s)
     {
         int len = s.length();
-        String str = "";
+        StringBuilder str = new StringBuilder();
 
         for (int i = 0; i < len; ++i) {
             char c = s.charAt(i);
 
             if (Character.isLetter(c))
-                str += c;
+                str.append(c);
         }
 
-        return str;
+        return str.toString();
     }
 
     public static int getNextFibonacciNumber(int val)
@@ -284,7 +284,7 @@ public final class NumberUtil {
         int n = getDigitsCount(val);
 
 
-        return getSum(val, n) == val;
+        return getPowSum(val, n) == val;
     }
 
     public static boolean isEven(int val)
