@@ -2,8 +2,6 @@ package org.csystem.application.client.console.randompasswordgenerator.runner;
 
 import org.csystem.util.console.Console;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -41,7 +39,7 @@ public class RandomPasswordClientJava {
             if (dis.readBoolean())
                 for (var i = 0L; i < count; ++i) {
                     var password = br.readLine();
-                    Console.writeLine("Length:%d:%s", password.length(), password);
+                    Console.writeLine("%s", password);
                 }
             else
                 Console.writeLine("Invalid parameters for server!...");
@@ -62,6 +60,6 @@ public class RandomPasswordClientJava {
 
     public void run() throws Exception
     {
-        new Thread(this::runClient).start();
+        this.runClient();
     }
 }

@@ -23,6 +23,13 @@ public class CommandPromptCommand {
         subscribeRunnable(m_clientJava::run, ex -> Console.Error.writeLine("Exception:%d", ex.getMessage()));
     }
 
+    @Command
+    public void quit()
+    {
+        System.exit(0);
+    }
+
+
     @ErrorCommand
     public void errorCommandProc()
     {
