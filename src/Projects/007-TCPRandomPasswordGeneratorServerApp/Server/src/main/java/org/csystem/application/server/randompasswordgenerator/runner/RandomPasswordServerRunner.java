@@ -1,5 +1,6 @@
 package org.csystem.application.server.randompasswordgenerator.runner;
 
+import org.csystem.application.server.randompasswordgenerator.client.ClientInfo;
 import org.csystem.util.console.Console;
 import org.csystem.util.string.StringUtil;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Component;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 
@@ -19,6 +22,7 @@ import static org.csystem.util.exception.ExceptionUtil.subscribeRunnable;
 public class RandomPasswordServerRunner implements ApplicationRunner {
     private final ServerSocket m_serverSocket;
     private final ExecutorService m_threadPool;
+    private final Map<Socket, ClientInfo> m_clients;
 
     @Value("${password.maxlength}")
     private int m_passwordMaxLength;
@@ -56,13 +60,29 @@ public class RandomPasswordServerRunner implements ApplicationRunner {
 
     private void generatePasswordsCallback(Socket clientSocket) throws IOException
     {
+        var clientInfo = new ClientInfo(clientSocket, clientSocket.getPort());
+        m_clients.put(clientSocket, clientInfo);
         var dis = new DataInputStream(clientSocket.getInputStream());
         var dos = new DataOutputStream(clientSocket.getOutputStream());
         var bw = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
 
-        //Bu noktada client göndermezse ne olacak? Bu duruma karşı önlem almalıyız
         int count = dis.readInt();
+
+        synchronized (m_clients) {
+            if (!m_clients.containsKey(clientSocket))
+                return;
+
+            clientInfo.setLastTime(LocalDateTime.now());
+        }
+
         int length = dis.readInt();
+
+        synchronized (m_clients) {
+            if (!m_clients.containsKey(clientSocket))
+                return;
+
+            clientInfo.setCompleted();
+        }
 
         send(count, length, bw, dos);
     }
@@ -94,10 +114,11 @@ public class RandomPasswordServerRunner implements ApplicationRunner {
         runForAccept();
     }
 
-    public RandomPasswordServerRunner(ServerSocket serverSocket, ExecutorService threadPool)
+    public RandomPasswordServerRunner(ServerSocket serverSocket, ExecutorService threadPool, Map<Socket, ClientInfo> clients)
     {
         m_serverSocket = serverSocket;
         m_threadPool = threadPool;
+        m_clients = clients;
     }
 
     @Override

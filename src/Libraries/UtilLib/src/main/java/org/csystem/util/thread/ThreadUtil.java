@@ -61,4 +61,16 @@ public final class ThreadUtil {
     {
         semaphore.release(permits);
     }
+
+    public static void synchronize(IActionCallback actionCallback, Object object)
+    {
+        synchronized (object) {
+            try {
+                actionCallback.run();
+            }
+            catch (Exception ex) {
+                throw new RuntimeException(ex.getMessage(), ex);
+            }
+        }
+    }
 }
