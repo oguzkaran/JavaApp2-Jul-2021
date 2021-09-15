@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------
 FILE        : ExceptionUtil.java
 AUTHOR      : Oğuz Karan
-LAST UPDATE : 13.09.2021
+LAST UPDATE : 15.09.2021
 
 ExceptionUtil class for exception managing
 
@@ -120,7 +120,33 @@ public final class ExceptionUtil {
         }
     }
 
-    public static <R> R subscribe(ISupplierCallback<R> supplier, Closeable closeable, Function<Throwable, R> function)
+    public static <R> R subscribe(ISupplierCallback<R> supplier, Function<Throwable, R> function, Runnable runnableCompleted)
+    {
+        try {
+            return supplier.get();
+        }
+        catch (Throwable ex) {
+            return function.apply(ex);
+        }
+        finally {
+            runnableCompleted.run();
+        }
+    }
+
+    public static void subscribeRunnable(IActionCallback actionCallback, Consumer<Throwable> consumer, Runnable runnableCompleted)
+    {
+        try {
+            actionCallback.run();
+        }
+        catch (Throwable ex) {
+            consumer.accept(ex);
+        }
+        finally {
+            runnableCompleted.run();
+        }
+    }
+
+    public static <R> R subscribe(ISupplierCallback<R> supplier, Closeable closeable, Function<Throwable, R> function, Runnable runnableCompleted)
     {
         try (closeable) {
             return supplier.get();
@@ -128,15 +154,21 @@ public final class ExceptionUtil {
         catch (Throwable ex) {
             return function.apply(ex);
         }
+        finally {
+            runnableCompleted.run();
+        }
     }
 
-    public static void subscribeRunnable(IActionCallback actionCallback, Closeable closeable, Consumer<Throwable> consumer)
+    public static void subscribeRunnable(IActionCallback actionCallback, Closeable closeable, Consumer<Throwable> consumer, Runnable runnableCompleted)
     {
         try (closeable) {
             actionCallback.run();
         }
         catch (Throwable ex) {
             consumer.accept(ex);
+        }
+        finally {
+            runnableCompleted.run();
         }
     }
 }
