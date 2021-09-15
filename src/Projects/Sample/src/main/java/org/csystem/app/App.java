@@ -7,38 +7,17 @@
 package org.csystem.app;
 
 import org.csystem.util.console.Console;
-import org.csystem.util.thread.ThreadUtil;
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.nio.charset.StandardCharsets;
 
 class App {
     public static void main(String[] args)
     {
-        var stopThreadWithFlag = new StopThreadWithFlag();
+        String str = "oğuz";
 
-        stopThreadWithFlag.run();
-    }
-}
+        byte [] data = str.getBytes(StandardCharsets.UTF_8);
 
-class StopThreadWithFlag {
-    private final AtomicBoolean m_stop = new AtomicBoolean();
-
-    private void runThread()
-    {
-        while (!m_stop.get())
-            Console.writeLine("I am running!...");
-    }
-
-    private void stopperThread()
-    {
-        ThreadUtil.sleep(5000);
-        m_stop.set(true);
-    }
-
-    public void run()
-    {
-        new Thread(this::runThread).start();
-        new Thread(this::stopperThread).start();
+        Console.writeLine(data.length);
     }
 }
 

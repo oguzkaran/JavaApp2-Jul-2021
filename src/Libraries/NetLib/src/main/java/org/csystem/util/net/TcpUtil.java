@@ -245,7 +245,7 @@ public final class TcpUtil {
 	{
 		try {
 			byte[] dataLen = new byte[4];
-			TcpUtil.receive(socket, dataLen);
+			receive(socket, dataLen);
 
 			byte[] data = new byte[BitConverter.toInt(dataLen)];
 
