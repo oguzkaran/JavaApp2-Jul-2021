@@ -16,9 +16,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public final class ExceptionUtil {
-    private ExceptionUtil()
-    {}
-
     private static <T extends RuntimeException> void throwException(String msg, Class<T> cls, Throwable ex)
     {
         try {
@@ -28,6 +25,9 @@ public final class ExceptionUtil {
             throw new UnsupportedOperationException("Fault for exception class");
         }
     }
+
+    private ExceptionUtil()
+    {}
 
     public static <T extends RuntimeException> void doWorkForRunnable(IActionCallback actionCallback, String msg, Class<T> cls)
     {
