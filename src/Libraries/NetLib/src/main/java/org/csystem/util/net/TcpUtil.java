@@ -302,7 +302,6 @@ public final class TcpUtil {
 			throw new NetworkException("TcpUtil.receiveFile", ex.getCause());
 		}
 		catch (Throwable ex) {
-			new File(path).delete();
 			throw new NetworkException("TcpUtil.receiveFile", ex);
 		}
 	}
@@ -463,13 +462,12 @@ public final class TcpUtil {
 			int read;
 
 			while ((read = fis.read(data)) > 0)
-				TcpUtil.send(socket, data, 0, read);
+				send(socket, data, 0, read);
 		}
 		catch (NetworkException ex) {
 			throw new NetworkException("TcpUtil.sendFile", ex.getCause());
 		}
 		catch (Throwable ex) {
-			new File(path).delete();
 			throw new NetworkException("TcpUtil.sendFile", ex);
 		}
 	}

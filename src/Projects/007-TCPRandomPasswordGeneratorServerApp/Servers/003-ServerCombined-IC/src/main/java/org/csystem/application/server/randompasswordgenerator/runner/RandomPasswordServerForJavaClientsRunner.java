@@ -2,15 +2,15 @@ package org.csystem.application.server.randompasswordgenerator.runner;
 
 import org.csystem.application.server.randompasswordgenerator.client.ClientInfo;
 import org.csystem.util.console.Console;
-import org.csystem.util.net.TcpUtil;
 import org.csystem.util.scheduler.Scheduler;
 import org.csystem.util.string.StringUtil;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.time.LocalDateTime;
@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 import static org.csystem.util.exception.ExceptionUtil.subscribeRunnable;
 
 @Component
-public class RandomPasswordServerRunner implements ApplicationRunner {
+public class RandomPasswordServerForJavaClientsRunner implements ApplicationRunner {
     private final ServerSocket m_serverSocket;
     private final ExecutorService m_threadPool;
     private final Map<Socket, ClientInfo> m_clients;
@@ -51,25 +51,26 @@ public class RandomPasswordServerRunner implements ApplicationRunner {
         m_threadPool.execute(() -> generatePasswords(clientSocket));
     }
 
-    private void send(Socket socket, int count, int length) throws IOException
+    private void send(int count, int length, BufferedWriter bw, DataOutputStream dos) throws IOException
     {
         boolean status = count > 0 && count <= m_passwordMaxCount && length > 0 && length <= m_passwordMaxLength;
 
-        TcpUtil.sendInt(socket, status ? 1 : 0);
+        dos.writeBoolean(status);
 
         if (status)
-            sendPasswords(socket, count, length);
+            sendPasswords(count, length, bw);
     }
 
-    private void sendPasswords(Socket socket, int count, int length) throws IOException
+    private void sendPasswords(int count, int length, BufferedWriter bw) throws IOException
     {
         var random = new Random();
 
         for (var i = 0; i < count; ++i) {
             var text = StringUtil.getRandomTextEN(random, length);
 
-            Console.writeLine("%s ", text);
-            TcpUtil.sendString(socket, text);
+            //Console.writeLine("%s ", text);
+            bw.write(text + "\r\n");
+            bw.flush();
         }
     }
 
@@ -102,16 +103,19 @@ public class RandomPasswordServerRunner implements ApplicationRunner {
     {
         var clientInfo = new ClientInfo(clientSocket, clientSocket.getPort());
         m_clients.put(clientSocket, clientInfo);
+        var dis = new DataInputStream(clientSocket.getInputStream());
+        var dos = new DataOutputStream(clientSocket.getOutputStream());
+        var bw = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
 
-        int count = TcpUtil.receiveInt(clientSocket);
+        int count = dis.readInt();
 
         clientsSynchronize(() -> setLastTimeCallback(clientInfo));
 
-        int length = TcpUtil.receiveInt(clientSocket);
+        int length = dis.readInt();
 
         clientsSynchronize(() -> setCompletedCallback(clientInfo));
 
-        send(clientSocket, count, length);
+        send(count, length, bw, dos);
     }
 
     private void generatePasswords(Socket clientSocket)
@@ -125,7 +129,7 @@ public class RandomPasswordServerRunner implements ApplicationRunner {
 
     private void acceptClient() throws IOException
     {
-        Console.writeLine("Random Password Generator Server is waiting for a client");
+        Console.writeLine("'Random Password Generator Server for Java' is waiting for a client");
 
         handleClient(m_serverSocket.accept());
     }
@@ -160,11 +164,13 @@ public class RandomPasswordServerRunner implements ApplicationRunner {
 
     private void schedulerCallback()
     {
-        Console.writeLine("Client Size:%d", m_clients.size());
         clientsSynchronize(this::schedulerSynchronizedCallback);
     }
 
-    public RandomPasswordServerRunner(ServerSocket serverSocket, ExecutorService threadPool, Map<Socket, ClientInfo> clients)
+    public RandomPasswordServerForJavaClientsRunner(
+            @Qualifier("randomPasswordServerJavaSocket") ServerSocket serverSocket,
+            ExecutorService threadPool,
+            @Qualifier("randomPasswordServerJavaClientsMap") Map<Socket, ClientInfo> clients)
     {
         m_serverSocket = serverSocket;
         m_threadPool = threadPool;

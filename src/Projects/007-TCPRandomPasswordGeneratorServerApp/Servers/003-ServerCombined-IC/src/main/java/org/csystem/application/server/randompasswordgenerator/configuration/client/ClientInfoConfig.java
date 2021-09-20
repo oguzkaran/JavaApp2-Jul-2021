@@ -11,9 +11,16 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Configuration
 public class ClientInfoConfig {
-    @Bean
+    @Bean("randomPasswordServerJavaClientsMap")
     @Scope("prototype")
-    public Map<Socket, ClientInfo> getRandomServerClientMap()
+    public Map<Socket, ClientInfo> getRandomServerJavaClientsMap()
+    {
+        return new ConcurrentHashMap<>();
+    }
+
+    @Bean("randomPasswordServerClientsMap")
+    @Scope("prototype")
+    public Map<Socket, ClientInfo> getRandomServerClientsMap()
     {
         return new ConcurrentHashMap<>();
     }

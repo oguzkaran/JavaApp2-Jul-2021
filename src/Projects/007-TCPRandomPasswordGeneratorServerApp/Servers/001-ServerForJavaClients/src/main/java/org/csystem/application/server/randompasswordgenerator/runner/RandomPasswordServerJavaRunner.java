@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 import static org.csystem.util.exception.ExceptionUtil.subscribeRunnable;
 
 @Component
-public class RandomPasswordServerRunner implements ApplicationRunner {
+public class RandomPasswordServerJavaRunner implements ApplicationRunner {
     private final ServerSocket m_serverSocket;
     private final ExecutorService m_threadPool;
     private final Map<Socket, ClientInfo> m_clients;
@@ -123,7 +123,7 @@ public class RandomPasswordServerRunner implements ApplicationRunner {
                 clientSocket.getPort(), clientSocket.getLocalPort());
 
         subscribeRunnable(() -> generatePasswordsCallback(clientSocket), clientSocket,
-                ex -> Console.Error.writeLine("generatePasswords:%s", ex.getMessage()));
+                ex -> Console.Error.writeLine("generatePasswords:%s", ex.getMessage()), () -> m_clients.remove(clientSocket));
     }
 
     private void acceptClient() throws IOException
@@ -167,7 +167,7 @@ public class RandomPasswordServerRunner implements ApplicationRunner {
         clientsSynchronize(this::schedulerSynchronizedCallback);
     }
 
-    public RandomPasswordServerRunner(ServerSocket serverSocket, ExecutorService threadPool, Map<Socket, ClientInfo> clients)
+    public RandomPasswordServerJavaRunner(ServerSocket serverSocket, ExecutorService threadPool, Map<Socket, ClientInfo> clients)
     {
         m_serverSocket = serverSocket;
         m_threadPool = threadPool;

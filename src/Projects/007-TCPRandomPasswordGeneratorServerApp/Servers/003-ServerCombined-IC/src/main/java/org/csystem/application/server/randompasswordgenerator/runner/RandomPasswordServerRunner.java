@@ -128,7 +128,7 @@ public class RandomPasswordServerRunner implements ApplicationRunner {
 
     private void acceptClient() throws IOException
     {
-        Console.writeLine("Random Password Generator Server is waiting for a client");
+        Console.writeLine("'Random Password Generator Server' is waiting for a client");
 
         handleClient(m_serverSocket.accept());
     }
@@ -168,9 +168,9 @@ public class RandomPasswordServerRunner implements ApplicationRunner {
     }
 
     public RandomPasswordServerRunner(
-            @Qualifier("randomServerSocket") ServerSocket serverSocket,
-            @Qualifier("randomServerExecutorService") ExecutorService threadPool,
-            Map<Socket, ClientInfo> clients)
+            @Qualifier("randomPasswordServerSocket") ServerSocket serverSocket,
+            ExecutorService threadPool,
+            @Qualifier("randomPasswordServerClientsMap") Map<Socket, ClientInfo> clients)
     {
         m_serverSocket = serverSocket;
         m_threadPool = threadPool;
