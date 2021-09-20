@@ -10,9 +10,9 @@
 	</parent>
 
 	<groupId>org.csystem</groupId>
-	<artifactId>RandomPasswordGeneratorConsoleClient</artifactId>
+	<artifactId>GeneralConsoleClient</artifactId>
 	<version>1.0.0</version>
-	<name>RandomPasswordGeneratorConsoleClient</name>
+	<name>GeneralConsoleClient</name>
 	<description>Generic Application</description>
 
 	<properties>
@@ -35,7 +35,7 @@
 		<dependency>
 			<groupId>org.csystem</groupId>
 			<artifactId>org-csystem-util-net</artifactId>
-			<version>1.0.0</version>
+			<version>1.1.0</version>
 		</dependency>
 
 		<dependency>

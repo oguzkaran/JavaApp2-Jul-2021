@@ -10,9 +10,9 @@
 	</parent>
 
 	<groupId>org.csystem</groupId>
-	<artifactId>RandomPasswordGeneratorServer</artifactId>
+	<artifactId>FileSendReceiveServer</artifactId>
 	<version>1.0.0</version>
-	<name>RandomPasswordGeneratorServer</name>
+	<name>FileSendReceiveServer</name>
 
 	<properties>
 		<java.version>11</java.version>
@@ -34,7 +34,7 @@
 		<dependency>
 			<groupId>org.csystem</groupId>
 			<artifactId>org-csystem-util-net</artifactId>
-			<version>1.0.0</version>
+			<version>1.1.0</version>
 		</dependency>
 
 		<dependency>
