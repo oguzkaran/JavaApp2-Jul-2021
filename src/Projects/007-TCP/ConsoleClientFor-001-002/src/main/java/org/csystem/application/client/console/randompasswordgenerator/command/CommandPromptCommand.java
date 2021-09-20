@@ -5,17 +5,14 @@ import org.csystem.application.client.console.randompasswordgenerator.runner.Ran
 import org.csystem.util.commandprompt.Command;
 import org.csystem.util.commandprompt.ErrorCommand;
 import org.csystem.util.console.Console;
-import org.csystem.util.net.NetworkException;
 import org.csystem.util.net.TcpUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.Socket;
-import java.nio.file.Path;
 
-import static org.csystem.util.exception.ExceptionUtil.*;
+import static org.csystem.util.exception.ExceptionUtil.subscribeRunnable;
 
 @Component
 public class CommandPromptCommand {
