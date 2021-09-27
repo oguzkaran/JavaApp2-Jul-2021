@@ -2,6 +2,7 @@ package org.csystem.application.client.console.general.command;
 
 import org.csystem.application.client.console.general.runner.RandomPasswordClient;
 import org.csystem.application.client.console.general.runner.RandomPasswordClientJava;
+import org.csystem.application.client.console.general.runner.RandomPasswordClientStayConnected;
 import org.csystem.util.commandprompt.Command;
 import org.csystem.util.commandprompt.ErrorCommand;
 import org.csystem.util.console.Console;
@@ -18,6 +19,7 @@ import static org.csystem.util.exception.ExceptionUtil.subscribeRunnable;
 public class CommandPromptCommand {
     private final RandomPasswordClientJava m_clientJava;
     private final RandomPasswordClient m_client;
+    private final RandomPasswordClientStayConnected m_clientStayConnected;
 
     @Value("${sendFileServer.host}")
     private String m_sendFileHost;
@@ -45,10 +47,11 @@ public class CommandPromptCommand {
     }
 
 
-    public CommandPromptCommand(RandomPasswordClientJava clientJava, RandomPasswordClient client)
+    public CommandPromptCommand(RandomPasswordClientJava clientJava, RandomPasswordClient client, RandomPasswordClientStayConnected clientStayConnected)
     {
         m_clientJava = clientJava;
         m_client = client;
+        m_clientStayConnected = clientStayConnected;
     }
 
     @Command("passwdj")
@@ -61,6 +64,12 @@ public class CommandPromptCommand {
     public void randomPasswordsProc()
     {
         subscribeRunnable(m_client::run, ex -> Console.Error.writeLine("Exception:%d", ex.getMessage()));
+    }
+
+    @Command("passwdsc")
+    public void randomPasswordsStayConnectedProc()
+    {
+        subscribeRunnable(m_clientStayConnected::run, ex -> Console.Error.writeLine("Exception:%d", ex.getMessage()));
     }
 
     @Command("sendf")
