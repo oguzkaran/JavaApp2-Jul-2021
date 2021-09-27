@@ -7,6 +7,7 @@ import org.csystem.util.scheduler.Scheduler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -27,6 +28,7 @@ public class FileSendReceiveServerRunner implements ApplicationRunner {
     private final ServerSocket m_serverSocket;
     private final ExecutorService m_threadPool;
     private final Map<Socket, ClientInfo> m_clients;
+    private final ApplicationContext m_applicationContext;
 
     @Value("${scheduler.interval}")
     private int m_schedulerInterval;
@@ -57,7 +59,7 @@ public class FileSendReceiveServerRunner implements ApplicationRunner {
         if (!m_clients.containsKey(clientInfo.getSocket()))
             return;
 
-        clientInfo.setLastTime(LocalDateTime.now());
+        clientInfo.setLastTime(m_applicationContext.getBean(LocalDateTime.class));
     }
 
     private void setCompletedCallback(ClientInfo clientInfo)
@@ -86,8 +88,8 @@ public class FileSendReceiveServerRunner implements ApplicationRunner {
 
         var dir = new File(clientSocket.getInetAddress().getHostAddress());
 
-        dir.mkdirs();
-        var suffix = LocalDateTime.now().toString().replace(':', '-');
+        dir.mkdirs(); //Directory yaratılamaması durumu senaryoya göre kontrol edilebilir
+        var suffix = m_applicationContext.getBean(LocalDateTime.class).toString().replace(':', '-');
         var file = new File(dir, fileName + "-" + suffix);
 
         var future = m_threadPool.submit(() -> receiveFileThreadCallback(clientSocket, file));
@@ -125,7 +127,7 @@ public class FileSendReceiveServerRunner implements ApplicationRunner {
 
     private boolean isRemovable(Socket socket, int threshold, String schedulerThresholdUnitStr)
     {
-        var now = LocalDateTime.now();
+        var now = m_applicationContext.getBean(LocalDateTime.class);
         var ci = m_clients.get(socket);
 
         var status = ChronoUnit.valueOf(schedulerThresholdUnitStr).between(ci.getLastTime(), now) > threshold;
@@ -146,16 +148,22 @@ public class FileSendReceiveServerRunner implements ApplicationRunner {
         clientsSynchronize(this::schedulerSynchronizedCallback);
     }
 
-    public FileSendReceiveServerRunner(ServerSocket serverSocket, ExecutorService threadPool, Map<Socket, ClientInfo> clients)
+    public FileSendReceiveServerRunner(
+            ServerSocket serverSocket,
+            ExecutorService threadPool,
+            Map<Socket, ClientInfo> clients,
+            ApplicationContext applicationContext)
     {
         m_serverSocket = serverSocket;
         m_threadPool = threadPool;
         m_clients = clients;
+        m_applicationContext = applicationContext;
     }
 
     @Override
     public void run(ApplicationArguments args) throws Exception
     {
+        //Örneğin her Cuma saat 20:00'de yollanmış olan dosyalardan zaman aşımına uğramış olanlar yedeklenip silinecektir
         new Scheduler(m_schedulerInterval, TimeUnit.valueOf(m_schedulerIntervalUnitStr)).schedule(this::schedulerCallback);
         m_threadPool.execute(this::runServerCallback);
     }

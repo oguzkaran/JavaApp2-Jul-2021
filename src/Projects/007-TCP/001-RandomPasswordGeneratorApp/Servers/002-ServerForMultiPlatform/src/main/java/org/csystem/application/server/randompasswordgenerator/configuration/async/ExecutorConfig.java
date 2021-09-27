@@ -9,8 +9,8 @@ import java.util.concurrent.Executors;
 
 @Configuration
 public class ExecutorConfig {
-    @Bean("executorService.cached")
-    public ExecutorService getCachedThreadPool(@Value("${client.maxThread}") int maxThread)
+    @Bean("executorService.fixed")
+    public ExecutorService getFixedThreadPool(@Value("${client.maxThread}") int maxThread)
     {
         return Executors.newFixedThreadPool(maxThread);
     }

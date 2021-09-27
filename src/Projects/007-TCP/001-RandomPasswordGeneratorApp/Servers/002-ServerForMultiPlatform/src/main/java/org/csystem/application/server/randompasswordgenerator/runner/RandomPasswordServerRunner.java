@@ -1,6 +1,8 @@
 package org.csystem.application.server.randompasswordgenerator.runner;
 
 import org.csystem.application.server.randompasswordgenerator.client.ClientInfo;
+import org.csystem.application.server.randompasswordgenerator.data.dto.ClientDTO;
+import org.csystem.application.server.randompasswordgenerator.service.RandomPasswordService;
 import org.csystem.util.console.Console;
 import org.csystem.util.net.TcpUtil;
 import org.csystem.util.scheduler.Scheduler;
@@ -15,6 +17,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
@@ -27,6 +30,7 @@ public class RandomPasswordServerRunner implements ApplicationRunner {
     private final ServerSocket m_serverSocket;
     private final ExecutorService m_threadPool;
     private final Map<Socket, ClientInfo> m_clients;
+    private final RandomPasswordService m_randomPasswordService;
 
     @Value("${password.maxlength}")
     private int m_passwordMaxLength;
@@ -57,20 +61,29 @@ public class RandomPasswordServerRunner implements ApplicationRunner {
 
         TcpUtil.sendInt(socket, status ? 1 : 0);
 
-        if (status)
-            sendPasswords(socket, count, length);
+        sendPasswords(socket, count, length, status);
     }
 
-    private void sendPasswords(Socket socket, int count, int length) throws IOException
+    private void sendPasswords(Socket socket, int count, int length, boolean status) throws IOException
     {
-        var random = new Random();
+        String passwords = null;
 
-        for (var i = 0; i < count; ++i) {
-            var text = StringUtil.getRandomTextEN(random, length);
+        if (status) {
+            var random = new Random();
+            var list = new ArrayList<String>();
 
-            Console.writeLine("%s ", text);
-            TcpUtil.sendString(socket, text);
+            for (var i = 0; i < count; ++i) {
+                var text = StringUtil.getRandomTextEN(random, length);
+
+                list.add(text);
+                Console.writeLine("%s ", text);
+                TcpUtil.sendString(socket, text);
+            }
+
+           passwords = String.join(", ", list);
         }
+
+        m_randomPasswordService.saveClient(new ClientDTO(socket.getInetAddress().getHostAddress(), count, length, status, passwords));
     }
 
     private void clientsSynchronize(Runnable runnable)
@@ -160,15 +173,16 @@ public class RandomPasswordServerRunner implements ApplicationRunner {
 
     private void schedulerCallback()
     {
-        Console.writeLine("Client Size:%d", m_clients.size());
+        //Console.writeLine("Client Size:%d", m_clients.size());
         clientsSynchronize(this::schedulerSynchronizedCallback);
     }
 
-    public RandomPasswordServerRunner(ServerSocket serverSocket, ExecutorService threadPool, Map<Socket, ClientInfo> clients)
+    public RandomPasswordServerRunner(ServerSocket serverSocket, ExecutorService threadPool, Map<Socket, ClientInfo> clients, RandomPasswordService randomPasswordService)
     {
         m_serverSocket = serverSocket;
         m_threadPool = threadPool;
         m_clients = clients;
+        m_randomPasswordService = randomPasswordService;
     }
 
     @Override
