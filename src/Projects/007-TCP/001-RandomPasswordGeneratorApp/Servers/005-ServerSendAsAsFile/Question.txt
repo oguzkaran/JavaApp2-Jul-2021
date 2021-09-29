@@ -1,0 +1,12 @@
+Soru: "002-ServerForMultiPlatform" uygulamasını aşağıdaki açıklamalara göre düzenleyiniz
+
+Açıklamalar:
++ Örnekte şifreler bir dosyaya kaydedilecek ve client'a dosya olarak gönderilecektir
++ Dosyanın ismini dilediğiniz gibi belirleyebilirsiniz. Aynı anda erişimde dosyaların çakışmamasına dikkat ediniz.
++ Gönderilen dosya ismi client'ın bilgilerine ilişkin veritabanında saklanacaktır
++ Dosya gönderilmemişse alan null geçilebilir.
++ Dosya gönderimi tamamlandığında gönderilen dosya silinecektir
++ Yerel olarak kurulmuş bir PostgreSQL instance'ı üzerinde çalışınız
++ "ConsoleClientFor-001-002" uygulamasına passwdf isimli komutu server ile haberleşme için test amaçlı ekleyiniz.
++ Port numarasını dilediğiniz gibi belirleyebilirsiz. Biz diğer server'lar da olduğu için 50503 olarak belirleyeceğiz
++ Derste yapılan örnekler ve verilen ipuçları dışında başka bir kaynağa gereksinim duymayınız

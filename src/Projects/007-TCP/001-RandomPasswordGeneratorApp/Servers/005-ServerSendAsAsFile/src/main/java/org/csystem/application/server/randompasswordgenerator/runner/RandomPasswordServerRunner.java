@@ -12,17 +12,23 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static org.csystem.util.exception.ExceptionUtil.subscribeRunnable;
@@ -66,26 +72,35 @@ public class RandomPasswordServerRunner implements ApplicationRunner {
         sendPasswords(socket, count, length, status);
     }
 
+    private void saveFile(String path, List<String> passwords) throws IOException
+    {
+        try (var bw = new BufferedWriter(new FileWriter(path, StandardCharsets.UTF_8))) {
+            for (var p : passwords)
+                bw.write(p + "\r\n");
+        }
+    }
+
     private void sendPasswords(Socket socket, int count, int length, boolean status) throws IOException
     {
         String passwords = null;
+        String path = null;
 
         if (status) {
+            path = "passwords" + LocalDateTime.now().toString().replace(':', '-');
             var random = new Random();
-            var list = new ArrayList<String>();
+            var list = Stream.generate(() -> StringUtil.getRandomTextEN(random, length))
+                    .limit(count).collect(Collectors.toList());
 
-            for (var i = 0; i < count; ++i) {
-                var text = StringUtil.getRandomTextEN(random, length);
-
-                list.add(text);
-                Console.writeLine("%s ", text);
-                TcpUtil.sendString(socket, text);
-            }
-
-           passwords = String.join(", ", list);
+            saveFile(path, list);
+            TcpUtil.sendStringViaLength(socket, "passwords.txt");
+            TcpUtil.sendFile(socket, path, 512);
+            Files.delete(Path.of(path));
+            passwords = String.join(", ", list);
         }
 
-        m_randomPasswordService.saveClient(new ClientDTO(socket.getInetAddress().getHostAddress(), count, length, status, passwords));
+        var clientDTO = new ClientDTO(socket.getInetAddress().getHostAddress(), count, length, status, passwords, path);
+
+        m_threadPool.execute(() -> m_randomPasswordService.saveClient(clientDTO));
     }
 
     private void clientsSynchronize(Runnable runnable)

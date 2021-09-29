@@ -1,8 +1,10 @@
 package org.csystem.application.client.console.general.command;
 
+import org.csystem.application.client.console.general.helper.RandomPasswordHelper;
 import org.csystem.application.client.console.general.runner.RandomPasswordClient;
 import org.csystem.application.client.console.general.runner.RandomPasswordClientJava;
 import org.csystem.application.client.console.general.runner.RandomPasswordClientStayConnected;
+import org.csystem.application.client.console.general.runner.RandomPasswordFileClient;
 import org.csystem.util.commandprompt.Command;
 import org.csystem.util.commandprompt.ErrorCommand;
 import org.csystem.util.console.Console;
@@ -17,9 +19,7 @@ import static org.csystem.util.exception.ExceptionUtil.subscribeRunnable;
 
 @Component
 public class CommandPromptCommand {
-    private final RandomPasswordClientJava m_clientJava;
-    private final RandomPasswordClient m_client;
-    private final RandomPasswordClientStayConnected m_clientStayConnected;
+    private final RandomPasswordHelper m_passwordHelper;
 
     @Value("${sendFileServer.host}")
     private String m_sendFileHost;
@@ -46,30 +46,33 @@ public class CommandPromptCommand {
         }
     }
 
-
-    public CommandPromptCommand(RandomPasswordClientJava clientJava, RandomPasswordClient client, RandomPasswordClientStayConnected clientStayConnected)
+    public CommandPromptCommand(RandomPasswordHelper passwordHelper)
     {
-        m_clientJava = clientJava;
-        m_client = client;
-        m_clientStayConnected = clientStayConnected;
+        m_passwordHelper = passwordHelper;
     }
 
     @Command("passwdj")
     public void randomPasswordsJavaProc()
     {
-        subscribeRunnable(m_clientJava::run, ex -> Console.Error.writeLine("Exception:%d", ex.getMessage()));
+        subscribeRunnable(m_passwordHelper::runClientJava, ex -> Console.Error.writeLine("Exception:%d", ex.getMessage()));
     }
 
     @Command("passwd")
     public void randomPasswordsProc()
     {
-        subscribeRunnable(m_client::run, ex -> Console.Error.writeLine("Exception:%d", ex.getMessage()));
+        subscribeRunnable(m_passwordHelper::runClient, ex -> Console.Error.writeLine("Exception:%d", ex.getMessage()));
     }
 
     @Command("passwdsc")
     public void randomPasswordsStayConnectedProc()
     {
-        subscribeRunnable(m_clientStayConnected::run, ex -> Console.Error.writeLine("Exception:%d", ex.getMessage()));
+        subscribeRunnable(m_passwordHelper::runClientStayConnected, ex -> Console.Error.writeLine("Exception:%d", ex.getMessage()));
+    }
+
+    @Command("passwdf")
+    public void randomPasswordsFileProc()
+    {
+        subscribeRunnable(m_passwordHelper::runClientFile, ex -> Console.Error.writeLine("Exception:%d", ex.getMessage()));
     }
 
     @Command("sendf")
