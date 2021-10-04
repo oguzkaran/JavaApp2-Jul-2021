@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------
 	FILE        : BitConverter.java
 	AUTHOR      : Oğuz Karan
-	LAST UPDATE : 05.10.2020
+	LAST UPDATE : 04.10.2021
 
 	BitConverter class for byte operations with built-in types
 
@@ -102,7 +102,17 @@ public final class BitConverter {
 
 	public static String toString(byte [] data, Charset charset)
 	{
-		return new String(data, charset);
+		return toString(data, 0, data.length, charset);
+	}
+
+	public static String toString(byte [] data, int offset, int length)
+	{
+		return toString(data, offset, length, StandardCharsets.UTF_8);
+	}
+
+	public static String toString(byte [] data, int offset, int length, Charset charset)
+	{
+		return new String(data, offset, length, charset);
 	}
 
 	public static short toShort(byte [] data)
