@@ -18,7 +18,7 @@ public class RandomPasswordClientJava {
     @Value("${randomServerJava.port}")
     private int m_port;
 
-    private boolean clientCallback()
+    private void clientCallback()
     {
         try (var socket = new Socket(m_host, m_port)) {
             var dos = new DataOutputStream(socket.getOutputStream());
@@ -28,7 +28,7 @@ public class RandomPasswordClientJava {
             var count = Console.readInt("Count?");
 
             if (count <= 0)
-                return false;
+                return;
 
             var length = Console.readInt("Number of Characters?");
 
@@ -47,15 +47,11 @@ public class RandomPasswordClientJava {
         catch (Throwable ex) {
             Console.Error.writeLine(ex.getMessage());
         }
-
-        return true;
     }
 
     private void runClient()
     {
-        for (;;)
-            if (!clientCallback())
-                break;
+        clientCallback();
     }
 
     public void run() throws Exception
