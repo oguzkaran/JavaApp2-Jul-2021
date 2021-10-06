@@ -1,9 +1,14 @@
 package org.csystem.application.udp.sender.component;
 
 import org.csystem.util.console.Console;
-import org.csystem.util.net.UdpUtil;
+import org.csystem.util.converter.BitConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 
 @Component
 public class Sender {
@@ -15,15 +20,22 @@ public class Sender {
 
     public void run()
     {
-        try {
+        try (var datagramSocket = new DatagramSocket()) {
             for (;;) {
                 var text = Console.read("Text:");
 
                 if (text.equals("exit"))
                     break;
 
-                UdpUtil.sendString(m_host, m_port, text);
+                var buf = BitConverter.getBytes(text);
+
+                var datagramPacket = new DatagramPacket(buf, 0, buf.length, InetAddress.getByName(m_host), m_port);
+
+                datagramSocket.send(datagramPacket);
             }
+        }
+        catch (IOException ex) {
+            Console.Error.writeLine("IOException:%s", ex.getMessage());
         }
         catch (Throwable ex) {
             Console.Error.writeLine("Throwable:%s", ex.getMessage());
