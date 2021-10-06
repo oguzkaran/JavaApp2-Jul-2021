@@ -2,7 +2,6 @@ package org.csystem.application.udp.sender.component;
 
 import org.csystem.util.console.Console;
 import org.csystem.util.converter.BitConverter;
-import org.csystem.util.string.StringUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -21,7 +20,6 @@ public class Sender {
 
     @Value("${sender.host}")
     private String m_host;
-
     @Value("${sender.port}")
     private int m_port;
     @Value("${sender.random.min}")
@@ -41,11 +39,10 @@ public class Sender {
         var random = new Random();
 
         try {
-            var text = StringUtil.getRandomTextTR(random, random.nextInt(m_max - m_min + 1) + m_min);
+            var val = random.nextInt(m_max - m_min + 1) + m_min;
+            var buf = BitConverter.getBytes(val);
 
-            var buf = BitConverter.getBytes(text);
-
-            var datagramPacket = new DatagramPacket(buf, 0, buf.length, InetAddress.getByName(m_host), m_port);
+            var datagramPacket = new DatagramPacket(buf, 0, 4, InetAddress.getByName(m_host), m_port);
 
             m_datagramSocket.send(datagramPacket);
         }

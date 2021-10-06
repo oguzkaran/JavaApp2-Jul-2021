@@ -12,27 +12,31 @@ import java.util.Arrays;
 
 @Component
 public class Receiver {
-    @Value("${receiver.port}")
-    private int m_port;
+    private final DatagramSocket m_datagramSocket;
 
     @Value("${receiver.bufSize}")
     private int m_bufSize;
 
+    public Receiver(DatagramSocket datagramSocket)
+    {
+        m_datagramSocket = datagramSocket;
+    }
+
     public void run()
     {
-        try (var datagramSocket = new DatagramSocket(m_port)) {
+        try {
             var buf = new byte[m_bufSize];
 
             for (;;) {
                 var datagramPacket = new DatagramPacket(buf, buf.length);
 
-                datagramSocket.receive(datagramPacket);
-                var length = datagramPacket.getLength();
-                var text = BitConverter.toString(datagramPacket.getData(), 0, length);
+                m_datagramSocket.receive(datagramPacket);
+
+                var val = BitConverter.toInt(datagramPacket.getData());
                 var host = datagramPacket.getAddress().getHostAddress();
                 var port = datagramPacket.getPort();
 
-                Console.writeLine("%d bytes data (%s) received from %s:%d", length, text, host, port);
+                Console.writeLine("%d received from %s:%d", val, host, port);
             }
         }
         catch (IOException ex) {
