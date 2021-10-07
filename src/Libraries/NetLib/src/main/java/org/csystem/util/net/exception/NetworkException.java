@@ -1,14 +1,14 @@
 /*----------------------------------------------------------------------
 FILE        : NetworkException.java
 AUTHOR      : Oguz Karan
-LAST UPDATE : 30.09.2020
+LAST UPDATE : 07.10.2021
 
 Unnchecked exception class for network applications
 
 Copyleft (c) 1993 by C and System Programmers Association (CSD)
 All Rights Free
 -----------------------------------------------------------------------*/
-package org.csystem.util.net;
+package org.csystem.util.net.exception;
 
 public class NetworkException extends RuntimeException {
     public NetworkException()

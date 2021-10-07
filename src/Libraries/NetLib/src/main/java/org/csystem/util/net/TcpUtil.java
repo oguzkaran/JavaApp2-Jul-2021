@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------
 FILE        : TcpUtil.java
 AUTHOR      : Oğuz Karan
-LAST UPDATE : 20.09.2021
+LAST UPDATE : 07.10.2021
 
 Utility class for TCP socket operations
 
@@ -9,6 +9,8 @@ Copyleft (c) 1993 by C and System Programmers Association (CSD)
 All Rights Free
 -----------------------------------------------------------------------*/
 package org.csystem.util.net;
+
+import org.csystem.util.net.exception.NetworkException;
 
 import java.io.*;
 import java.net.Socket;
