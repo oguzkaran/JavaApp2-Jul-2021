@@ -1,49 +1,36 @@
-package org.csystem.application.udp.sender.component;
+package org.csystem.application.udp.receiver.component;
 
 import org.csystem.util.console.Console;
 import org.csystem.util.converter.BitConverter;
 import org.csystem.util.net.UdpUtil;
 import org.csystem.util.net.exception.NetworkException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.util.Random;
+import java.util.Arrays;
 
 @Component
-@EnableScheduling
-public class Sender {
+public class Receiver {
     private final DatagramSocket m_datagramSocket;
 
-    @Value("${sender.host}")
-    private String m_host;
-    @Value("${sender.port}")
-    private int m_port;
-    @Value("${sender.random.min}")
-    private int m_min;
+    @Value("${receiver.bufSize}")
+    private int m_bufSize;
 
-    @Value("${sender.random.max}")
-    private int m_max;
-
-    public Sender(DatagramSocket datagramSocket)
+    public Receiver(DatagramSocket datagramSocket)
     {
         m_datagramSocket = datagramSocket;
     }
 
-    @Scheduled(fixedRate = 50)
     public void run()
     {
-        var random = new Random();
+        try  {
+            var buf = new byte[m_bufSize];
 
-        try {
-            var val = random.nextInt(m_max - m_min + 1) + m_min;
-
-            UdpUtil.sendInt(m_datagramSocket, m_host, m_port, val);
+            for (;;)
+                Console.writeLine(UdpUtil.receiveString(m_datagramSocket, m_bufSize));
         }
         catch (NetworkException ex) {
             Console.Error.writeLine("NetworkException:%s", ex.getMessage());

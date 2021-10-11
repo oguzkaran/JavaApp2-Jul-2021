@@ -2,6 +2,8 @@ package org.csystem.application.udp.receiver.component;
 
 import org.csystem.util.console.Console;
 import org.csystem.util.converter.BitConverter;
+import org.csystem.util.net.UdpUtil;
+import org.csystem.util.net.exception.NetworkException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -27,20 +29,12 @@ public class Receiver {
         try {
             var buf = new byte[m_bufSize];
 
-            for (;;) {
-                var datagramPacket = new DatagramPacket(buf, buf.length);
+            for (;;)
+                Console.writeLine(UdpUtil.receiveInt(m_datagramSocket));
 
-                m_datagramSocket.receive(datagramPacket);
-
-                var val = BitConverter.toInt(datagramPacket.getData());
-                var host = datagramPacket.getAddress().getHostAddress();
-                var port = datagramPacket.getPort();
-
-                Console.writeLine("%d received from %s:%d", val, host, port);
-            }
         }
-        catch (IOException ex) {
-            Console.Error.writeLine("IOException:%s", ex.getMessage());
+        catch (NetworkException ex) {
+            Console.Error.writeLine("NetworkException:%s", ex.getMessage());
         }
         catch (Throwable ex) {
             Console.Error.writeLine("Throwable:%s", ex.getMessage());

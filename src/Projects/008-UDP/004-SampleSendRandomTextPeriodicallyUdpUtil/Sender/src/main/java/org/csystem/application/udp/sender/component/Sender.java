@@ -2,6 +2,8 @@ package org.csystem.application.udp.sender.component;
 
 import org.csystem.util.console.Console;
 import org.csystem.util.converter.BitConverter;
+import org.csystem.util.net.UdpUtil;
+import org.csystem.util.net.exception.NetworkException;
 import org.csystem.util.string.StringUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -43,13 +45,9 @@ public class Sender {
         try {
             var text = StringUtil.getRandomTextTR(random, random.nextInt(m_max - m_min + 1) + m_min);
 
-            var buf = BitConverter.getBytes(text);
-
-            var datagramPacket = new DatagramPacket(buf, 0, buf.length, InetAddress.getByName(m_host), m_port);
-
-            m_datagramSocket.send(datagramPacket);
+            UdpUtil.sendString(m_datagramSocket, m_host, m_port, text);
         }
-        catch (IOException ex) {
+        catch (NetworkException ex) {
             Console.Error.writeLine("IOException:%s", ex.getMessage());
         }
         catch (Throwable ex) {

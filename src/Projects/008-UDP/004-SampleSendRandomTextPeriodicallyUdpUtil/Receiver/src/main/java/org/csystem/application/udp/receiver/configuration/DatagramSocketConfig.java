@@ -1,18 +1,17 @@
 package org.csystem.application.udp.receiver.configuration;
 
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.net.DatagramSocket;
+import java.net.SocketException;
 
 @Configuration
-public class ExecutorServiceConfig {
+public class DatagramSocketConfig {
     @Bean
-    public ExecutorService getFixedThreadExecutor(@Value("${receiver.nThreads}")int nThreads)
+    public DatagramSocket getDatagramSocket(@Value("${receiver.port}")int port) throws SocketException
     {
-        return Executors.newFixedThreadPool(nThreads);
+        return new DatagramSocket(port);
     }
 }

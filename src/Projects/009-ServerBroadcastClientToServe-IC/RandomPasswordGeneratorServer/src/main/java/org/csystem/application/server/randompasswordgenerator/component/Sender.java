@@ -2,6 +2,7 @@ package org.csystem.application.server.randompasswordgenerator.component;
 
 import org.csystem.util.console.Console;
 import org.csystem.util.converter.BitConverter;
+import org.csystem.util.net.UdpUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -27,9 +28,7 @@ public class Sender {
 
     private void broadcastCallback() throws IOException
     {
-        var datagramPacket = new DatagramPacket(BitConverter.getBytes(m_port), 4, InetAddress.getByName(m_broadcastHost), m_broadcastPort);
-
-        m_datagramSocket.send(datagramPacket);
+        UdpUtil.sendInt(m_datagramSocket, m_broadcastHost, m_broadcastPort, m_port);
     }
 
     public Sender(DatagramSocket datagramSocket)
