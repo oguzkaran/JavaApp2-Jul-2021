@@ -23,6 +23,31 @@ public class Receiver {
     @Value("${receiver.bufSize}")
     private int m_bufSize;
 
+    private void randomPasswordClientCallback(DatagramPacket datagramPacket)
+    {
+        if (datagramPacket.getLength() != 12) {
+            Console.Error.writeLine("Invalid data format");
+            return;
+        }
+
+        var data = datagramPacket.getData();
+        var host = datagramPacket.getAddress().getHostAddress();
+        var ephemeralPort = datagramPacket.getPort();
+
+        var port = BitConverter.toInt(data);
+        var count = BitConverter.toInt(data, 4);
+        var length = BitConverter.toInt(data, 8);
+
+        Console.writeLine("port:%d, count:%d length: %d received from %s:%d", port, count, length, host, ephemeralPort);
+
+        m_randomPasswordClient
+                .setHost(host)
+                .setPort(port)
+                .setCount(count)
+                .setLength(length)
+                .run();
+    }
+
     public Receiver(DatagramSocket datagramSocket, ExecutorService executorService, RandomPasswordClient randomPasswordClient)
     {
         m_datagramSocket = datagramSocket;
@@ -36,15 +61,7 @@ public class Receiver {
             for (;;) {
                 var datagramPacket = UdpUtil.receiveDatagramPacket(m_datagramSocket, m_bufSize);
 
-                var port = BitConverter.toInt(datagramPacket.getData());
-                var host = datagramPacket.getAddress().getHostAddress();
-                var ephemeralPort = datagramPacket.getPort();
-
-                Console.writeLine("%d received from %s:%d", port, host, ephemeralPort);
-
-                m_randomPasswordClient.setHost(host);
-                m_randomPasswordClient.setPort(port);
-                m_executorService.execute(m_randomPasswordClient::run);
+                m_executorService.execute(() -> randomPasswordClientCallback(datagramPacket));
             }
         }
         catch (NetworkException ex) {

@@ -16,11 +16,5 @@ public class ExecutorConfig {
     {
         return Executors.newFixedThreadPool(maxThread);
     }
-
-    @Bean("executorService.single")
-    public ExecutorService getSingleThreadExecutor()
-    {
-        return Executors.newSingleThreadExecutor();
-    }
     //...
 }

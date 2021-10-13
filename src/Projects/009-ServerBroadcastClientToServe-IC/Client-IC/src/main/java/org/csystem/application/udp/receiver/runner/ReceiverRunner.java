@@ -22,6 +22,5 @@ public class ReceiverRunner implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception
     {
         m_singleThread.execute(m_receiver::run);
-        //m_singleThread.shutdown();
     }
 }

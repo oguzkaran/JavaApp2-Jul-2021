@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------
 	FILE        : BitConverter.java
 	AUTHOR      : Oğuz Karan
-	LAST UPDATE : 04.10.2021
+	LAST UPDATE : 13.10.2021
 
 	BitConverter class for byte operations with built-in types
 
@@ -93,6 +93,26 @@ public final class BitConverter {
 	public static byte[] getBytes(boolean value)
 	{
 		return new byte[] {(byte)(value ? 1 : 0)};
+	}
+
+	public static byte [] getBytes(int...ints)
+	{
+		ByteBuffer bb = allocate(ints.length * Integer.BYTES);
+
+		for (int i = 0; i < ints.length; ++i)
+			bb.putInt(ints[0]);
+
+		return bb.array();
+	}
+
+	public static int [] toIntArray(byte [] data, int offset, int length)
+	{
+		int [] a = new int[length];
+
+		for (int i = 0, idx = 0; i < length; ++i, idx += 4)
+			a[i] = toInt(data, idx);
+
+		return a;
 	}
 
 	public static String toString(byte [] data)
