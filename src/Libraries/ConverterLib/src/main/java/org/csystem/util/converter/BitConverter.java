@@ -95,12 +95,42 @@ public final class BitConverter {
 		return new byte[] {(byte)(value ? 1 : 0)};
 	}
 
+	public static byte [] getBytes(byte...bytes)
+	{
+		ByteBuffer bb = allocate(bytes.length * Byte.BYTES);
+
+		for (int i = 0; i < bytes.length; ++i)
+			bb.put(bytes[0]);
+
+		return bb.array();
+	}
+
+	public static byte [] getBytes(short...shorts)
+	{
+		ByteBuffer bb = allocate(shorts.length * Short.BYTES);
+
+		for (int i = 0; i < shorts.length; ++i)
+			bb.putShort(shorts[0]);
+
+		return bb.array();
+	}
+
 	public static byte [] getBytes(int...ints)
 	{
 		ByteBuffer bb = allocate(ints.length * Integer.BYTES);
 
 		for (int i = 0; i < ints.length; ++i)
 			bb.putInt(ints[0]);
+
+		return bb.array();
+	}
+
+	public static byte [] getBytes(long...longs)
+	{
+		ByteBuffer bb = allocate(longs.length * Long.BYTES);
+
+		for (int i = 0; i < longs.length; ++i)
+			bb.putLong(longs[0]);
 
 		return bb.array();
 	}
