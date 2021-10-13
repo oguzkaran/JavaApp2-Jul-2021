@@ -99,8 +99,8 @@ public final class BitConverter {
 	{
 		ByteBuffer bb = allocate(bytes.length * Byte.BYTES);
 
-		for (int i = 0; i < bytes.length; ++i)
-			bb.put(bytes[0]);
+		for (byte val : bytes)
+			bb.put(val);
 
 		return bb.array();
 	}
@@ -109,8 +109,8 @@ public final class BitConverter {
 	{
 		ByteBuffer bb = allocate(shorts.length * Short.BYTES);
 
-		for (int i = 0; i < shorts.length; ++i)
-			bb.putShort(shorts[0]);
+		for (short val : shorts)
+			bb.putShort(val);
 
 		return bb.array();
 	}
@@ -119,8 +119,8 @@ public final class BitConverter {
 	{
 		ByteBuffer bb = allocate(ints.length * Integer.BYTES);
 
-		for (int i = 0; i < ints.length; ++i)
-			bb.putInt(ints[0]);
+		for (int val : ints)
+			bb.putInt(val);
 
 		return bb.array();
 	}
@@ -129,20 +129,50 @@ public final class BitConverter {
 	{
 		ByteBuffer bb = allocate(longs.length * Long.BYTES);
 
-		for (int i = 0; i < longs.length; ++i)
-			bb.putLong(longs[0]);
+		for (long val : longs)
+			bb.putLong(val);
 
 		return bb.array();
 	}
 
-	public static int [] toIntArray(byte [] data, int offset, int length)
+	public static byte [] getBytes(char...chars)
 	{
-		int [] a = new int[length];
+		ByteBuffer bb = allocate(chars.length * Character.BYTES);
 
-		for (int i = 0, idx = 0; i < length; ++i, idx += 4)
-			a[i] = toInt(data, idx);
+		for (char val : chars)
+			bb.putChar(val);
 
-		return a;
+		return bb.array();
+	}
+
+	public static byte [] getBytes(double...doubles)
+	{
+		ByteBuffer bb = allocate(doubles.length * Double.BYTES);
+
+		for (double val : doubles)
+			bb.putDouble(val);
+
+		return bb.array();
+	}
+
+	public static byte [] getBytes(float...floats)
+	{
+		ByteBuffer bb = allocate(floats.length * Float.BYTES);
+
+		for (float val : floats)
+			bb.putFloat(val);
+
+		return bb.array();
+	}
+
+	public static byte [] getBytes(boolean...booleans)
+	{
+		byte [] data = new byte[booleans.length];
+
+		for (int i = 0; i < data.length; ++i)
+			data[i] = (byte)(booleans[i] ? 1 : 0);
+
+		return data;
 	}
 
 	public static String toString(byte [] data)
@@ -233,6 +263,22 @@ public final class BitConverter {
 	public static boolean toBoolean(byte [] data, int startIndex)
 	{
 		return data[startIndex] != 0;
+	}
+
+	///////////////////////////////////
+	public static int [] toIntArray(byte [] data, int count)
+	{
+		return toIntArray(data, 0, count);
+	}
+
+	public static int [] toIntArray(byte [] data, int startIndex, int count)
+	{
+		int [] a = new int[count];
+
+		for (int i = 0; i < count; ++i)
+			a[i - startIndex] = toInt(data, (i + startIndex) * Integer.BYTES);
+
+		return a;
 	}
 
 	public static short toLittleEndian(short value)
