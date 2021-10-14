@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------
 	FILE        : BitConverter.java
 	AUTHOR      : Oğuz Karan
-	LAST UPDATE : 13.10.2021
+	LAST UPDATE : 15.10.2021
 
 	BitConverter class for byte operations with built-in types
 
@@ -195,6 +195,16 @@ public final class BitConverter {
 		return new String(data, offset, length, charset);
 	}
 
+	public static byte toByte(byte [] data)
+	{
+		return toByte(data, 0);
+	}
+
+	public static byte toByte(byte [] data, int startIndex)
+	{
+		return data[startIndex];
+	}
+
 	public static short toShort(byte [] data)
 	{
 		return toShort(data, 0);
@@ -265,7 +275,31 @@ public final class BitConverter {
 		return data[startIndex] != 0;
 	}
 
-	///////////////////////////////////
+	public static byte [] toByteArray(byte [] data, int startIndex, int count)
+	{
+		byte [] result = new byte[count];
+
+		for (int i = 0, idx = startIndex; i < count; ++i, idx += Byte.BYTES)
+			result[i] = toByte(data, idx);
+
+		return result;
+	}
+
+	public static short [] toShortArray(byte [] data, int count)
+	{
+		return toShortArray(data, 0, count);
+	}
+
+	public static short [] toShortArray(byte [] data, int startIndex, int count)
+	{
+		short [] result = new short[count];
+
+		for (int i = 0, idx = startIndex; i < count; ++i, idx += Short.BYTES)
+			result[i] = toShort(data, idx);
+
+		return result;
+	}
+
 	public static int [] toIntArray(byte [] data, int count)
 	{
 		return toIntArray(data, 0, count);
@@ -273,12 +307,87 @@ public final class BitConverter {
 
 	public static int [] toIntArray(byte [] data, int startIndex, int count)
 	{
-		int [] a = new int[count];
+		int [] result = new int[count];
 
-		for (int i = 0; i < count; ++i)
-			a[i - startIndex] = toInt(data, (i + startIndex) * Integer.BYTES);
+		for (int i = 0, idx = startIndex; i < count; ++i, idx += Integer.BYTES)
+			result[i] = toInt(data, idx);
 
-		return a;
+		return result;
+	}
+
+	public static long [] toLongArray(byte [] data, int count)
+	{
+		return toLongArray(data, 0, count);
+	}
+
+	public static long [] toLongArray(byte [] data, int startIndex, int count)
+	{
+		long [] result = new long[count];
+
+		for (int i = 0, idx = startIndex; i < count; ++i, idx += Long.BYTES)
+			result[i] = toLong(data, idx);
+
+		return result;
+	}
+
+	public static char [] toCharArray(byte [] data, int count)
+	{
+		return toCharArray(data, 0, count);
+	}
+
+	public static char [] toCharArray(byte [] data, int startIndex, int count)
+	{
+		char [] result = new char[count];
+
+		for (int i = 0, idx = startIndex; i < count; ++i, idx += Character.BYTES)
+			result[i] = toChar(data, idx);
+
+		return result;
+	}
+
+	public static double [] toDoubleArray(byte [] data, int count)
+	{
+		return toDoubleArray(data, 0, count);
+	}
+
+	public static double [] toDoubleArray(byte [] data, int startIndex, int count)
+	{
+		double [] result = new double[count];
+
+		for (int i = 0, idx = startIndex; i < count; ++i, idx += Double.BYTES)
+			result[i] = toDouble(data, idx);
+
+		return result;
+	}
+
+	public static float [] toFloatArray(byte [] data, int count)
+	{
+		return toFloatArray(data, 0, count);
+	}
+
+	public static float [] toFloatArray(byte [] data, int startIndex, int count)
+	{
+		float [] result = new float[count];
+
+		for (int i = 0, idx = startIndex; i < count; ++i, idx += Float.BYTES)
+			result[i] = toFloat(data, idx);
+
+		return result;
+	}
+
+	public static boolean [] toBooleanArray(byte [] data, int count)
+	{
+		return toBooleanArray(data, 0, count);
+	}
+
+	public static boolean [] toBooleanArray(byte [] data, int startIndex, int count)
+	{
+		boolean [] result = new boolean[count];
+
+		for (int i = 0, idx = startIndex; i < count; ++i, ++idx)
+			result[i] = toBoolean(data, idx);
+
+		return result;
 	}
 
 	public static short toLittleEndian(short value)
