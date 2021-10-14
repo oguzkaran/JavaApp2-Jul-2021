@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------
 FILE        : TcpUtil.java
 AUTHOR      : Oğuz Karan
-LAST UPDATE : 07.10.2021
+LAST UPDATE : 14.10.2021
 
 Utility class for TCP socket operations
 
@@ -13,9 +13,11 @@ package org.csystem.util.net;
 import org.csystem.util.net.exception.NetworkException;
 
 import java.io.*;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 
 public final class TcpUtil {
 	private static int receive(DataInputStream dis, byte [] data, int offset, int length) throws IOException
@@ -68,6 +70,63 @@ public final class TcpUtil {
 	}
 
 	private TcpUtil() {}
+
+	public static Optional<ServerSocket> getFirstAvailableSocket(int backlog, int minPort, int maxPort)
+	{
+		Optional<ServerSocket> result = Optional.empty();
+
+		for (int port = minPort; port <= maxPort; ++port)
+			try {
+				result = Optional.of(new ServerSocket(backlog, port));
+			}
+			catch (IOException ignore) {
+			}
+
+		return result;
+	}
+
+	public static Optional<ServerSocket> getFirstAvailableSocket(int minPort, int maxPort)
+	{
+		Optional<ServerSocket> result = Optional.empty();
+
+		for (int port = minPort; port <= maxPort; ++port)
+			try {
+				result = Optional.of(new ServerSocket(port));
+			}
+			catch (IOException ignore) {
+			}
+
+		return result;
+	}
+
+	public static Optional<ServerSocket> getFirstAvailableSocket(int backlog, int...ports)
+	{
+		Optional<ServerSocket> result = Optional.empty();
+
+		for (var port : ports)
+			try {
+				result = Optional.of(new ServerSocket(backlog, port));
+			}
+			catch (IOException ignore) {
+			}
+
+		return result;
+	}
+
+	public static Optional<ServerSocket> getFirstAvailableSocket(int...ports)
+	{
+		Optional<ServerSocket> result = Optional.empty();
+
+		for (var port : ports)
+			try {
+				result = Optional.of(new ServerSocket(port));
+			}
+			catch (IOException ignore) {
+			}
+
+		return result;
+	}
+
 
 	public static int receive(Socket socket, byte [] data, int offset, int length)
 	{

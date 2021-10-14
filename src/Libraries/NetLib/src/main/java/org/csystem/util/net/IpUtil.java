@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------
 FILE        : IpUtil.java
 AUTHOR      : Oğuz Karan
-LAST UPDATE : 13.10.2021
+LAST UPDATE : 14.10.2021
 
 Utility class for IP family
 
@@ -12,13 +12,12 @@ package org.csystem.util.net;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.Optional;
 import java.util.OptionalInt;
 
 public final class IpUtil {
     private IpUtil() {}
 
-    public static boolean isAvailableV4(int port)
+    public static boolean isPortAvailable(int port)
     {
         var result = false;
 
@@ -32,31 +31,26 @@ public final class IpUtil {
         return result;
     }
 
+    public static OptionalInt getFirstAvailablePort(int minPort, int maxPort)
+    {
+        for (int port = minPort; port <= maxPort; ++port)
+            if (isPortAvailable(port))
+                return OptionalInt.of(port);
+
+        return OptionalInt.empty();
+    }
+
+
     public static OptionalInt getFirstAvailablePort(int...ports)
     {
         var result = OptionalInt.empty();
 
         for (var port : ports)
-            try (var serverSocket = new ServerSocket(port)) {
-                result = OptionalInt.of(port);
-            }
-            catch (IOException ignore) {
-            }
+            if (isPortAvailable(port))
+                return OptionalInt.of(port);
 
-        return result;
+        return OptionalInt.empty();
     }
 
-    public static Optional<ServerSocket> getFirstAvailableSocket(int backlog, int...ports)
-    {
-        Optional<ServerSocket> result = Optional.empty();
 
-        for (var port : ports)
-            try {
-                result = Optional.of(new ServerSocket(backlog, port));
-            }
-            catch (IOException ignore) {
-            }
-
-        return result;
-    }
 }
