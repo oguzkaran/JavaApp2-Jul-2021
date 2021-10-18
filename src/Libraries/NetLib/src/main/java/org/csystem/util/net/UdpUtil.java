@@ -238,6 +238,18 @@ public final class UdpUtil {
         }
     }
 
+    ////////////////////
+    public static void sendIntArray(DatagramSocket datagramSocket, String host, int port, int...ints)
+    {
+        try {
+            var data = BitConverter.getBytes(ints);
+            datagramSocket.send(createDatagramPacket(data, host, port));
+        }
+        catch (Throwable ex) {
+            throw new NetworkException("UdpUtil.sendIntArray", ex);
+        }
+    }
+
     public static byte receiveByte(DatagramSocket datagramSocket)
     {
         try {

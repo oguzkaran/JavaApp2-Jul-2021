@@ -6,18 +6,36 @@
 ----------------------------------------------------------------------------------------------------------------------*/
 package org.csystem.app;
 
-import org.csystem.util.console.Console;
-
-import java.nio.charset.StandardCharsets;
+import java.io.RandomAccessFile;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 class App {
     public static void main(String[] args)
     {
-        String str = "oğuz";
+        if (args.length != 1) {
+            System.out.println("Wrong usage");
+            System.exit(-1);
+        }
 
-        byte [] data = str.getBytes(StandardCharsets.UTF_8);
+        byte [] data = new byte[4];
 
-        Console.writeLine(data.length);
+        try (RandomAccessFile randomAccessFile = new RandomAccessFile(args[0], "r")) {
+            randomAccessFile.seek(18);
+            randomAccessFile.read(data);
+            int width = ByteBuffer.wrap(data)
+                    .order(ByteOrder.LITTLE_ENDIAN)
+                    .getInt();
+            randomAccessFile.read(data);
+            int height = ByteBuffer.wrap(data)
+                    .order(ByteOrder.LITTLE_ENDIAN)
+                    .getInt();
+
+            System.out.printf("%d x %d%n", width, height);
+        }
+        catch (Throwable ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 }
 

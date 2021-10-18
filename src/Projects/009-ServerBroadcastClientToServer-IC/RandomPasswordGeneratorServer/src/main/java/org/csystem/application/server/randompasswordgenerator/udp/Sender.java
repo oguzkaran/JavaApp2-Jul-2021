@@ -40,8 +40,7 @@ public class Sender {
 
     private void broadcastCallback() throws IOException
     {
-        var data = ByteBuffer.allocate(12).putInt(m_port).putInt(m_count).putInt(m_length)
-                .array();
+        var data = BitConverter.getBytes(m_port, m_count, m_length);
 
         var datagramPacket = new DatagramPacket(data, data.length, InetAddress.getByName(m_broadcastHost), m_broadcastPort);
 
@@ -53,7 +52,7 @@ public class Sender {
         m_datagramSocket = datagramSocket;
     }
 
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 3000)
     public void run()
     {
         subscribeRunnable(this::broadcastCallback, ex -> Console.Error.writeLine(ex.getMessage()));

@@ -34,9 +34,10 @@ public class Receiver {
         var host = datagramPacket.getAddress().getHostAddress();
         var ephemeralPort = datagramPacket.getPort();
 
-        var port = BitConverter.toInt(data);
-        var count = BitConverter.toInt(data, 4);
-        var length = BitConverter.toInt(data, 8);
+        var dataInfo = BitConverter.toIntArray(data, 3);
+        var port = dataInfo[0];
+        var count = dataInfo[1];
+        var length = dataInfo[2];
 
         Console.writeLine("port:%d, count:%d length: %d received from %s:%d", port, count, length, host, ephemeralPort);
 
