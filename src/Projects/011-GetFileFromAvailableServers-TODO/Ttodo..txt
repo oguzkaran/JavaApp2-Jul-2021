@@ -1,0 +1,11 @@
+Soru: Aşağıda açıklanan server ve client programları yazınız
+Açıklamalar:    
+    - Client server'a bir dosya gönderecektir.
+    - Server aldığı dosyayı client'ın gönderdiği kadar parçaya ayıracaktır.
+    - Her bir parçayı client'a geri yollayacaktır. 
+    - Server ayrıca başka bir socket üzerinden n tane dosyayı alacak ve birleştirip client'a geri yollayacaktır
+    - Birleştirilen dosyanın ismi de ayrıca client tarafından gönderilecektir
+    - Client'ın server'ı çökertmeye çalışması gibi durumlar engellenecektir.
+    - Haberleşme platformdan bağımsız yapılmalıdır. Bu durumda NetLib'i kullanabilirsiniz
+    - Client'a ilişkin bilgiler, host, tarih zaman, ve dosya isimleri veritabanında saklanacaktır
+    - Client'dan gelen dosyalar saklanmayacaktır
