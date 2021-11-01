@@ -1,0 +1,9 @@
+abcdefghijklmnopqrstuwxvyz 10
+abcdefghijklmnopqrstuwxvyz 20
+abcdefghijklmnopqrstuwxvyz 3
+abcdefghijklmnopqrstuwxvyz 100
+abcçdefgğhıijklmnoöprsştuüvyz   20
+abcçdefgğhıijklmnoöprsştuüvyz   40
+abcçdefgğhıijklmnoöprsştuüvyz   200
+abcçdefgğhıijklmnoöprsştuüvyz:?\/7&^~   200
+abcçdefgğhıijklmnoöprsştuüvyz:?\/7&^~   100

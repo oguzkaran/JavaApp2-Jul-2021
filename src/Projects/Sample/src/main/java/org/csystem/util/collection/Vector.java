@@ -3,7 +3,7 @@ FILE        : Vector.java
 AUTHOR      : JavaApp2-Jul-2021 group
 LAST UPDATE : 27.10.2021
 
-Vector class
+Vector class that is used for dynamic array
 
 Copyleft (c) 1993 by C and System Programmers Association (CSD)
 All Rights Free

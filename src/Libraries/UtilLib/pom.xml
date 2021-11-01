@@ -7,19 +7,40 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.4</version>
+        <version>2.5.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>org.csystem.java</groupId>
+    <groupId>org.csystem</groupId>
     <artifactId>org-csystem-util</artifactId>
-    <version>3.0.0</version>
+    <version>3.1.0</version>
 
+    <repositories>
+        <repository>
+            <id>javaapp2-Jul-2021</id>
+            <url>http://raw.github.com/oguzkaran/javaapp2-jul-2021-maven-repo/main</url>
+        </repository>
+    </repositories>
 
     <properties>
-        <java.version>8</java.version>
+        <java.version>11</java.version>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.csystem</groupId>
+            <artifactId>org-csystem-util-tuple</artifactId>
+            <version>1.0.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <plugin>

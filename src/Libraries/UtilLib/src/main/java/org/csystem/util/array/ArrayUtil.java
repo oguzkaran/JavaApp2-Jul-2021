@@ -1,6 +1,13 @@
-/*----------------------------------------------------------------------------------------------------------------------
-	ArrayUtil sınıfı
-----------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------
+	FILE        : ArrayUtil.java
+	AUTHOR      : CSD Java group
+	LAST UPDATE : 01.11.2021
+
+	Utility class for array operations
+
+	Copyleft (c) 1993 by C and System Programmers Association (CSD)
+	All Rights Free
+-----------------------------------------------------------------------*/
 package org.csystem.util.array;
 
 import java.math.BigInteger;
@@ -95,7 +102,7 @@ public final class ArrayUtil {
         return counts;
     }
 
-    public static int[][] getTranspose(int[][] a)
+    public static int[][] transposed(int[][] a)
     {
         int row = a.length;
         int col = a[0].length;

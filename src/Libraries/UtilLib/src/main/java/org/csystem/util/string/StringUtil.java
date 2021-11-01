@@ -1,6 +1,13 @@
-/*----------------------------------------------------------------------------------------------------------------------	
-	 StringUtil sınıfı
-----------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------
+	FILE        : StringUtil.java
+	AUTHOR      : CSD Java group
+	LAST UPDATE : 01.11.2021
+
+	Utility class for string operations
+
+	Copyleft (c) 1993 by C and System Programmers Association (CSD)
+	All Rights Free
+-----------------------------------------------------------------------*/
 package org.csystem.util.string;
 
 import java.util.HashMap;
@@ -10,12 +17,21 @@ import java.util.Random;
 import static java.lang.Character.*;
 
 public class StringUtil	{
-	private static final String MS_ALPHABET_EN;
-	private static final String MS_ALPHABET_TR;
+	private static final String ms_alphabetTR;
+	private static final String ms_alphabetEN;
+	private static final String ms_alphabetCapitalsTR;
+	private static final String ms_alphabetCapitalsEN;
+	private static final String ms_alphabetAllTR;
+	private static final String ms_alphabetAllEN;
+
 
 	static {
-		MS_ALPHABET_EN = "abcdefghijklmnopqrstuwxvyz";
-		MS_ALPHABET_TR = "abcçdefgğhıijklmnoöprsştuüvyz";
+		ms_alphabetTR = "abcçdefgğhıijklmnoöprsştuüvyz";
+		ms_alphabetEN = "abcdefghijklmnopqrstuwxvyz";
+		ms_alphabetCapitalsTR = "ABCÇDEFGĞJHIİJKLMNOÖPRSŞTUÜVYZ";
+		ms_alphabetCapitalsEN = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		ms_alphabetAllTR = ms_alphabetTR + ms_alphabetCapitalsTR;
+		ms_alphabetAllEN = ms_alphabetEN + ms_alphabetCapitalsEN;
 	}
 
 	private static void incrementCounts(HashMap<Character, Integer> charMap, String s)
@@ -149,12 +165,12 @@ public class StringUtil	{
 		return sb.toString();
 	}
 	
-	public static String getRandomText(Random r, int n, String str)
+	public static String getRandomText(Random r, int n, String sourceText)
 	{
 		StringBuilder sb = new StringBuilder(n);
 
 		for (int i = 0; i < n; ++i)
-			sb.append(str.charAt(r.nextInt(str.length())));
+			sb.append(sourceText.charAt(r.nextInt(sourceText.length())));
 
 		return sb.toString();
 	}
@@ -168,7 +184,7 @@ public class StringUtil	{
 	
 	public static String getRandomTextTR(Random r, int n)
 	{
-		return getRandomText(r, n, "abcçdefgğhıijklmnoöprsştuüvyzABCÇDEFGĞJHIİJKLMNOÖPRSŞTUÜVYZ");
+		return getRandomText(r, n, ms_alphabetAllTR);
 	}
 	
 	public static String getRandomTextEN(int n)
@@ -180,7 +196,7 @@ public class StringUtil	{
 	
 	public static String getRandomTextEN(Random r, int n)
 	{
-		return getRandomText(r, n, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+		return getRandomText(r, n, ms_alphabetAllEN);
 	}
 
 	public static boolean isIsogram(String str, String alphabet)
@@ -235,7 +251,7 @@ public class StringUtil	{
 
 	public static boolean isIsogramTR(String str)
 	{
-		return isIsogram(str, MS_ALPHABET_TR);
+		return isIsogram(str, ms_alphabetEN);
 	}
 
 	public static boolean isPalindrome(String s)
@@ -277,17 +293,17 @@ public class StringUtil	{
 
 	public static boolean isPangramTR(String str)
 	{
-		return isPangram(str, MS_ALPHABET_TR);
+		return isPangram(str, ms_alphabetEN);
 	}
 
 	public static boolean isPangramFR(String str)
 	{
-		return isPangram(str, MS_ALPHABET_EN);
+		return isPangram(str, ms_alphabetTR);
 	}
 
 	public static boolean isPangramEN(String str)
 	{
-		return isPangram(str, MS_ALPHABET_EN);
+		return isPangram(str, ms_alphabetTR);
 	}
 	
 	public static String padLeft(String s, int len)

@@ -1,7 +1,16 @@
-/*----------------------------------------------------------------------------------------------------------------------
-	NumberUtil sınıfı
-----------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------
+	FILE        : NumberUtil.java
+	AUTHOR      : CSD Java Group (CJG)
+	LAST UPDATE : 01.11.2021
+
+	Utility class for numeric operations
+
+	Copyleft (c) 1993 by C and System Programmers Association (CSD)
+	All Rights Free
+-----------------------------------------------------------------------*/
 package org.csystem.util.number;
+
+import org.csystem.util.string.StringUtil;
 
 import java.math.BigInteger;
 import java.util.Random;
@@ -15,7 +24,6 @@ public final class NumberUtil {
     private static final BigInteger FIVE = BigInteger.valueOf(5);
     private static final BigInteger SEVEN = BigInteger.valueOf(7);
     private static final BigInteger ELEVEN = BigInteger.valueOf(11);
-
 
     static {
         MS_ONES_TR = new String[] {"", "bir", "iki", "üç", "dört", "beş", "altı", "yedi", "sekiz", "dokuz"};
@@ -175,21 +183,6 @@ public final class NumberUtil {
         return numbers;
     }
 
-    public static String getLetters(String s)
-    {
-        int len = s.length();
-        StringBuilder str = new StringBuilder();
-
-        for (int i = 0; i < len; ++i) {
-            char c = s.charAt(i);
-
-            if (Character.isLetter(c))
-                str.append(c);
-        }
-
-        return str.toString();
-    }
-
     public static int getNextFibonacciNumber(int val)
     {
         int prev1 = 0, prev2 = 1, result = 0;
@@ -283,7 +276,6 @@ public final class NumberUtil {
 
         int n = getDigitsCount(val);
 
-
         return getPowSum(val, n) == val;
     }
 
@@ -299,7 +291,7 @@ public final class NumberUtil {
 
     public static boolean isPalindrome(String s)
     {
-        String str = getLetters(s);
+        String str = StringUtil.getLetters(s);
 
         if (str.isEmpty())
             return false;
