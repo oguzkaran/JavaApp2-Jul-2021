@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------
 	FILE        : FileUtil.java
 	AUTHOR      : Oğuz Karan
-	LAST UPDATE : 20.06.2021
+	LAST UPDATE : 03.11.2021
 
 	Utility class for files
 
@@ -47,11 +47,11 @@ public final class FileUtil {
         if (first.length() != second.length())
             return false;
 
-        try (FileInputStream fosFirst = new FileInputStream(first); FileInputStream fosSecond = new FileInputStream(second)) {
+        try (var fosFirst = new FileInputStream(first); var fosSecond = new FileInputStream(second)) {
             int ch1;
             int ch2;
 
-            while ((ch1 = fosFirst.read()) != -1 && (ch2 = fosSecond.read()) != -1 && (byte)ch1 == (byte)ch2)
+            while ((ch1 = fosFirst.read()) != -1 && (ch2 = fosSecond.read()) != -1 && ch1 == ch2)
                 ;
 
             return ch1 == -1;

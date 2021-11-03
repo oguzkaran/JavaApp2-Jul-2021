@@ -1,14 +1,14 @@
 /*----------------------------------------------------------------------
 FILE        : Vector.java
 AUTHOR      : JavaApp2-Jul-2021 group
-LAST UPDATE : 27.10.2021
+LAST UPDATE : 03.10.2021
 
 Vector class that is used for dynamic array
 
 Copyleft (c) 1993 by C and System Programmers Association (CSD)
 All Rights Free
 -----------------------------------------------------------------------*/
-package org.csystem.util.collection;
+package org.csystem.util.collection.java;
 
 import java.io.Serializable;
 import java.util.*;
