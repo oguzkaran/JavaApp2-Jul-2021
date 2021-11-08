@@ -1,4 +1,4 @@
-package org.csystem.util.collection;
+package org.csystem.util.collection.dlinkedlist;
 
 import org.csystem.util.collection.util.collection.DLinkedList;
 import org.junit.Assert;
@@ -32,7 +32,7 @@ public class Test_addItemHead_Size {
     }
 
     @Test
-    public void test_AddItemHeadSize()
+    public void test_addItemHeadSize()
     {
         var list = new DLinkedList<String>();
 

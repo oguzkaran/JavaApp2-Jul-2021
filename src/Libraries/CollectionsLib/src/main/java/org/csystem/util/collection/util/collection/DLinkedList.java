@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------
     FILE        : DLinkedList.java
     AUTHOR      : JavaApp2-Jul-2021 group
-    LAST UPDATE : 03.11.2021
+    LAST UPDATE : 08.11.2021
 
     DLinkedList class that is the implementation of double linked list
 
@@ -57,19 +57,103 @@ public class DLinkedList<T> {
         ++m_size;
     }
 
-    void clear()
+    public void clear()
     {
-        throw new UnsupportedOperationException();
+        for (var node = m_head; node != null; node = node.next)
+            node.prev = null;
+
+        /*
+        for (var node = m_tail; node != null; node = node.prev)
+            node.next = null;
+
+         */
+
+        m_head = m_tail = null;
+        m_size = 0;
+    }
+
+    public void deleteItem(int pos)
+    {
+        if (pos >= m_size || pos < 0 || m_head == null)
+            throw new IndexOutOfBoundsException("Index out bounds:" + pos);
+
+        if (pos == 0)
+            deleteItemHead();
+        else if (pos == m_size - 1)
+            deleteItemTail();
+        else {
+            var curNode = m_head;
+
+            for (int i = 0; i < pos; curNode = curNode.next, ++i)
+                ;
+
+            curNode.prev.next = curNode.next;
+            curNode.next.prev = curNode.prev;
+            --m_size;
+        }
     }
 
     public void deleteItemHead()
     {
-        throw new UnsupportedOperationException();
+        if (m_head == null)
+            return;
+
+        if (m_head != m_tail) {
+            m_head = m_head.next;
+            m_head.prev = null;
+        }
+        else
+            m_head = m_tail = null;
+
+        --m_size;
     }
 
     public void deleteItemTail()
     {
-        throw new UnsupportedOperationException();
+        if (m_head == null)
+            return;
+
+        if (m_head != m_tail) {
+            m_tail = m_tail.prev;
+            m_tail.next = null;
+        }
+        else
+            m_head = m_tail = null;
+
+        --m_size;
+    }
+
+    public T get(int pos)
+    {
+        if (m_head == null || pos < 0 || pos >= m_size)
+            throw new IndexOutOfBoundsException("Index out bounds:" + pos);
+
+        var curNode = m_head;
+
+        for (int i = 0; i < pos; curNode = curNode.next, ++i)
+            ;
+
+        return curNode.item;
+    }
+
+    public Optional<T> getItemHead()
+    {
+        return isEmpty() ? Optional.empty() : Optional.of(m_head.item);
+    }
+
+    public Optional<T> getItemTail()
+    {
+        return isEmpty() ? Optional.empty() : Optional.of(m_tail.item);
+    }
+
+    public void insertItem(int pos, T item)
+    {
+        //TODO:
+    }
+
+    public boolean isEmpty()
+    {
+        return m_head == null;
     }
 
     public int size()

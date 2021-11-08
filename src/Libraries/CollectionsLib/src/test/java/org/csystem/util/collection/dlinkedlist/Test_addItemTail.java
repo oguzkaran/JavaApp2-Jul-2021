@@ -1,4 +1,4 @@
-package org.csystem.util.collection;
+package org.csystem.util.collection.dlinkedlist;
 
 import org.csystem.util.collection.util.collection.DLinkedList;
 import org.csystem.util.io.file.FileUtil;
@@ -68,7 +68,7 @@ public class Test_addItemTail {
     }
 
     @Test
-    public void test_AddItemHeadSize() throws IOException
+    public void test_addItemHeadSize() throws IOException
     {
         var list = new DLinkedList<String>();
 
