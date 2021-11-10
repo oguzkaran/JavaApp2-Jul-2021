@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------
     FILE        : DLinkedList.java
     AUTHOR      : JavaApp2-Jul-2021 group
-    LAST UPDATE : 08.11.2021
+    LAST UPDATE : 10.11.2021
 
     DLinkedList class that is the implementation of double linked list
 
@@ -10,6 +10,7 @@
 -----------------------------------------------------------------------*/
 package org.csystem.util.collection.util.collection;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -74,7 +75,7 @@ public class DLinkedList<T> {
 
     public void deleteItem(int pos)
     {
-        if (pos >= m_size || pos < 0 || m_head == null)
+        if (pos >= m_size || pos < 0)
             throw new IndexOutOfBoundsException("Index out bounds:" + pos);
 
         if (pos == 0)
@@ -123,9 +124,60 @@ public class DLinkedList<T> {
         --m_size;
     }
 
+    public int findFirstItemIndex(T item)
+    {
+        var curNode = m_head;
+
+
+        for (int i = 0; curNode != null; curNode = curNode.next, ++i)
+            if (Objects.equals(item, curNode.item))
+                return i;
+
+        /*
+
+        if (item != null) {
+            for (int i = 0; curNode != null; curNode = curNode.next, ++i)
+                if (item.equals(curNode.item))
+                    return i;
+        }
+        else
+            for (int i = 0; curNode != null; curNode = curNode.next, ++i)
+                if (curNode.item == null)
+                    return i;
+
+         */
+
+        return -1;
+    }
+
+    public int findLastItemIndex(T item)
+    {
+        var curNode = m_tail;
+
+        for (int i = m_size - 1; curNode != null; curNode = curNode.prev, --i)
+            if (Objects.equals(item, curNode.item))
+                return i;
+
+        /*
+
+        if (item != null) {
+            for (int i = 0; curNode != null; curNode = curNode.next, ++i)
+                if (item.equals(curNode.item))
+                    return i;
+        }
+        else
+            for (int i = 0; curNode != null; curNode = curNode.next, ++i)
+                if (curNode.item == null)
+                    return i;
+
+         */
+
+        return -1;
+    }
+
     public T get(int pos)
     {
-        if (m_head == null || pos < 0 || pos >= m_size)
+        if (pos >= m_size || pos < 0)
             throw new IndexOutOfBoundsException("Index out bounds:" + pos);
 
         var curNode = m_head;
@@ -148,7 +200,31 @@ public class DLinkedList<T> {
 
     public void insertItem(int pos, T item)
     {
-        //TODO:
+        if (pos > m_size || pos < 0)
+            throw new IndexOutOfBoundsException("Index out bounds:" + pos);
+
+        if (m_head != null) {
+            if (pos == 0)
+                addItemHead(item);
+            else if (pos == m_size)
+                addItemTail(item);
+            else {
+                var curNode = m_head;
+
+                for (int i = 0; i < pos; curNode = curNode.next, ++i)
+                    ;
+
+                var newNode = new Node<>(item);
+
+                newNode.next = curNode.next;
+                newNode.prev = curNode;
+                curNode.next = newNode;
+                curNode.next.prev = newNode;
+                ++m_size;
+            }
+        }
+        else
+            addItemTail(item);
     }
 
     public boolean isEmpty()

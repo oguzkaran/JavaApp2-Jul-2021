@@ -38,6 +38,13 @@
 			<version>1.0.0</version>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.csystem</groupId>
+			<artifactId>org-csystem-util</artifactId>
+			<version>3.0.0</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
