@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.List;
 
 @RunWith(Parameterized.class)
-public class Test_addItemTail {
+public class Test_reverseIterator {
     private final List<String> m_list;
 
     private void saveExpected()
@@ -29,20 +29,21 @@ public class Test_addItemTail {
         catch (IOException ex) {
             ex.printStackTrace();
         }
-
     }
 
     private void saveActual(DLinkedList<String> list)
     {
         try (var bw = Files.newBufferedWriter(Path.of("actuals.txt"))) {
-            list.walkList(str -> {
+            var iter = list.reverseIterator();
+            while (iter.hasNext()) {
                 try {
-                    bw.write(str + "\r\n");
+                    bw.write(iter.next() + "\r\n");
                     bw.flush();
-                } catch (IOException e) {
+                }
+                catch (IOException e) {
                     e.printStackTrace();
                 }
-            });
+            }
         }
         catch (IOException ex) {
             ex.printStackTrace();
@@ -61,19 +62,19 @@ public class Test_addItemTail {
         return list;
     }
 
-    public Test_addItemTail(List<String> list)
+    public Test_reverseIterator(List<String> list)
     {
         m_list = list;
         saveExpected();
     }
 
     @Test
-    public void test_addItemTail() throws IOException
+    public void test_iterator() throws IOException
     {
         var list = new DLinkedList<String>();
 
         for (var str : m_list)
-            list.addItemTail(str);
+            list.addItemHead(str);
 
         saveActual(list);
 

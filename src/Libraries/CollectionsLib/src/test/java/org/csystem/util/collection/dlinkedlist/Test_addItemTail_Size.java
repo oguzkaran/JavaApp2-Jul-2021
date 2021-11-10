@@ -32,7 +32,7 @@ public class Test_addItemTail_Size {
     }
 
     @Test
-    public void test_addItemHeadSize()
+    public void test_addItemTail_Size()
     {
         var list = new DLinkedList<String>();
 

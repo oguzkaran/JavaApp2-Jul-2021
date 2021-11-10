@@ -3,19 +3,21 @@
     AUTHOR      : JavaApp2-Jul-2021 group
     LAST UPDATE : 10.11.2021
 
-    DLinkedList class that is the implementation of double linked list
+    DLinkedList class that is the implementation of doubly linked list
 
     Copyleft (c) 1993 by C and System Programmers Association (CSD)
     All Rights Free
 -----------------------------------------------------------------------*/
 package org.csystem.util.collection.util.collection;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-public class DLinkedList<T> {
+public class DLinkedList<T> implements Iterable<T> {
     private Node<T> m_head;
     private Node<T> m_tail;
     private int m_size;
@@ -232,6 +234,32 @@ public class DLinkedList<T> {
         return m_head == null;
     }
 
+    @Override
+    public Iterator<T> iterator()
+    {
+        return new Iterator<>() {
+            Node<T> curNode;
+
+            @Override
+            public boolean hasNext()
+            {
+                curNode = curNode == null ? m_head : curNode.next;
+
+                return curNode != null;
+            }
+
+            @Override
+            public T next()
+            {
+                if (curNode == null)
+                    throw new NoSuchElementException("No such element in list");
+
+                return curNode.item;
+            }
+        };
+    }
+
+
     public int size()
     {
         return m_size;
@@ -259,5 +287,29 @@ public class DLinkedList<T> {
                 return Optional.of(node.item);
 
         return Optional.empty();
+    }
+
+    public Iterator<T> reverseIterator()
+    {
+        return new Iterator<>() {
+            Node<T> curNode;
+
+            @Override
+            public boolean hasNext()
+            {
+                curNode = curNode == null ? m_tail : curNode.prev;
+
+                return curNode != null;
+            }
+
+            @Override
+            public T next()
+            {
+                if (curNode == null)
+                    throw new NoSuchElementException("No such element in list");
+
+                return curNode.item;
+            }
+        };
     }
 }
