@@ -6,47 +6,6 @@
 
 package org.csystem.util.collection.dlinkedlist;
 
-import org.csystem.util.collection.util.collection.DLinkedList;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Random;
-
-@RunWith(Parameterized.class)
 public class Test_findFirstItemIndex_Random_TODO {
-    private static final Random ms_random = new Random();
-    private final List<String> m_list;
-    private DLinkedList<String> m_testList;
 
-    @Parameterized.Parameters
-    public static Collection<List<String>> createData()
-    {
-        //TODO:
-        throw new UnsupportedOperationException();
-    }
-
-    @Before
-    public void setUp()
-    {
-        m_testList = new DLinkedList<>();
-
-        for (var str : m_list)
-            m_testList.addItemTail(str);
-    }
-
-    public Test_findFirstItemIndex_Random_TODO(List<String> list)
-    {
-        m_list = list;
-    }
-
-    @Test
-    public void test_findFirstItemIndexRandom()
-    {
-        //TODO:
-        throw new UnsupportedOperationException();
-    }
 }

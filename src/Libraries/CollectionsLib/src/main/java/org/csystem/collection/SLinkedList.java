@@ -8,7 +8,7 @@
     Copyleft (c) 1993 by C and System Programmers Association (CSD)
     All Rights Free
 -----------------------------------------------------------------------*/
-package org.csystem.util.collection.util.collection;
+package org.csystem.collection;
 
 import java.util.Iterator;
 import java.util.Optional;

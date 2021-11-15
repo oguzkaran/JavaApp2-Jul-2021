@@ -10,8 +10,8 @@
 	</parent>
 
 	<groupId>org.csystem</groupId>
-	<artifactId>org-csystem-util-collection</artifactId>
-	<version>1.0.0</version>
+	<artifactId>org-csystem-collection</artifactId>
+	<version>2.1.0</version>
 
 	<repositories>
 		<repository>

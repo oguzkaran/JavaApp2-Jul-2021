@@ -1,47 +1,43 @@
 /*----------------------------------------------------------------------
-    FILE        : CircularQueue.java
+    FILE        : IntCircularQueue.java
     AUTHOR      : JavaApp2-Jul-2021 group
     LAST UPDATE : 15.11.2021
 
-    CircularQueue class that is the implementation of circular queue (FIFO)
+    IntCircularQueue class that is the implementation of circular queue (FIFO) of ints
 
     Copyleft (c) 1993 by C and System Programmers Association (CSD)
     All Rights Free
 -----------------------------------------------------------------------*/
-package org.csystem.util.collection.util.collection;
+package org.csystem.collection;
 
 import java.util.Arrays;
-import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-import java.util.stream.IntStream;
+import java.util.OptionalInt;
+import java.util.function.IntConsumer;
+import java.util.function.IntPredicate;
 
-public class CircularQueue<T> {
+public class IntCircularQueue {
     private static final int DEFAULT_COUNT = 10;
-    private final T [] m_items;
+    private final int [] m_items;
     private int m_head;
     private int m_tail;
     private int m_size;
 
-    @SuppressWarnings("unchecked")
-    public CircularQueue()
+    public IntCircularQueue()
     {
         //this(DEFAULT_COUNT);
-        m_items = (T [])new Object[DEFAULT_COUNT];
+        m_items = new int[DEFAULT_COUNT];
     }
 
-    @SuppressWarnings("unchecked")
-    public CircularQueue(int count)
+    public IntCircularQueue(int count)
     {
         if (count <= 0)
             throw new IllegalArgumentException("count must be positive:" + count);
 
-        m_items = (T [])new Object[count];
+        m_items = new int[count];
     }
 
     public void clear()
     {
-        IntStream.range(m_head, m_tail).forEach(i -> m_items[i] = null);
         m_head = m_tail = m_size = 0;
     }
 
@@ -50,30 +46,29 @@ public class CircularQueue<T> {
         return m_items.length;
     }
 
-    public Optional<T> findFirst(Predicate<T> predicate)
+    public OptionalInt findFirst(IntPredicate predicate)
     {
         return Arrays.stream(m_items, m_head, m_tail).filter(predicate).findFirst();
     }
 
-    public Optional<T> findLast(Predicate<T> predicate)
+    public OptionalInt  findLast(IntPredicate predicate)
     {
         return Arrays.stream(m_items, m_head, m_tail).filter(predicate).findFirst();
     }
 
-    public Optional<T> getItem()
+    public OptionalInt getItem()
     {
         if (m_size == 0)
-            return Optional.empty();
+            return OptionalInt.empty();
 
-        var result = Optional.of(m_items[m_head]);
-        m_items[m_head++] = null;
+        var result = OptionalInt.of(m_items[m_head++]);
         m_head %= m_items.length;
         --m_size;
 
         return result;
     }
 
-    public boolean putItem(T item)
+    public boolean putItem(int item)
     {
         if (m_items.length == m_size)
             return false;
@@ -90,7 +85,7 @@ public class CircularQueue<T> {
         return m_size;
     }
 
-    public void walk(Consumer<T> consumer)
+    public void walk(IntConsumer consumer)
     {
         Arrays.stream(m_items, m_head, m_tail).forEach(consumer);
     }

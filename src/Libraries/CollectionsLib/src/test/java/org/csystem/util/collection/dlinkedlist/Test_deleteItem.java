@@ -1,6 +1,6 @@
 package org.csystem.util.collection.dlinkedlist;
 
-import org.csystem.util.collection.util.collection.DLinkedList;
+import org.csystem.collection.DLinkedList;
 import org.csystem.util.io.file.FileUtil;
 import org.junit.Assert;
 import org.junit.Before;
