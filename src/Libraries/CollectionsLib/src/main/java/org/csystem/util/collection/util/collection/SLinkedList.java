@@ -59,6 +59,11 @@ public class SLinkedList<T> implements Iterable<T> {
         throw new UnsupportedOperationException("deleteItemTail");
     }
 
+    public Optional<T> findFirst(Predicate<T> pred)
+    {
+        throw new UnsupportedOperationException("walkList");
+    }
+
     public int findFirstItemIndex(T item)
     {
         throw new UnsupportedOperationException("findFirstItemIndex");
@@ -100,18 +105,12 @@ public class SLinkedList<T> implements Iterable<T> {
         throw new UnsupportedOperationException("iterator");
     }
 
-
     public int size()
     {
         return m_size;
     }
 
     public void walkList(Consumer<T> con)
-    {
-        throw new UnsupportedOperationException("walkList");
-    }
-
-    public Optional<T> walkList(Predicate<T> pred)
     {
         throw new UnsupportedOperationException("walkList");
     }

@@ -126,6 +126,24 @@ public class DLinkedList<T> implements Iterable<T> {
         --m_size;
     }
 
+    public Optional<T> findFirst(Predicate<T> pred)
+    {
+        for (var node = m_head; node != null; node = node.next)
+            if (pred.test(node.item))
+                return Optional.of(node.item);
+
+        return Optional.empty();
+    }
+
+    public Optional<T> findLast(Predicate<T> pred)
+    {
+        for (var node = m_tail; node != null; node =  node.prev)
+            if (pred.test(node.item))
+                return Optional.of(node.item);
+
+        return Optional.empty();
+    }
+
     public int findFirstItemIndex(T item)
     {
         var curNode = m_head;
@@ -265,29 +283,13 @@ public class DLinkedList<T> implements Iterable<T> {
         return m_size;
     }
 
-    public void walkList(Consumer<T> con)
+    public void walk(Consumer<T> con)
     {
         for (var node = m_head; node != null; node = node.next)
             con.accept(node.item);
     }
 
-    public Optional<T> walkList(Predicate<T> pred)
-    {
-        for (var node = m_head; node != null; node = node.next)
-            if (pred.test(node.item))
-                return Optional.of(node.item);
 
-        return Optional.empty();
-    }
-
-    public Optional<T> walkListReverse(Predicate<T> pred)
-    {
-        for (var node = m_tail; node != null; node =  node.prev)
-            if (pred.test(node.item))
-                return Optional.of(node.item);
-
-        return Optional.empty();
-    }
 
     public Iterator<T> reverseIterator()
     {

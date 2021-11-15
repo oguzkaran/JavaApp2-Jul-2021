@@ -40,7 +40,7 @@ public class Test_deleteItem {
     private void saveActual()
     {
         try (var bw = Files.newBufferedWriter(Path.of(ms_actualBase + "-" + ms_count + ".txt"))) {
-            m_testList.walkList(str -> {
+            m_testList.walk(str -> {
                 try {
                     bw.write(str + "\r\n");
                     bw.flush();

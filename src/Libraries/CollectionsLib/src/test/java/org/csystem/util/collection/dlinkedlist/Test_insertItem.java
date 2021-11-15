@@ -14,7 +14,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Random;
 
 @RunWith(Parameterized.class)
 public class Test_insertItem {
@@ -40,7 +39,7 @@ public class Test_insertItem {
     private void saveActual()
     {
         try (var bw = Files.newBufferedWriter(Path.of(ms_actualBase + "-" + ms_count + ".txt"))) {
-            m_testList.walkList(str -> {
+            m_testList.walk(str -> {
                 try {
                     bw.write(str + "\r\n");
                     bw.flush();

@@ -37,7 +37,7 @@ public class Test_deleteItemHead {
     private void saveActual(DLinkedList<String> list)
     {
         try (var bw = Files.newBufferedWriter(Path.of("actuals.txt"))) {
-            list.walkList(str -> {
+            list.walk(str -> {
                 try {
                     bw.write(str + "\r\n");
                     bw.flush();

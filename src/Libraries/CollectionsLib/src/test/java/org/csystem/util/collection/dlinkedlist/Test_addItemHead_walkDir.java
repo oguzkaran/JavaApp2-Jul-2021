@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -36,7 +35,7 @@ public class Test_addItemHead_walkDir {
     private void saveActual(DLinkedList<String> list)
     {
         try (var bw = Files.newBufferedWriter(Path.of("actuals.txt"))) {
-            list.walkList(str -> {
+            list.walk(str -> {
                 try {
                     bw.write(str + "\r\n");
                     bw.flush();

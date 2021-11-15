@@ -40,7 +40,7 @@ public class Test_deleteItemTail {
     private void saveActual(DLinkedList<String> list)
     {
         try (var bw = Files.newBufferedWriter(Path.of(ms_actualBase + "-" + ms_count + ".txt"))) {
-            list.walkList(str -> {
+            list.walk(str -> {
                 try {
                     bw.write(str + "\r\n");
                     bw.flush();
