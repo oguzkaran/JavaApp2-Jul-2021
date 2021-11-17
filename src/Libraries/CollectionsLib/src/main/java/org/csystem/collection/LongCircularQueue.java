@@ -3,7 +3,7 @@
     AUTHOR      : JavaApp2-Jul-2021 group
     LAST UPDATE : 15.11.2021
 
-    IntCircularQueue class that is the implementation of circular queue (FIFO) of longs
+    LongCircularQueue class that is the implementation of circular queue (FIFO) of longs
 
     Copyleft (c) 1993 by C and System Programmers Association (CSD)
     All Rights Free

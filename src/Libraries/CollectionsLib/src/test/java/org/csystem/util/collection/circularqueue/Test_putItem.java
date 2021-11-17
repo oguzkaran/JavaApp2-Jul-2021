@@ -18,8 +18,8 @@ import java.util.List;
 @RunWith(Parameterized.class)
 public class Test_putItem {
     private static int ms_count;
-    private static final String ms_expectedBase = "put_item_expected";
-    private static final String ms_actualBase = "put_item_actual";
+    private static final String ms_expectedBase = "circularqueue_put_item_expected";
+    private static final String ms_actualBase = "circularqueue_put_item_actual";
     private final List<String> m_list;
     private CircularQueue<String> m_testQueue;
 

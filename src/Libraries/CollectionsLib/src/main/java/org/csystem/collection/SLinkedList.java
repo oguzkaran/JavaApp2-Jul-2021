@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------
     FILE        : SLinkedList.java
     AUTHOR      : JavaApp2-Jul-2021 group
-    LAST UPDATE : 10.11.2021
+    LAST UPDATE : 17.11.2021
 
     SLinkedList class that is the implementation of singly linked list
 
@@ -69,11 +69,6 @@ public class SLinkedList<T> implements Iterable<T> {
         throw new UnsupportedOperationException("findFirstItemIndex");
     }
 
-    public int findLastItemIndex(T item)
-    {
-        throw new UnsupportedOperationException("findLastItemIndex");
-    }
-
     public T get(int pos)
     {
         throw new UnsupportedOperationException("get");
@@ -114,6 +109,4 @@ public class SLinkedList<T> implements Iterable<T> {
     {
         throw new UnsupportedOperationException("walkList");
     }
-
-
 }
