@@ -36,10 +36,10 @@ public class ConsumerRunner implements ApplicationRunner {
 
             if (opt.isEmpty())
                 continue;
-
             val = opt.getAsInt();
 
             Console.write("%d ", val);
+
             if (val == m_count)
                 break;
         }

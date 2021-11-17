@@ -25,18 +25,18 @@ public class SharedObject {
 
     public void setVal(int val)
     {
-        ThreadUtil.acquire(m_producerSemaphore, m_queue.length);
+        ThreadUtil.acquire(m_producerSemaphore, 1);
         m_queue[m_tail++] = val;
         m_tail %= m_queue.length;
-        ThreadUtil.release(m_consumerSemaphore, m_queue.length);
+        ThreadUtil.release(m_consumerSemaphore, 1);
     }
 
     public int getVal()
     {
-        ThreadUtil.acquire(m_consumerSemaphore, m_queue.length);
+        ThreadUtil.acquire(m_consumerSemaphore, 1);
         int val = m_queue[m_head++];
         m_head %= m_queue.length;
-        ThreadUtil.release(m_producerSemaphore, m_queue.length);
+        ThreadUtil.release(m_producerSemaphore, 1);
 
         return val;
     }

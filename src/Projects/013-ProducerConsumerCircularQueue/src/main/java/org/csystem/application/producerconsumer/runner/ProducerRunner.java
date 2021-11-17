@@ -1,6 +1,7 @@
 package org.csystem.application.producerconsumer.runner;
 
 import org.csystem.application.producerconsumer.component.SharedObject;
+import org.csystem.util.console.Console;
 import org.csystem.util.thread.ThreadUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
@@ -30,7 +31,7 @@ public class ProducerRunner implements ApplicationRunner {
     {
         int i = 0;
 
-        for (; ; ) {
+        for (;;) {
             ThreadUtil.sleep(Math.abs(m_random.nextLong()) % (m_max - m_min + 1) + m_min);
             m_sharedObject.setVal(i);
             if (i == m_count)

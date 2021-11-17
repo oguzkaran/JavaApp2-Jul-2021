@@ -25,17 +25,17 @@ public class SharedObject {
 
     public void setVal(int val)
     {
-        ThreadUtil.acquire(m_producerSemaphore, m_queue.size());
+        ThreadUtil.acquire(m_producerSemaphore, 1);
         m_queue.putItem(val);
-        ThreadUtil.release(m_consumerSemaphore, m_queue.size());
+        ThreadUtil.release(m_consumerSemaphore, 1);
     }
 
     public OptionalInt getVal()
     {
-        ThreadUtil.acquire(m_consumerSemaphore, m_queue.size());
-        var opt = m_queue.getItem();
-        ThreadUtil.release(m_producerSemaphore, m_queue.size());
+        ThreadUtil.acquire(m_consumerSemaphore, 1);
+        var opt = m_queue.getItem().map(OptionalInt::of).orElseGet(OptionalInt::empty);
+        ThreadUtil.release(m_producerSemaphore, 1);
 
-        return opt.map(OptionalInt::of).orElseGet(OptionalInt::empty);
+        return opt;
     }
 }
