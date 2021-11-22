@@ -25,4 +25,6 @@ public class LinkedListStack<T> {
     {
         throw new UnsupportedOperationException("clear");
     }
+
+    //...
 }

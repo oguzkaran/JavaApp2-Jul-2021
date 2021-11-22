@@ -12,7 +12,7 @@ import java.util.concurrent.Semaphore;
 public class SharedObject {
     private final Semaphore m_producerSemaphore;
     private final Semaphore m_consumerSemaphore;
-    private final Deque<Integer> m_queue; //Kutulama ve kutu açma maliyetine dikkar ediniz
+    private final Deque<Integer> m_queue; //Kutulama ve kutu açma maliyetine dikkat ediniz
 
     public SharedObject(@Qualifier("producerSemaphore") Semaphore producerSemaphore,
                         @Qualifier("consumerSemaphore") Semaphore consumerSemaphore,

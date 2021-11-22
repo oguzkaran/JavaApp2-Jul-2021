@@ -1,21 +1,25 @@
-package org.csystem.application.producerconsumer.component;
+package com.ibrahimsenturk.concurrent.sharedobject.component;
 
+import com.ibrahimsenturk.concurrent.sharedobject.global.SharedObjectBean;
 import org.csystem.util.thread.ThreadUtil;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
 import java.util.Deque;
 import java.util.OptionalInt;
 import java.util.concurrent.Semaphore;
 
 @Component
+@Scope("prototype")
 public class SharedObject {
     private final Semaphore m_producerSemaphore;
     private final Semaphore m_consumerSemaphore;
     private final Deque<Integer> m_queue; //Kutulama ve kutu açma maliyetine dikkar ediniz
 
-    public SharedObject(@Qualifier("producerSemaphore") Semaphore producerSemaphore,
-                        @Qualifier("consumerSemaphore") Semaphore consumerSemaphore,
-                        Deque<Integer> queue)
+    public SharedObject(@Qualifier("com.ibrahimsenturk.concurrent.sharedobject.producerSemaphore") Semaphore producerSemaphore,
+                        @Qualifier("com.ibrahimsenturk.concurrent.sharedobject.consumerSemaphore") Semaphore consumerSemaphore,
+                        @Qualifier(SharedObjectBean.DEQUE_BEAN) Deque<Integer> queue)
     {
         m_producerSemaphore = producerSemaphore;
         m_consumerSemaphore = consumerSemaphore;

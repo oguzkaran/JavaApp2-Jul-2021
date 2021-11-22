@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------
     FILE        : CircularQueue.java
     AUTHOR      : JavaApp2-Jul-2021 group
-    LAST UPDATE : 15.11.2021
+    LAST UPDATE : 22.11.2021
 
     CircularQueue class that is the implementation of circular queue (FIFO)
 
@@ -57,7 +57,7 @@ public class CircularQueue<T> {
 
     public Optional<T> findLast(Predicate<T> predicate)
     {
-        return Arrays.stream(m_items, m_head, m_tail).filter(predicate).findFirst();
+        return Arrays.stream(m_items, m_head, m_tail).filter(predicate).reduce((r, s) -> s);
     }
 
     public Optional<T> getItem()
