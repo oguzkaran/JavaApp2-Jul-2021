@@ -1,12 +1,12 @@
 package org.csystem.util.collection.slinkedlist;
 
 import org.csystem.collection.SLinkedList;
+import org.csystem.util.collection.factory.StringDataFactory;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -17,13 +17,7 @@ public class Test_addItemTail_Size {
     @Parameterized.Parameters
     public static Collection<List<String>> createData()
     {
-        var list = new ArrayList<List<String>>();
-
-        list.add(new ArrayList<>(){{add("ali"); add("veli"); add("selami"); add("ayşe");}});
-        list.add(new ArrayList<>(){{add("ali"); add("veli"); add("selami");}});
-        list.add(new ArrayList<>(){{add("ali"); add("veli"); add("selami"); add("ayşe"); add("fatma");}});
-
-        return list;
+        return StringDataFactory.getData();
     }
 
     public Test_addItemTail_Size(List<String> list)

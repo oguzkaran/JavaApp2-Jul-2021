@@ -1,6 +1,7 @@
 package org.csystem.util.collection.slinkedlist;
 
 import org.csystem.collection.SLinkedList;
+import org.csystem.util.collection.factory.StringDataFactory;
 import org.csystem.util.io.file.FileUtil;
 import org.junit.Assert;
 import org.junit.Before;
@@ -57,13 +58,7 @@ public class Test_addItemTail {
     @Parameterized.Parameters
     public static Collection<List<String>> createData()
     {
-        var list = new ArrayList<List<String>>();
-
-        list.add(new ArrayList<>(){{add("ali"); add("veli"); add("selami"); add("ayşe");}});
-        list.add(new ArrayList<>(){{add("ali"); add("veli"); add("selami");}});
-        list.add(new ArrayList<>(){{add("ali"); add("veli"); add("selami"); add("ayşe"); add("fatma");}});
-
-        return list;
+        return StringDataFactory.getData();
     }
 
     @Before
