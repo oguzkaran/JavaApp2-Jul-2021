@@ -18,8 +18,8 @@ import java.util.List;
 @RunWith(Parameterized.class)
 public class Test_insertItem {
     private static int ms_count;
-    private static final String ms_expectedBase = "insert_item_expected";
-    private static final String ms_actualBase = "insert_item_actual";
+    private static final String ms_expectedBase = "dlist_insert_item_expected";
+    private static final String ms_actualBase = "dlist_insert_item_actual";
     private final List<String> m_list;
     private DLinkedList<String> m_testList;
 

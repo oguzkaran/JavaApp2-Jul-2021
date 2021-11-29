@@ -1,8 +1,7 @@
-package org.csystem.util.collection.dlinkedlist;
+package org.csystem.util.collection.slinkedlist;
 
-import org.csystem.collection.DLinkedList;
+import org.csystem.collection.SLinkedList;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -12,9 +11,8 @@ import java.util.Collection;
 import java.util.List;
 
 @RunWith(Parameterized.class)
-public class Test_deleteItemHead_Size {
+public class Test_addItemHead_Size {
     private final List<String> m_list;
-    private DLinkedList<String> m_testList;
 
     @Parameterized.Parameters
     public static Collection<List<String>> createData()
@@ -28,27 +26,17 @@ public class Test_deleteItemHead_Size {
         return list;
     }
 
-    @Before
-    public void setUp()
-    {
-        m_testList = new DLinkedList<>();
-
-        m_list.forEach(m_testList::addItemHead);
-    }
-
-    public Test_deleteItemHead_Size(List<String> list)
+    public Test_addItemHead_Size(List<String> list)
     {
         m_list = list;
     }
 
     @Test
-    public void test_deleteItemHeadSize()
+    public void test_addItemHeadSize()
     {
-        var size = m_testList.size();
+        var list = new SLinkedList<String>();
 
-        for (int i = 0; i < size; ++i) {
-            m_testList.deleteItemHead();
-            Assert.assertEquals("Not true", size - 1 - i , m_testList.size());
-        }
+        m_list.forEach(list::addItemHead);
+        Assert.assertEquals(m_list.size(), list.size());
     }
 }

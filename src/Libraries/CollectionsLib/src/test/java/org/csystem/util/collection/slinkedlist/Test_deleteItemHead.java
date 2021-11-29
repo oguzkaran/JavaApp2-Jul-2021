@@ -1,6 +1,6 @@
-package org.csystem.util.collection.dlinkedlist;
+package org.csystem.util.collection.slinkedlist;
 
-import org.csystem.collection.DLinkedList;
+import org.csystem.collection.SLinkedList;
 import org.csystem.util.io.file.FileUtil;
 import org.junit.Assert;
 import org.junit.Before;
@@ -14,15 +14,14 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Random;
 
 @RunWith(Parameterized.class)
-public class Test_deleteItem {
+public class Test_deleteItemHead {
     private static int ms_count;
-    private static final String ms_expectedBase = "dlist_delete_item_expected";
-    private static final String ms_actualBase = "dlist_delete_item_actual";
+    private static final String ms_expectedBase = "slist_delete_item_head_expected";
+    private static final String ms_actualBase = "slist_delete_item_head_actual";
     private final List<String> m_list;
-    private DLinkedList<String> m_testList;
+    private SLinkedList<String> m_testList;
 
     private void saveExpected()
     {
@@ -59,11 +58,11 @@ public class Test_deleteItem {
     {
         var list = new ArrayList<List<String>>();
 
+        list.add(new ArrayList<>());
+        list.add(new ArrayList<>(){{add("ali");}});
         list.add(new ArrayList<>(){{add("ali"); add("veli"); add("selami"); add("ayşe");}});
         list.add(new ArrayList<>(){{add("ali"); add("veli"); add("selami");}});
         list.add(new ArrayList<>(){{add("ali"); add("veli"); add("selami"); add("ayşe"); add("fatma");}});
-
-        ms_count = list.size();
 
         return list;
     }
@@ -71,30 +70,25 @@ public class Test_deleteItem {
     @Before
     public void setUp()
     {
-        m_testList = new DLinkedList<>();
-
-        for (var str : m_list)
-            m_testList.addItemTail(str);
-
-        --ms_count;
+        m_testList = new SLinkedList<>();
+        m_list.forEach(item -> m_testList.addItemTail(item));
     }
 
-    public Test_deleteItem(List<String> list)
+    public Test_deleteItemHead(List<String> list)
     {
         m_list = list;
     }
 
     @Test
-    public void test_deleteItem() throws IOException
+    public void test_deleteItemTail() throws IOException
     {
-        var random = new Random();
-        var pos = random.nextInt(m_list.size());
+        m_testList.deleteItemHead();
+        if (!m_list.isEmpty())
+            m_list.remove(0);
 
-        m_testList.deleteItem(pos);
-        m_list.remove(pos);
+        ++ms_count;
         saveActual();
         saveExpected();
-
         Assert.assertTrue(FileUtil.areSame(ms_expectedBase + "-" + ms_count + ".txt", ms_actualBase + "-" + ms_count + ".txt"));
     }
 }

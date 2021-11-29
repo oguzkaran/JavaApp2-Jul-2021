@@ -289,8 +289,6 @@ public class DLinkedList<T> implements Iterable<T> {
             con.accept(node.item);
     }
 
-
-
     public Iterator<T> reverseIterator()
     {
         return new Iterator<>() {

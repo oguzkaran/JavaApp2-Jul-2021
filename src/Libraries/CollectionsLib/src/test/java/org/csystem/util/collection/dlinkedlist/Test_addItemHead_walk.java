@@ -3,7 +3,6 @@ package org.csystem.util.collection.dlinkedlist;
 import org.csystem.collection.DLinkedList;
 import org.csystem.util.io.file.FileUtil;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -14,33 +13,29 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Random;
 
 @RunWith(Parameterized.class)
-public class Test_deleteItem {
-    private static int ms_count;
-    private static final String ms_expectedBase = "dlist_delete_item_expected";
-    private static final String ms_actualBase = "dlist_delete_item_actual";
+public class Test_addItemHead_walk {
     private final List<String> m_list;
-    private DLinkedList<String> m_testList;
 
     private void saveExpected()
     {
-        try (var bw = Files.newBufferedWriter(Path.of(ms_expectedBase + "-" + ms_count + ".txt"))) {
-            for (var str : m_list)
-                bw.write(str + "\r\n");
+        try (var bw = Files.newBufferedWriter(Path.of("expecteds.txt"))) {
+            for (var i = m_list.size() - 1; i >= 0; --i)
+                bw.write(m_list.get(i) + "\r\n");
 
             bw.flush();
         }
         catch (IOException ex) {
             ex.printStackTrace();
         }
+
     }
 
-    private void saveActual()
+    private void saveActual(DLinkedList<String> list)
     {
-        try (var bw = Files.newBufferedWriter(Path.of(ms_actualBase + "-" + ms_count + ".txt"))) {
-            m_testList.walk(str -> {
+        try (var bw = Files.newBufferedWriter(Path.of("actuals.txt"))) {
+            list.walk(str -> {
                 try {
                     bw.write(str + "\r\n");
                     bw.flush();
@@ -63,38 +58,25 @@ public class Test_deleteItem {
         list.add(new ArrayList<>(){{add("ali"); add("veli"); add("selami");}});
         list.add(new ArrayList<>(){{add("ali"); add("veli"); add("selami"); add("ayşe"); add("fatma");}});
 
-        ms_count = list.size();
-
         return list;
     }
 
-    @Before
-    public void setUp()
-    {
-        m_testList = new DLinkedList<>();
-
-        for (var str : m_list)
-            m_testList.addItemTail(str);
-
-        --ms_count;
-    }
-
-    public Test_deleteItem(List<String> list)
+    public Test_addItemHead_walk(List<String> list)
     {
         m_list = list;
+        saveExpected();
     }
 
     @Test
-    public void test_deleteItem() throws IOException
+    public void test_addItemHeadSize() throws IOException
     {
-        var random = new Random();
-        var pos = random.nextInt(m_list.size());
+        var list = new DLinkedList<String>();
 
-        m_testList.deleteItem(pos);
-        m_list.remove(pos);
-        saveActual();
-        saveExpected();
+        for (var str : m_list)
+            list.addItemHead(str);
 
-        Assert.assertTrue(FileUtil.areSame(ms_expectedBase + "-" + ms_count + ".txt", ms_actualBase + "-" + ms_count + ".txt"));
+        saveActual(list);
+
+        Assert.assertTrue(FileUtil.areSame("expecteds.txt", "actuals.txt"));
     }
 }

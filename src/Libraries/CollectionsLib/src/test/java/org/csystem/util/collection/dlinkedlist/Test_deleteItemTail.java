@@ -17,8 +17,8 @@ import java.util.List;
 
 @RunWith(Parameterized.class)
 public class Test_deleteItemTail {
-    private static final String ms_expectedBase = "delete_item_tail_expected";
-    private static final String ms_actualBase = "delete_item_head_actual";
+    private static final String ms_expectedBase = "dlist_delete_item_tail_expected";
+    private static final String ms_actualBase = "dlist_delete_item_head_actual";
     private static int ms_count;
     private final List<String> m_list;
     private DLinkedList<String> m_testList;
@@ -73,8 +73,7 @@ public class Test_deleteItemTail {
     {
         m_testList = new DLinkedList<>();
 
-        for (var str : m_list)
-            m_testList.addItemTail(str);
+        m_list.forEach(m_testList::addItemTail);
 
         Assert.assertEquals(m_list.size(), m_testList.size());
 

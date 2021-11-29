@@ -1,6 +1,6 @@
-package org.csystem.util.collection.dlinkedlist;
+package org.csystem.util.collection.slinkedlist;
 
-import org.csystem.collection.DLinkedList;
+import org.csystem.collection.SLinkedList;
 import org.csystem.util.io.file.FileUtil;
 import org.junit.Assert;
 import org.junit.Before;
@@ -13,16 +13,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 @RunWith(Parameterized.class)
-public class Test_deleteItem {
+public class Test_addItemHead_walk {
     private static int ms_count;
-    private static final String ms_expectedBase = "dlist_delete_item_expected";
-    private static final String ms_actualBase = "dlist_delete_item_actual";
+    private static final String ms_expectedBase = "slist_add_item_head_walk_dir_expected";
+    private static final String ms_actualBase = "slist_add_item_head_walk_dir_actual";
     private final List<String> m_list;
-    private DLinkedList<String> m_testList;
+    private SLinkedList<String> m_testList;
 
     private void saveExpected()
     {
@@ -63,38 +63,28 @@ public class Test_deleteItem {
         list.add(new ArrayList<>(){{add("ali"); add("veli"); add("selami");}});
         list.add(new ArrayList<>(){{add("ali"); add("veli"); add("selami"); add("ayşe"); add("fatma");}});
 
-        ms_count = list.size();
-
         return list;
     }
 
     @Before
     public void setUp()
     {
-        m_testList = new DLinkedList<>();
-
-        for (var str : m_list)
-            m_testList.addItemTail(str);
-
-        --ms_count;
+        m_testList = new SLinkedList<>();
     }
 
-    public Test_deleteItem(List<String> list)
+    public Test_addItemHead_walk(List<String> list)
     {
         m_list = list;
     }
 
     @Test
-    public void test_deleteItem() throws IOException
+    public void test_addItemHeadWalk() throws IOException
     {
-        var random = new Random();
-        var pos = random.nextInt(m_list.size());
-
-        m_testList.deleteItem(pos);
-        m_list.remove(pos);
+        m_list.forEach(item -> m_testList.addItemHead(item));
+        Collections.reverse(m_list);
+        ++ms_count;
         saveActual();
         saveExpected();
-
         Assert.assertTrue(FileUtil.areSame(ms_expectedBase + "-" + ms_count + ".txt", ms_actualBase + "-" + ms_count + ".txt"));
     }
 }

@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------
     FILE        : SLinkedList.java
     AUTHOR      : JavaApp2-Jul-2021 group
-    LAST UPDATE : 17.11.2021
+    LAST UPDATE : 29.11.2021
 
     SLinkedList class that is the implementation of singly linked list
 
@@ -31,17 +31,36 @@ public class SLinkedList<T> implements Iterable<T> {
 
     public void addItemHead(T item)
     {
-        throw new UnsupportedOperationException("addItemHead");
+        var newNode = new Node<T>(item);
+
+        if (m_head != null) {
+            newNode.next = m_head;
+            m_head = newNode;
+        }
+        else
+            m_head = m_tail = newNode;
+
+        ++m_size;
     }
 
     public void addItemTail(T item)
     {
-        throw new UnsupportedOperationException("addItemTail");
+        var newNode = new Node<T>(item);
+
+        if (m_head != null) {
+            m_tail.next = newNode;
+            m_tail = newNode;
+        }
+        else
+            m_head = m_tail = newNode;
+
+        ++m_size;
     }
 
     public void clear()
     {
-        throw new UnsupportedOperationException("clear");
+        m_head = m_tail = null;
+        m_size = 0;
     }
 
     public void deleteItem(int pos)
@@ -51,12 +70,35 @@ public class SLinkedList<T> implements Iterable<T> {
 
     public void deleteItemHead()
     {
-        throw new UnsupportedOperationException("deleteItemHead");
+        if (m_head == null)
+            return;
+
+        if (m_head != m_tail)
+            m_head = m_head.next;
+        else
+            m_head = m_tail = null;
+
+        --m_size;
     }
 
     public void deleteItemTail()
     {
-        throw new UnsupportedOperationException("deleteItemTail");
+        if (m_head == null)
+            return;
+
+        if (m_head != m_tail) {
+            Node<T> node = m_head;
+
+            for (; node.next != m_tail; node = node.next)
+                ;
+
+            node.next = null;
+            m_tail = node;
+        }
+        else
+            m_head = m_tail = null;
+
+        --m_size;
     }
 
     public Optional<T> findFirst(Predicate<T> pred)
@@ -105,8 +147,9 @@ public class SLinkedList<T> implements Iterable<T> {
         return m_size;
     }
 
-    public void walkList(Consumer<T> con)
+    public void walk(Consumer<T> con)
     {
-        throw new UnsupportedOperationException("walkList");
+        for (var node = m_head; node != null; node = node.next)
+            con.accept(node.item);
     }
 }
