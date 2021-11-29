@@ -1,7 +1,7 @@
 package org.csystem.util.collection.arraystack;
 
 import org.csystem.collection.ArrayStack;
-import org.csystem.collection.CircularQueue;
+import org.csystem.util.collection.factory.StringDataFactory;
 import org.csystem.util.io.file.FileUtil;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,7 +12,10 @@ import org.junit.runners.Parameterized;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @RunWith(Parameterized.class)
 public class Test_push_pop {
@@ -54,13 +57,7 @@ public class Test_push_pop {
     @Parameterized.Parameters
     public static Collection<List<String>> createData()
     {
-        var list = new ArrayList<List<String>>();
-
-        list.add(new ArrayList<>(){{add("ali"); add("veli"); add("selami"); add("ayşe");}});
-        list.add(new ArrayList<>(){{add("ali"); add("veli"); add("selami");}});
-        list.add(new ArrayList<>(){{add("ali"); add("veli"); add("selami"); add("ayşe"); add("fatma");}});
-
-        return list;
+        return StringDataFactory.getData();
     }
 
     @Before
