@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Random;
 
 @RunWith(Parameterized.class)
-public class Test_findFirstItemIndex {
+public class Test_findFirst {
     private static final Random ms_random = new Random();
     private final List<String> m_list;
     private DLinkedList<String> m_testList;
@@ -40,39 +40,23 @@ public class Test_findFirstItemIndex {
         m_list.forEach(m_testList::addItemTail);
     }
 
-    public Test_findFirstItemIndex(List<String> list)
+    public Test_findFirst(List<String> list)
     {
         m_list = list;
     }
 
     @Test
-    public void test_findFirstItemIndex()
+    public void test_findFirst()
     {
-        String str = "";
-
         if (!m_list.isEmpty()) {
             var random = new Random();
             var pos = random.nextInt(m_list.size());
-            str = m_list.get(pos);
+
+            var str = m_list.get(pos);
+            Assert.assertEquals(m_list.get(m_list.indexOf(str)), m_testList.findFirst(s -> s.equals(str)).get());
         }
-
-        Assert.assertEquals(m_list.indexOf(str), m_testList.findFirstItemIndex(str));
+        else
+            Assert.assertTrue(m_testList.findFirst(s -> s.equals("Muhammet")).isEmpty());
     }
 
-    @Test
-    public void test_findFirstItemIndexNotFound()
-    {
-        var str = "Muhammet";
-
-        Assert.assertEquals(-1, m_testList.findFirstItemIndex(str));
-    }
-
-    @Test
-    public void test_findFirstItemIndexRandom()
-    {
-        var random = new Random();
-        var str = StringUtil.getRandomTextTR(random, random.nextInt(10) + 5);
-
-        Assert.assertEquals(m_list.indexOf(str), m_testList.findFirstItemIndex(str));
-    }
 }

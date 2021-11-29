@@ -1,6 +1,7 @@
-package org.csystem.util.collection.dlinkedlist;
+package org.csystem.util.collection.slinkedlist;
 
 import org.csystem.collection.DLinkedList;
+import org.csystem.collection.SLinkedList;
 import org.csystem.util.io.file.FileUtil;
 import org.junit.Assert;
 import org.junit.Before;
@@ -19,10 +20,10 @@ import java.util.Random;
 @RunWith(Parameterized.class)
 public class Test_deleteItem {
     private static int ms_count;
-    private static final String ms_expectedBase = "dlist_delete_item_expected";
-    private static final String ms_actualBase = "dlist_delete_item_actual";
+    private static final String ms_expectedBase = "slist_delete_item_expected";
+    private static final String ms_actualBase = "slist_delete_item_actual";
     private final List<String> m_list;
-    private DLinkedList<String> m_testList;
+    private SLinkedList<String> m_testList;
 
     private void saveExpected()
     {
@@ -73,10 +74,9 @@ public class Test_deleteItem {
     @Before
     public void setUp()
     {
-        m_testList = new DLinkedList<>();
+        m_testList = new SLinkedList<>();
 
         m_list.forEach(m_testList::addItemTail);
-
         --ms_count;
     }
 

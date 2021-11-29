@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------
 	FILE        : StringUtil.java
 	AUTHOR      : CSD Java group
-	LAST UPDATE : 01.11.2021
+	LAST UPDATE : 29.11.2021
 
 	Utility class for string operations
 
@@ -13,6 +13,8 @@ package org.csystem.util.string;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.lang.Character.*;
 
@@ -187,16 +189,32 @@ public class StringUtil	{
 		return getRandomText(r, n, ms_alphabetAllTR);
 	}
 	
-	public static String getRandomTextEN(int n)
+	public static String [] getRandomTextsTR(Random r, int count, int min, int max)
 	{
-		Random r = new Random();
-		
-		return getRandomTextEN(r, n);
+		return Stream.generate(() -> getRandomTextTR(r, r.nextInt(max - min + 1) + min))
+				.limit(count)
+				.collect(Collectors.toList())
+				.toArray(new String[count]);
 	}
-	
+
 	public static String getRandomTextEN(Random r, int n)
 	{
 		return getRandomText(r, n, ms_alphabetAllEN);
+	}
+
+	public static String getRandomTextEN(int n)
+	{
+		Random r = new Random();
+
+		return getRandomTextEN(r, n);
+	}
+
+	public static String [] getRandomTextsEN(Random r, int count, int min, int max)
+	{
+		return Stream.generate(() -> getRandomTextEN(r, r.nextInt(max - min + 1) + min))
+				.limit(count)
+				.collect(Collectors.toList())
+				.toArray(new String[count]);
 	}
 
 	public static boolean isIsogram(String str, String alphabet)

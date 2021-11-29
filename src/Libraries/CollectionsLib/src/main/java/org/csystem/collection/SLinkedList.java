@@ -11,6 +11,7 @@
 package org.csystem.collection;
 
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -65,7 +66,20 @@ public class SLinkedList<T> implements Iterable<T> {
 
     public void deleteItem(int pos)
     {
-        throw new UnsupportedOperationException("deleteItem");
+        if (pos >= m_size || pos < 0)
+            throw new IndexOutOfBoundsException("Index out bounds:" + pos);
+
+        if (pos == 0)
+            deleteItemHead();
+        else {
+            var node = m_head;
+
+            for (int i = 0; i < pos - 1; node = node.next, ++i)
+                ;
+
+            node.next = node.next.next;
+            --m_size;
+        }
     }
 
     public void deleteItemHead()
@@ -103,27 +117,45 @@ public class SLinkedList<T> implements Iterable<T> {
 
     public Optional<T> findFirst(Predicate<T> pred)
     {
-        throw new UnsupportedOperationException("walkList");
+        for (var node = m_head; node != null; node = node.next)
+            if (pred.test(node.item))
+                return Optional.of(node.item);
+
+        return Optional.empty();
     }
 
     public int findFirstItemIndex(T item)
     {
-        throw new UnsupportedOperationException("findFirstItemIndex");
+        var curNode = m_head;
+
+        for (int i = 0; curNode != null; curNode = curNode.next, ++i)
+            if (Objects.equals(item, curNode.item))
+                return i;
+
+        return -1;
     }
 
     public T get(int pos)
     {
-        throw new UnsupportedOperationException("get");
+        if (pos >= m_size || pos < 0)
+            throw new IndexOutOfBoundsException("Index out bounds:" + pos);
+
+        var node = m_head;
+
+        for (int i = 0; i < pos; node = node.next, ++i)
+            ;
+
+        return node.item;
     }
 
     public Optional<T> getItemHead()
     {
-        throw new UnsupportedOperationException("getItemHead");
+        return isEmpty() ? Optional.empty() : Optional.of(m_head.item);
     }
 
     public Optional<T> getItemTail()
     {
-        throw new UnsupportedOperationException("getItemTail");
+        return isEmpty() ? Optional.empty() : Optional.of(m_tail.item);
     }
 
     public void insertItem(int pos, T item)

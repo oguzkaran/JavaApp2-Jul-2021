@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 @RunWith(Parameterized.class)
-public class Test_getItemHead_Positive {
+public class Test_getItemHead_OptionalNotEmpty {
     private final List<String> m_list;
     private DLinkedList<String> m_testList;
 
@@ -21,6 +21,7 @@ public class Test_getItemHead_Positive {
     {
         var list = new ArrayList<List<String>>();
 
+        list.add(new ArrayList<>(){{add("ali");}});
         list.add(new ArrayList<>(){{add("ali"); add("veli"); add("selami"); add("ayşe");}});
         list.add(new ArrayList<>(){{add("ali"); add("veli"); add("selami");}});
         list.add(new ArrayList<>(){{add("ali"); add("veli"); add("selami"); add("ayşe"); add("fatma");}});
@@ -33,11 +34,10 @@ public class Test_getItemHead_Positive {
     {
         m_testList = new DLinkedList<>();
 
-        for (var str : m_list)
-            m_testList.addItemTail(str);
+        m_list.forEach(m_testList::addItemTail);
     }
 
-    public Test_getItemHead_Positive(List<String> list)
+    public Test_getItemHead_OptionalNotEmpty(List<String> list)
     {
         m_list = list;
     }

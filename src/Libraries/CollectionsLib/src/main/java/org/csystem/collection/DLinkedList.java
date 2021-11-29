@@ -85,13 +85,13 @@ public class DLinkedList<T> implements Iterable<T> {
         else if (pos == m_size - 1)
             deleteItemTail();
         else {
-            var curNode = m_head;
+            var node = m_head;
 
-            for (int i = 0; i < pos; curNode = curNode.next, ++i)
+            for (int i = 0; i < pos; node = node.next, ++i)
                 ;
 
-            curNode.prev.next = curNode.next;
-            curNode.next.prev = curNode.prev;
+            node.prev.next = node.next;
+            node.next.prev = node.prev;
             --m_size;
         }
     }
@@ -146,23 +146,22 @@ public class DLinkedList<T> implements Iterable<T> {
 
     public int findFirstItemIndex(T item)
     {
-        var curNode = m_head;
+        var node = m_head;
 
-
-        for (int i = 0; curNode != null; curNode = curNode.next, ++i)
-            if (Objects.equals(item, curNode.item))
+        for (int i = 0; node != null; node = node.next, ++i)
+            if (Objects.equals(item, node.item))
                 return i;
 
         /*
 
         if (item != null) {
-            for (int i = 0; curNode != null; curNode = curNode.next, ++i)
-                if (item.equals(curNode.item))
+            for (int i = 0; node != null; node = node.next, ++i)
+                if (item.equals(node.item))
                     return i;
         }
         else
-            for (int i = 0; curNode != null; curNode = curNode.next, ++i)
-                if (curNode.item == null)
+            for (int i = 0; node != null; node = node.next, ++i)
+                if (node.item == null)
                     return i;
 
          */
@@ -172,22 +171,22 @@ public class DLinkedList<T> implements Iterable<T> {
 
     public int findLastItemIndex(T item)
     {
-        var curNode = m_tail;
+        var node = m_tail;
 
-        for (int i = m_size - 1; curNode != null; curNode = curNode.prev, --i)
-            if (Objects.equals(item, curNode.item))
+        for (int i = m_size - 1; node != null; node = node.prev, --i)
+            if (Objects.equals(item, node.item))
                 return i;
 
         /*
 
         if (item != null) {
-            for (int i = 0; curNode != null; curNode = curNode.next, ++i)
-                if (item.equals(curNode.item))
+            for (int i = 0; node != null; node = node.next, ++i)
+                if (item.equals(node.item))
                     return i;
         }
         else
-            for (int i = 0; curNode != null; curNode = curNode.next, ++i)
-                if (curNode.item == null)
+            for (int i = 0; node != null; node = node.next, ++i)
+                if (node.item == null)
                     return i;
 
          */
@@ -200,12 +199,12 @@ public class DLinkedList<T> implements Iterable<T> {
         if (pos >= m_size || pos < 0)
             throw new IndexOutOfBoundsException("Index out bounds:" + pos);
 
-        var curNode = m_head;
+        var node = m_head;
 
-        for (int i = 0; i < pos; curNode = curNode.next, ++i)
+        for (int i = 0; i < pos; node = node.next, ++i)
             ;
 
-        return curNode.item;
+        return node.item;
     }
 
     public Optional<T> getItemHead()
@@ -229,17 +228,17 @@ public class DLinkedList<T> implements Iterable<T> {
             else if (pos == m_size)
                 addItemTail(item);
             else {
-                var curNode = m_head;
+                var node = m_head;
 
-                for (int i = 0; i < pos; curNode = curNode.next, ++i)
+                for (int i = 0; i < pos; node = node.next, ++i)
                     ;
 
                 var newNode = new Node<>(item);
 
-                newNode.next = curNode.next;
-                newNode.prev = curNode;
-                curNode.next = newNode;
-                curNode.next.prev = newNode;
+                newNode.next = node.next;
+                newNode.prev = node;
+                node.next = newNode;
+                node.next.prev = newNode;
                 ++m_size;
             }
         }
@@ -256,23 +255,23 @@ public class DLinkedList<T> implements Iterable<T> {
     public Iterator<T> iterator()
     {
         return new Iterator<>() {
-            Node<T> curNode;
+            Node<T> node;
 
             @Override
             public boolean hasNext()
             {
-                curNode = curNode == null ? m_head : curNode.next;
+                node = node == null ? m_head : node.next;
 
-                return curNode != null;
+                return node != null;
             }
 
             @Override
             public T next()
             {
-                if (curNode == null)
+                if (node == null)
                     throw new NoSuchElementException("No such element in list");
 
-                return curNode.item;
+                return node.item;
             }
         };
     }
@@ -292,23 +291,23 @@ public class DLinkedList<T> implements Iterable<T> {
     public Iterator<T> reverseIterator()
     {
         return new Iterator<>() {
-            Node<T> curNode;
+            Node<T> node;
 
             @Override
             public boolean hasNext()
             {
-                curNode = curNode == null ? m_tail : curNode.prev;
+                node = node == null ? m_tail : node.prev;
 
-                return curNode != null;
+                return node != null;
             }
 
             @Override
             public T next()
             {
-                if (curNode == null)
+                if (node == null)
                     throw new NoSuchElementException("No such element in list");
 
-                return curNode.item;
+                return node.item;
             }
         };
     }

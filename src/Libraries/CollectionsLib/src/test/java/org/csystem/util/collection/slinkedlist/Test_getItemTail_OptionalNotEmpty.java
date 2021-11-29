@@ -1,29 +1,26 @@
-package org.csystem.util.collection.dlinkedlist;
+package org.csystem.util.collection.slinkedlist;
 
-import org.csystem.collection.DLinkedList;
+import org.csystem.collection.SLinkedList;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.function.ThrowingRunnable;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Random;
 
 @RunWith(Parameterized.class)
-public class Test_get {
+public class Test_getItemTail_OptionalNotEmpty {
     private final List<String> m_list;
-    private DLinkedList<String> m_testList;
+    private SLinkedList<String> m_testList;
 
     @Parameterized.Parameters
     public static Collection<List<String>> createData()
     {
         var list = new ArrayList<List<String>>();
 
-        list.add(new ArrayList<>());
         list.add(new ArrayList<>(){{add("ali");}});
         list.add(new ArrayList<>(){{add("ali"); add("veli"); add("selami"); add("ayşe");}});
         list.add(new ArrayList<>(){{add("ali"); add("veli"); add("selami");}});
@@ -35,24 +32,18 @@ public class Test_get {
     @Before
     public void setUp()
     {
-        m_testList = new DLinkedList<>();
+        m_testList = new SLinkedList<>();
         m_list.forEach(m_testList::addItemTail);
     }
 
-    public Test_get(List<String> list)
+    public Test_getItemTail_OptionalNotEmpty(List<String> list)
     {
         m_list = list;
     }
 
     @Test
-    public void test_get()
+    public void test_getItemTail()
     {
-        if (!m_list.isEmpty()) {
-            var random = new Random();
-            var pos = random.nextInt(m_list.size());
-            Assert.assertEquals(m_list.get(pos), m_testList.get(pos));
-        }
-        else
-            Assert.assertThrows(IndexOutOfBoundsException.class, () -> m_testList.get(0));
+        Assert.assertEquals(m_list.get(m_list.size() - 1), m_testList.getItemTail().get());
     }
 }

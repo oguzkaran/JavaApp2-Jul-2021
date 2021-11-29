@@ -1,10 +1,9 @@
-package org.csystem.util.collection.dlinkedlist;
+package org.csystem.util.collection.slinkedlist;
 
-import org.csystem.collection.DLinkedList;
+import org.csystem.collection.SLinkedList;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.function.ThrowingRunnable;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
@@ -14,9 +13,9 @@ import java.util.List;
 import java.util.Random;
 
 @RunWith(Parameterized.class)
-public class Test_get {
+public class Test_get_exception {
     private final List<String> m_list;
-    private DLinkedList<String> m_testList;
+    private SLinkedList<String> m_testList;
 
     @Parameterized.Parameters
     public static Collection<List<String>> createData()
@@ -35,11 +34,11 @@ public class Test_get {
     @Before
     public void setUp()
     {
-        m_testList = new DLinkedList<>();
+        m_testList = new SLinkedList<>();
         m_list.forEach(m_testList::addItemTail);
     }
 
-    public Test_get(List<String> list)
+    public Test_get_exception(List<String> list)
     {
         m_list = list;
     }
