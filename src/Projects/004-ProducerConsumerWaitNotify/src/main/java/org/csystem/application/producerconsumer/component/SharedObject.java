@@ -18,6 +18,7 @@ public class SharedObject {
 
         ThreadUtil.notify(this);
     }
+
     public synchronized int getVal()
     {
         while (m_produce)
