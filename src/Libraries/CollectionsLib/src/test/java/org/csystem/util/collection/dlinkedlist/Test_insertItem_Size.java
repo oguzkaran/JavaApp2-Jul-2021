@@ -30,8 +30,7 @@ public class Test_insertItem_Size {
     {
         var list = new DLinkedList<String>();
 
-        for (var str : m_list)
-            list.insertItem(0, str);
+        m_list.forEach(s -> list.insertItem(0, s));
 
         Assert.assertEquals(m_list.size(), list.size());
     }
@@ -41,8 +40,7 @@ public class Test_insertItem_Size {
     {
         var list = new DLinkedList<String>();
 
-        for (var str : m_list)
-            list.insertItem(list.size(), str);
+        m_list.forEach(s -> list.insertItem(list.size(), s));
 
         Assert.assertEquals(m_list.size(), list.size());
     }

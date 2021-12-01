@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------
     FILE        : LinkedListQueue.java
     AUTHOR      : JavaApp2-Jul-2021 group
-    LAST UPDATE : 17.11.2021
+    LAST UPDATE : 01.12.2021
 
     LinkedListQueue adapter class that is the implementation of queue (FIFO)
     linked list
@@ -45,6 +45,11 @@ public class LinkedListQueue<T> {
     public void putItem(T item)
     {
         m_list.addItemTail(item);
+    }
+
+    public Optional<T> peek()
+    {
+        return m_list.getItemHead();
     }
 
     public int size()

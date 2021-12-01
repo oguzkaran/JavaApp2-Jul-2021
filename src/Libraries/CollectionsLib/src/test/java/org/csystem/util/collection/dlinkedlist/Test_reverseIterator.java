@@ -67,8 +67,7 @@ public class Test_reverseIterator {
     {
         var list = new DLinkedList<String>();
 
-        for (var str : m_list)
-            list.addItemHead(str);
+        m_list.forEach(list::addItemHead);
 
         saveActual(list);
 

@@ -20,7 +20,7 @@ public class Test_walk {
     private static final String ms_expectedBase = "arraystack_walk_expected";
     private static final String ms_actualBase = "arraystack_walk_actual";
     private final List<String> m_list;
-    private ArrayStack<String> m_testArrayStack;
+    private ArrayStack<String> m_testStack;
 
     private void saveExpected()
     {
@@ -39,7 +39,7 @@ public class Test_walk {
     private void saveActual()
     {
         try (var bw = Files.newBufferedWriter(Path.of(ms_actualBase + "-" + ms_count + ".txt"))) {
-            m_testArrayStack.walk(str -> {
+            m_testStack.walk(str -> {
                 try {
                     bw.write(str + "\r\n");
                     bw.flush();
@@ -63,7 +63,7 @@ public class Test_walk {
     @Before
     public void setUp()
     {
-        m_testArrayStack = new ArrayStack<>(m_list.size());
+        m_testStack = new ArrayStack<>(m_list.size());
     }
 
     public Test_walk(List<String> list)
@@ -74,8 +74,7 @@ public class Test_walk {
     @Test
     public void test_walk() throws IOException
     {
-        for (var s : m_list)
-            m_testArrayStack.push(s);
+        m_list.forEach(m_testStack::push);
 
         ++ms_count;
         saveActual();

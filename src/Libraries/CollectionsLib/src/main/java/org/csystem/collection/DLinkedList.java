@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------
     FILE        : DLinkedList.java
     AUTHOR      : JavaApp2-Jul-2021 group
-    LAST UPDATE : 10.11.2021
+    LAST UPDATE : 01.12.2021
 
     DLinkedList class that is the implementation of doubly linked list
 
@@ -152,20 +152,6 @@ public class DLinkedList<T> implements Iterable<T> {
             if (Objects.equals(item, node.item))
                 return i;
 
-        /*
-
-        if (item != null) {
-            for (int i = 0; node != null; node = node.next, ++i)
-                if (item.equals(node.item))
-                    return i;
-        }
-        else
-            for (int i = 0; node != null; node = node.next, ++i)
-                if (node.item == null)
-                    return i;
-
-         */
-
         return -1;
     }
 
@@ -176,20 +162,6 @@ public class DLinkedList<T> implements Iterable<T> {
         for (int i = m_size - 1; node != null; node = node.prev, --i)
             if (Objects.equals(item, node.item))
                 return i;
-
-        /*
-
-        if (item != null) {
-            for (int i = 0; node != null; node = node.next, ++i)
-                if (item.equals(node.item))
-                    return i;
-        }
-        else
-            for (int i = 0; node != null; node = node.next, ++i)
-                if (node.item == null)
-                    return i;
-
-         */
 
         return -1;
     }
@@ -219,8 +191,8 @@ public class DLinkedList<T> implements Iterable<T> {
 
     public void insertItem(int pos, T item)
     {
-        if (pos > m_size || pos < 0)
-            throw new IndexOutOfBoundsException("Index out bounds:" + pos);
+        if (pos < 0 || m_size < pos)
+            throw new IndexOutOfBoundsException("Index out of bounds:" + pos);
 
         if (m_head != null) {
             if (pos == 0)

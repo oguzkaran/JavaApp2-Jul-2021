@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------
     FILE        : SLinkedList.java
     AUTHOR      : JavaApp2-Jul-2021 group
-    LAST UPDATE : 29.11.2021
+    LAST UPDATE : 01.12.2021
 
     SLinkedList class that is the implementation of singly linked list
 
@@ -11,6 +11,7 @@
 package org.csystem.collection;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -160,7 +161,27 @@ public class SLinkedList<T> implements Iterable<T> {
 
     public void insertItem(int pos, T item)
     {
-        throw new UnsupportedOperationException("insertItem");
+        if (pos < 0 || m_size < pos)
+            throw new IndexOutOfBoundsException("Index out of bounds:" + pos);
+
+        if (m_head != null) {
+            if (pos != 0) {
+                var node = m_head;
+
+                for (int i = 1; i <= pos - 1; ++i, node = node.next)
+                    ;
+                var newNode = new Node<T>(item);
+
+                newNode.next = node.next;
+                node.next = newNode;
+                ++m_size;
+            }
+            else
+                addItemHead(item);
+        }
+        else
+            addItemTail(item);
+
     }
 
     public boolean isEmpty()
@@ -171,7 +192,26 @@ public class SLinkedList<T> implements Iterable<T> {
     @Override
     public Iterator<T> iterator()
     {
-        throw new UnsupportedOperationException("iterator");
+        return new Iterator<>() {
+            Node<T> node;
+
+            @Override
+            public boolean hasNext()
+            {
+                node = node == null ? m_head : node.next;
+
+                return node != null;
+            }
+
+            @Override
+            public T next()
+            {
+                if (node == null)
+                    throw new NoSuchElementException("No such element in list");
+
+                return node.item;
+            }
+        };
     }
 
     public int size()

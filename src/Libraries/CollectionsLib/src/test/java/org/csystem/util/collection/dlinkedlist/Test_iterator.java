@@ -67,8 +67,7 @@ public class Test_iterator {
     {
         var list = new DLinkedList<String>();
 
-        for (var str : m_list)
-            list.addItemTail(str);
+        m_list.forEach(list::addItemTail);
 
         saveActual(list);
 

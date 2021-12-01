@@ -30,8 +30,7 @@ public class Test_findLast {
     {
         m_testStack = new ArrayStack<>(m_list.size());
 
-        for (var s : m_list)
-            m_testStack.push(s);
+        m_list.forEach(m_testStack::push);
     }
 
     public Test_findLast(List<String> list)

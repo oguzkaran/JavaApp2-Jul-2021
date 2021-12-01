@@ -37,9 +37,8 @@ public class Test_size {
     @Test
     public void test_size()
     {
-        for (var s : m_list)
-            Assert.assertTrue(m_testArrayStack.push(s));
-
+        m_list.forEach(s -> Assert.assertTrue(m_testArrayStack.push(s)));
+        
         Assert.assertEquals(m_list.size(), m_testArrayStack.size());
     }
 }

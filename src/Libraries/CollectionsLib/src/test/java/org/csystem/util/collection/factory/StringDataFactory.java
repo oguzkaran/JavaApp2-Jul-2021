@@ -1,7 +1,6 @@
 package org.csystem.util.collection.factory;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,9 +8,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class StringDataFactory {
+public final class StringDataFactory {
+    private StringDataFactory()
+    {}
+
     public static Collection<List<String>> getData()
     {
         try (var br = Files.newBufferedReader(Path.of("testdata/stringdata.txt"), StandardCharsets.UTF_8)) {
@@ -31,6 +32,7 @@ public class StringDataFactory {
         }
         return null;
     }
+
     public static Collection<List<String>> getDataWithEmptyList()
     {
         var coll = getData();

@@ -23,7 +23,7 @@ public class Test_push_pop {
     private static final String ms_expectedBase = "arraystack_push_expected";
     private static final String ms_actualBase = "arraystack_push_actual";
     private final List<String> m_list;
-    private ArrayStack<String> m_testArrayStack;
+    private ArrayStack<String> m_testStack;
 
     private void saveExpected()
     {
@@ -44,7 +44,7 @@ public class Test_push_pop {
         try (var bw = Files.newBufferedWriter(Path.of(ms_actualBase + "-" + ms_count + ".txt"))) {
             Optional<String> optStr;
 
-            while ((optStr = m_testArrayStack.pop()).isPresent())
+            while ((optStr = m_testStack.pop()).isPresent())
                 bw.write(optStr.get() + "\r\n");
 
             bw.flush();
@@ -63,7 +63,7 @@ public class Test_push_pop {
     @Before
     public void setUp()
     {
-        m_testArrayStack = new ArrayStack<>(m_list.size());
+        m_testStack = new ArrayStack<>(m_list.size());
     }
 
     public Test_push_pop(List<String> list)
@@ -74,8 +74,7 @@ public class Test_push_pop {
     @Test
     public void test_push_pop() throws IOException
     {
-        for (var s : m_list)
-            m_testArrayStack.push(s);
+        m_list.forEach(m_testStack::push);
 
         ++ms_count;
         saveActual();
