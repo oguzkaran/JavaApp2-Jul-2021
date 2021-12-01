@@ -1,6 +1,6 @@
-package org.csystem.util.collection.circularqueue;
+package org.csystem.util.collection.deque;
 
-import org.csystem.collection.CircularQueue;
+import org.csystem.collection.Deque;
 import org.csystem.util.collection.factory.StringDataFactory;
 import org.csystem.util.io.file.FileUtil;
 import org.junit.Assert;
@@ -13,15 +13,16 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @RunWith(Parameterized.class)
-public class Test_putItem {
+public class Test_addItemFirst {
     private static int ms_count;
-    private static final String ms_expectedBase = "circularqueue_put_item_expected";
-    private static final String ms_actualBase = "circularqueue_put_item_actual";
+    private static final String ms_expectedBase = "deque_add_item_first_expected";
+    private static final String ms_actualBase = "deque_add_item_first_actual";
     private final List<String> m_list;
-    private CircularQueue<String> m_testQueue;
+    private Deque<String> m_testDeque;
 
     private void saveExpected()
     {
@@ -39,7 +40,7 @@ public class Test_putItem {
     private void saveActual()
     {
         try (var bw = Files.newBufferedWriter(Path.of(ms_actualBase + "-" + ms_count + ".txt"))) {
-            m_testQueue.walk(str -> {
+            m_testDeque.walk(str -> {
                 try {
                     bw.write(str + "\r\n");
                     bw.flush();
@@ -62,24 +63,24 @@ public class Test_putItem {
     @Before
     public void setUp()
     {
-        m_testQueue = new CircularQueue<>();
+        m_testDeque = new Deque<>();
     }
 
-    public Test_putItem(List<String> list)
+    public Test_addItemFirst(List<String> list)
     {
         m_list = list;
     }
 
     @Test
-    public void test_putItem() throws IOException
+    public void test_addItemFirst() throws IOException
     {
-        m_list.forEach(m_testQueue::putItem);
+        m_list.forEach(m_testDeque::addItemFirst);
+        Collections.reverse(m_list);
 
         ++ms_count;
         saveActual();
         saveExpected();
 
         Assert.assertTrue(FileUtil.areSame(ms_expectedBase + "-" + ms_count + ".txt", ms_actualBase + "-" + ms_count + ".txt"));
-
     }
 }

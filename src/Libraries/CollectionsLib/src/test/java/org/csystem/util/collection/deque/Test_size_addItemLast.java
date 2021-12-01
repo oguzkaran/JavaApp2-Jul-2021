@@ -1,6 +1,6 @@
-package org.csystem.util.collection.circularqueue;
+package org.csystem.util.collection.deque;
 
-import org.csystem.collection.CircularQueue;
+import org.csystem.collection.Deque;
 import org.csystem.util.collection.factory.StringDataFactory;
 import org.junit.Assert;
 import org.junit.Before;
@@ -13,9 +13,9 @@ import java.util.Collection;
 import java.util.List;
 
 @RunWith(Parameterized.class)
-public class Test_size {
+public class Test_size_addItemLast {
     private final List<String> m_list;
-    private CircularQueue<String> m_testQueue;
+    private Deque<String> m_testDeque;
 
     @Parameterized.Parameters
     public static Collection<List<String>> createData()
@@ -26,19 +26,19 @@ public class Test_size {
     @Before
     public void setUp()
     {
-        m_testQueue = new CircularQueue<>();
+        m_testDeque = new Deque<>();
     }
 
-    public Test_size(List<String> list)
+    public Test_size_addItemLast(List<String> list)
     {
         m_list = list;
     }
 
     @Test
-    public void test_size() throws IOException
+    public void test_size()
     {
-        m_list.forEach(s -> m_testQueue.putItem(s));
+        m_list.forEach(m_testDeque::addItemLast);
 
-        Assert.assertEquals(m_list.size(), m_testQueue.size());
+        Assert.assertEquals(m_list.size(), m_testDeque.size());
     }
 }
