@@ -1,7 +1,6 @@
 ali
 veli
-ayşe
-fatma
-veli
+ali
 selami
-ayşe
+veli
+ali

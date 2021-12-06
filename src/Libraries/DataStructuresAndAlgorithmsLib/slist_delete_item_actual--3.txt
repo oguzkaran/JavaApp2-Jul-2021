@@ -1,6 +1,6 @@
 ali
 veli
+ayşe
 selami
-ali
-selami
-ali
+ayşe
+veli
