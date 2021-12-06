@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------
     FILE        : Deque.java
     AUTHOR      : JavaApp2-Jul-2021 group
-    LAST UPDATE : 01.12.2021
+    LAST UPDATE : 06.12.2021
 
     Deque class that is the implementation of double ended queue
 
@@ -13,6 +13,7 @@ package org.csystem.collection;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.stream.IntStream;
 
 public class Deque<T> {
     private static final int DEFAULT_CAPACITY = 10;
@@ -45,7 +46,7 @@ public class Deque<T> {
     public Deque(int initialCapacity)
     {
         if (initialCapacity < 0)
-            throw new IllegalArgumentException("initialCapacity can be negativ:" + initialCapacity);
+            throw new IllegalArgumentException("initialCapacity can be negative:" + initialCapacity);
 
         m_items = (T[])new Object[initialCapacity];
         m_head = m_tail = m_items.length / 2;
@@ -74,7 +75,23 @@ public class Deque<T> {
 
     public void clear()
     {
-        throw new UnsupportedOperationException("TODO:");
+        IntStream.range(m_head, m_tail).forEach(i -> m_items[i] = null);
+        m_head = m_tail = m_items.length / 2;
+    }
+
+    public void deleteItem(int index)
+    {
+        throw new UnsupportedOperationException("deleteItem");
+    }
+
+    public void deleteItemFirst()
+    {
+        throw new UnsupportedOperationException("deleteItemFirst");
+    }
+
+    public void deleteItemLast()
+    {
+        throw new UnsupportedOperationException("deleteItemLast");
     }
 
     public T get(int index)
@@ -87,12 +104,17 @@ public class Deque<T> {
 
     public Optional<T> getItemFirst()
     {
-        throw new UnsupportedOperationException("TODO:");
+        return size() == 0 ? Optional.empty() : Optional.of(m_items[m_head]);
     }
 
     public Optional<T> getItemLast()
     {
-        throw new UnsupportedOperationException("TODO:");
+        return size() == 0 ? Optional.empty() : Optional.of(m_items[m_tail - 1]);
+    }
+
+    public boolean isEmpty()
+    {
+        return size() == 0;
     }
 
     public int size()

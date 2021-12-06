@@ -28,8 +28,7 @@ public class Test_clear_Debug {
     {
         m_testList = new DLinkedList<>();
 
-        for (var str : m_list)
-            m_testList.addItemTail(str);
+        m_list.forEach(m_testList::addItemTail);
     }
 
     public Test_clear_Debug(List<String> list)

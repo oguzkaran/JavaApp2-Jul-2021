@@ -1,4 +1,5 @@
 ali
+ali,veli,selami
 ali,veli,selami,ayşe,selami,ayşe,veli
 ali,veli,selami,ali,selami,veli,ali
 ali,veli,selami,ayşe,fatma,veli,selami,ayşe

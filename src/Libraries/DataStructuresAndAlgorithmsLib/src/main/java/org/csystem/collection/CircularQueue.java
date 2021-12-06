@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------
     FILE        : CircularQueue.java
     AUTHOR      : JavaApp2-Jul-2021 group
-    LAST UPDATE : 22.11.2021
+    LAST UPDATE : 06.12.2021
 
     CircularQueue class that is the implementation of circular queue (FIFO)
 
@@ -26,7 +26,6 @@ public class CircularQueue<T> {
     @SuppressWarnings("unchecked")
     public CircularQueue()
     {
-        //this(DEFAULT_COUNT);
         m_items = (T [])new Object[DEFAULT_COUNT];
     }
 
