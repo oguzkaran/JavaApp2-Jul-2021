@@ -19,15 +19,10 @@ public final class ArrayAlgorithm {
 
     public static <T> int binarySearch(T [] a, int offset, int length, T key, Comparator<? super T> comp)
     {
-        throw new UnsupportedOperationException();
-    }
-
-    public static <T> Optional<T> binarySearch(T [] a, T key, Comparator<? super T> comp)
-    {
-        int left = 0;
-        int right = a.length - 1;
+        int left = offset;
+        int right = length - 1;
         int mid;
-        Optional<T> result = Optional.empty();
+        int result = -1;
 
         while (left <= right) {
             mid = (left + right) / 2;
@@ -35,7 +30,7 @@ public final class ArrayAlgorithm {
             int compResult = comp.compare(a[mid], key);
 
             if (compResult == 0) {
-                result =  Optional.of(a[mid]);
+                result = mid;
                 break;
             }
 
@@ -48,27 +43,28 @@ public final class ArrayAlgorithm {
         return result;
     }
 
+    public static <T> Optional<T> binarySearch(T [] a, T key, Comparator<? super T> comp)
+    {
+        var idx = binarySearch(a, 0, a.length, key, comp);
+
+        return idx < 0 ? Optional.empty() : Optional.of(a[idx]);
+    }
+
     public static <T> Optional<T> exponentialSearch(T [] a, T key, Comparator<? super T> comp)
     {
-        int left, right;
-        int result;
+        int i, left;
 
-        right = a.length  - 1;
-        while (comp.compare(key, a[right]) < 0)
-            right /= 2;
+        if (comp.compare(key, a[0]) < 0)
+            return Optional.empty();
 
-        if (comp.compare(a[right], key) < 0)
-            right *= 2;
+        i = 1;
+        while (i < a.length && comp.compare(a[i], key) < 0)
+            i *= 2;
 
-        left = 1;
+        left = i / 2;
 
-        while (comp.compare(a[left], key) <= 0)
-            left *= 2;
+        var idx = binarySearch(a, left, i - left + 1, key, comp);
 
-        left /= 2;
-
-        int index = binarySearch(a, left, right - left + 1, key, comp);
-
-        return index < 0 ? Optional.empty() : Optional.of(a[left + index]);
+        return idx < 0 ? Optional.empty() : Optional.of(a[idx]);
     }
 }
