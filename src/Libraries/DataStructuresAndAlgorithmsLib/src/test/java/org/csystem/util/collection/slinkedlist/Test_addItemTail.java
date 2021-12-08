@@ -1,7 +1,7 @@
 package org.csystem.util.collection.slinkedlist;
 
 import org.csystem.collection.SLinkedList;
-import org.csystem.util.collection.factory.StringDataFactory;
+import org.csystem.factory.StringDataFactory;
 import org.csystem.util.io.file.FileUtil;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,9 +12,7 @@ import org.junit.runners.Parameterized;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @RunWith(Parameterized.class)

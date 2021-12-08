@@ -7,7 +7,7 @@
 package org.csystem.util.collection.dlinkedlist;
 
 import org.csystem.collection.DLinkedList;
-import org.csystem.util.collection.factory.StringDataFactory;
+import org.csystem.factory.StringDataFactory;
 import org.csystem.util.string.StringUtil;
 import org.junit.Assert;
 import org.junit.Before;

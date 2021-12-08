@@ -1,7 +1,7 @@
 package org.csystem.util.collection.deque;
 
 import org.csystem.collection.Deque;
-import org.csystem.util.collection.factory.StringDataFactory;
+import org.csystem.factory.StringDataFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
