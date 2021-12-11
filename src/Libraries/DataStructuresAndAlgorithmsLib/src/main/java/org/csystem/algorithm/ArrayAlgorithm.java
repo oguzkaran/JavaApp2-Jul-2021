@@ -10,6 +10,7 @@
 -----------------------------------------------------------------------*/
 package org.csystem.algorithm;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Optional;
 
@@ -25,7 +26,7 @@ public final class ArrayAlgorithm {
         int result = -1;
 
         while (left <= right) {
-            mid = (left + right) / 2;
+            mid = (left - offset + right) / 2;
 
             int compResult = comp.compare(a[mid], key);
 
