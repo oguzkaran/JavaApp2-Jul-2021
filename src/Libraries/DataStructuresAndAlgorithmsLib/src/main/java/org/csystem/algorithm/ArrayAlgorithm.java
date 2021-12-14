@@ -7,6 +7,10 @@
 
     Copyleft (c) 1993 by C and System Programmers Association (CSD)
     All Rights Free
+    [3, 5
+    2, 3
+    2, 3
+    ankara
 -----------------------------------------------------------------------*/
 package org.csystem.algorithm;
 
@@ -20,18 +24,18 @@ public final class ArrayAlgorithm {
 
     public static <T> int binarySearch(T [] a, int offset, int length, T key, Comparator<? super T> comp)
     {
-        int left = offset;
+        int left = 0;
         int right = length - 1;
         int mid;
         int result = -1;
 
         while (left <= right) {
-            mid = (left - offset + right) / 2;
+            mid = (left + right) / 2;
 
-            int compResult = comp.compare(a[mid], key);
+            int compResult = comp.compare(a[mid + offset], key);
 
             if (compResult == 0) {
-                result = mid;
+                result = mid + offset;
                 break;
             }
 
@@ -64,8 +68,9 @@ public final class ArrayAlgorithm {
 
         left = i / 2;
 
-        var idx = binarySearch(a, left, i - left + 1, key, comp);
+        //var idx = Arrays.binarySearch(a, left, i, key, comp); //binarySearch(a, left, i - left + 1, key, comp);
 
+        var idx =  binarySearch(a, left, i - left + 1, key, comp);
         return idx < 0 ? Optional.empty() : Optional.of(a[idx]);
     }
 }

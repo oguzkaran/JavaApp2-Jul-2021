@@ -30,7 +30,6 @@ public final class StringDataFactory {
                 var lineList = new ArrayList<String>(Arrays.asList(line.split("[ ,]+")));
                 list.add(lineList);
             }
-
         }
         catch (IOException ex) {
             System.err.println(ex.getMessage());
