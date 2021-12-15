@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------
     FILE        : ArrayStack.java
     AUTHOR      : JavaApp2-Jul-2021 group
-    LAST UPDATE : 22.11.2021
+    LAST UPDATE : 15.12.2021
 
     ArrayStack class that is the implementation of stack (LIFO)
 
@@ -10,6 +10,7 @@
 -----------------------------------------------------------------------*/
 package org.csystem.collection;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -32,7 +33,7 @@ public class ArrayStack<T> {
         if (count <= 0)
             throw new IllegalArgumentException("count must be positive:" + count);
 
-        m_items = (T [])new Object[count];
+        m_items = (T [])Array.newInstance(Object[].class.getComponentType(), count);
         m_index = m_items.length;
     }
 

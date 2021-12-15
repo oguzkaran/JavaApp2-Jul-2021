@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------
     FILE        : CircularQueue.java
     AUTHOR      : JavaApp2-Jul-2021 group
-    LAST UPDATE : 06.12.2021
+    LAST UPDATE : 15.12.2021
 
     CircularQueue class that is the implementation of circular queue (FIFO)
 
@@ -10,6 +10,7 @@
 -----------------------------------------------------------------------*/
 package org.csystem.collection;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -26,7 +27,7 @@ public class CircularQueue<T> {
     @SuppressWarnings("unchecked")
     public CircularQueue()
     {
-        m_items = (T [])new Object[DEFAULT_COUNT];
+        this(DEFAULT_COUNT);
     }
 
     @SuppressWarnings("unchecked")
@@ -35,7 +36,7 @@ public class CircularQueue<T> {
         if (count <= 0)
             throw new IllegalArgumentException("count must be positive:" + count);
 
-        m_items = (T [])new Object[count];
+        m_items = (T []) Array.newInstance(Object[].class.getComponentType(), count);
     }
 
     public void clear()

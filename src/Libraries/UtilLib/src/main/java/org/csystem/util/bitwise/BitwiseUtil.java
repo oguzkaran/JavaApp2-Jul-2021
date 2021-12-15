@@ -1,6 +1,13 @@
-/*----------------------------------------------------------------------------------------------------------------------
-    BitwiseUtil sınıfı
-----------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------
+	FILE        : BitwiseUtil.java
+	AUTHOR      : CSD Java group
+	LAST UPDATE : 15.12.2021
+
+	Utility class for bitwise operations (manipulations)
+
+	Copyleft (c) 1993 by C and System Programmers Association (CSD)
+	All Rights Free
+-----------------------------------------------------------------------*/
 package org.csystem.util.bitwise;
 
 public final class BitwiseUtil {

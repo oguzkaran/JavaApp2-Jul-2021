@@ -14,7 +14,6 @@
 -----------------------------------------------------------------------*/
 package org.csystem.algorithm;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Optional;
 
@@ -67,8 +66,6 @@ public final class ArrayAlgorithm {
             i *= 2;
 
         left = i / 2;
-
-        //var idx = Arrays.binarySearch(a, left, i, key, comp); //binarySearch(a, left, i - left + 1, key, comp);
 
         var idx =  binarySearch(a, left, i - left + 1, key, comp);
         return idx < 0 ? Optional.empty() : Optional.of(a[idx]);

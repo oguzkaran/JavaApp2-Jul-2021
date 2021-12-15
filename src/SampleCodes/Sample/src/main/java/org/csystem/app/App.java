@@ -11,15 +11,9 @@ import org.csystem.util.number.NumberUtil;
 class App {
     public static void main(String[] args)
     {
-        var startNano = System.nanoTime();
 
-        var result = NumberUtil.isPrime(6750161072220585911L);
-
-        var endNano = System.nanoTime();
-        var elapsed = (endNano - startNano) / 1_000_000_000.;
-
-        Console.writeLine(elapsed);
-        Console.writeLine(result);
     }
 }
+
+
 

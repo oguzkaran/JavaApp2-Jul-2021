@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------
     FILE        : Deque.java
     AUTHOR      : JavaApp2-Jul-2021 group
-    LAST UPDATE : 06.12.2021
+    LAST UPDATE : 15.12.2021
 
     Deque class that is the implementation of double ended queue
 
@@ -10,6 +10,7 @@
 -----------------------------------------------------------------------*/
 package org.csystem.collection;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -48,7 +49,7 @@ public class Deque<T> {
         if (initialCapacity < 0)
             throw new IllegalArgumentException("initialCapacity can be negative:" + initialCapacity);
 
-        m_items = (T[])new Object[initialCapacity];
+        m_items = (T[]) Array.newInstance(Object[].class.getComponentType(), initialCapacity);
         m_head = m_tail = m_items.length / 2;
     }
 
