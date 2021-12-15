@@ -6,6 +6,30 @@ public final class CodingChallenge {
     private CodingChallenge()
     {}
 
+    public static boolean areCurlyBracesMatch(String s)
+    {
+        var stack = new Stack<Character>();
+
+        int len = s.length();
+
+        for (int i = 0; i < len; ++i) {
+            switch (s.charAt(i)) {
+                case '{':
+                    stack.push('{');
+                    break;
+                case '}':
+                    if (stack.isEmpty())
+                        return false;
+                    stack.pop();
+                    break;
+                default:
+                    return false;
+            }
+        }
+
+        return stack.empty();
+    }
+
     public static String reverseWithStack(String s)
     {
         var stack = new Stack<Character>();
