@@ -1,4 +1,4 @@
-package org.csystem.coding.challenge.collection.stackarray;
+package org.csystem.coding.challenge.collection.stackofstacks;
 
 import org.csystem.coding.challenge.collection.StackOfStacks;
 import org.csystem.factory.StringDataFactory;
