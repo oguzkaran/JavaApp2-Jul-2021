@@ -7,6 +7,27 @@ public final class ThreadUtil {
     {
     }
 
+    public static void join(Thread thread)
+    {
+        try {
+            thread.join();
+        }
+        catch (InterruptedException ignore) {
+
+        }
+    }
+
+    public static void join(Thread thread, long milliseconds)
+    {
+        try {
+            thread.join(milliseconds);
+        }
+        catch (InterruptedException ignore) {
+
+        }
+    }
+
+
     public static void sleep(long milliseconds)
     {
         try {
