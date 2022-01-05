@@ -1,4 +1,4 @@
-package org.csystem.app;
+package org.csystem.app.sensor;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
