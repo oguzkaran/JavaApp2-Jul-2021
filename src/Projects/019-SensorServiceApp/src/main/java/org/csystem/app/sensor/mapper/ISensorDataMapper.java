@@ -1,6 +1,5 @@
 package org.csystem.app.sensor.mapper;
 
-import org.csystem.app.sensor.data.entity.Sensor;
 import org.csystem.app.sensor.data.entity.SensorData;
 import org.csystem.app.sensor.dto.SensorDataDTO;
 import org.mapstruct.Mapper;
