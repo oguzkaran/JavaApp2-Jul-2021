@@ -12,7 +12,7 @@ public class Sensor {
     @Column(name = "sensor_id")
     public int id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false /*,unique = true*/)
     public String name;
 
     @Column(name = "register_date", nullable = false)
@@ -20,6 +20,9 @@ public class Sensor {
 
     @Column(name = "active", nullable = false)
     public boolean active;
+
+    @Column(length = 1024)
+    public String description;
 
     @OneToMany(mappedBy = "sensor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public Set<SensorData> sensorData;

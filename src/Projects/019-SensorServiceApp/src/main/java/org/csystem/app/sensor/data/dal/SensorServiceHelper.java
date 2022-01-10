@@ -9,7 +9,6 @@ import java.util.Optional;
 
 import static org.csystem.util.data.DatabaseUtil.doWorkForRepository;
 
-
 @Component
 public class SensorServiceHelper {
     private final ISensorRepository m_sensorRepository;
