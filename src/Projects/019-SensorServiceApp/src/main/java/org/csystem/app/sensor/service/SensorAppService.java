@@ -1,10 +1,10 @@
 package org.csystem.app.sensor.service;
 
 import org.csystem.app.sensor.data.dal.SensorServiceHelper;
-import org.csystem.app.sensor.data.entity.Sensor;
 import org.csystem.app.sensor.dto.SensorDTO;
 import org.csystem.app.sensor.mapper.ISensorDataMapper;
 import org.csystem.app.sensor.mapper.ISensorMapper;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static org.csystem.util.data.DatabaseUtil.*;
+import static org.csystem.util.data.DatabaseUtil.doWorkForService;
 
 @Service
 public class SensorAppService {
@@ -24,6 +24,11 @@ public class SensorAppService {
     private static <T, R> List<R> mapToList(Iterable<T> iterable, Function<? super T, R> func, boolean parallel) //Şimdilik Kütüphanede olduğunu varsayınız
     {
         return StreamSupport.stream(iterable.spliterator(), parallel).map(func).collect(Collectors.toList());
+    }
+
+    private List<SensorDTO> findAllSensorsCallback()
+    {
+        return mapToList(m_sensorServiceHelper.findAllSensors(), m_sensorMapper::toSensorDTO, true);
     }
 
     private Optional<SensorDTO> findSensorByNameCallback(String name)
@@ -55,6 +60,10 @@ public class SensorAppService {
         return doWorkForService(() -> findSensorByNameContainsCallback(text), "SensorAppService.findSensorByName");
     }
 
+    public List<SensorDTO> findAllSensors()
+    {
+        return doWorkForService(this::findAllSensorsCallback, "SensorAppService.findSensorByName");
+    }
 
 
     //...

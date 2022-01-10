@@ -1,12 +1,11 @@
 package org.csystem.app.sensor.controller;
 
-
 import org.csystem.app.sensor.dto.SensorDTO;
 import org.csystem.app.sensor.dto.SensorInfoNotFoundDTO;
 import org.csystem.app.sensor.service.SensorAppService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -21,7 +20,13 @@ public class SensorController {
         m_sensorAppService = sensorAppService;
     }
 
-    @GetMapping("/sensor/name")
+    @GetMapping("sensor/all")
+    public List<SensorDTO> findAllSensors()
+    {
+        return m_sensorAppService.findAllSensors();
+    }
+
+    @GetMapping("sensor/name")
     public Object findSensorByName(String name)
     {
         var so = m_sensorAppService.findSensorByName(name);
@@ -29,7 +34,7 @@ public class SensorController {
         return so.isPresent() ? so : new SensorInfoNotFoundDTO(name, "Sensor not found");
     }
 
-    @GetMapping("/sensor/contains")
+    @GetMapping("sensor/contains")
     public Iterable<SensorDTO> findSensorsByNameContains(String text)
     {
         return m_sensorAppService.findSensorByNameContains(text);
