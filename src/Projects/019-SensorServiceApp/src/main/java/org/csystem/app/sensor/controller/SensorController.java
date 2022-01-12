@@ -2,8 +2,8 @@ package org.csystem.app.sensor.controller;
 
 import org.csystem.app.sensor.dto.SensorDTO;
 import org.csystem.app.sensor.dto.SensorInfoNotFoundDTO;
+import org.csystem.app.sensor.dto.SensorsDTO;
 import org.csystem.app.sensor.service.SensorAppService;
-import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,5 +38,11 @@ public class SensorController {
     public Iterable<SensorDTO> findSensorsByNameContains(String text)
     {
         return m_sensorAppService.findSensorByNameContains(text);
+    }
+
+    @GetMapping("sensor/detail/contains")
+    public SensorsDTO findSensorsByNameContainsDetail(String text)
+    {
+        return m_sensorAppService.findSensorByNameContainsDetail(text);
     }
 }

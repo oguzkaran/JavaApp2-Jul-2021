@@ -1,5 +1,7 @@
 package org.csystem.app.sensor.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 

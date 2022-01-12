@@ -3,7 +3,6 @@ package org.csystem.app.sensor.data.dal;
 import org.csystem.app.sensor.data.entity.Sensor;
 import org.csystem.app.sensor.data.repository.ISensorDataRepository;
 import org.csystem.app.sensor.data.repository.ISensorRepository;
-import org.csystem.util.console.Console;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -24,7 +23,6 @@ public class SensorServiceHelper {
 
     public Iterable<Sensor> findAllSensors() //İleride asenkron yapılacak
     {
-        Console.writeLine("SensorServiceHelper.findAllSensors");
         return doWorkForRepository(m_sensorRepository::findAll, "SensorServiceHelper.findAllSensors");
     }
 

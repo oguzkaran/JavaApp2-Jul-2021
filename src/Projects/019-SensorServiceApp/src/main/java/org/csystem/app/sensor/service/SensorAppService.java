@@ -2,6 +2,7 @@ package org.csystem.app.sensor.service;
 
 import org.csystem.app.sensor.data.dal.SensorServiceHelper;
 import org.csystem.app.sensor.dto.SensorDTO;
+import org.csystem.app.sensor.dto.SensorsDTO;
 import org.csystem.app.sensor.mapper.ISensorDataMapper;
 import org.csystem.app.sensor.mapper.ISensorMapper;
 import org.springframework.context.annotation.Profile;
@@ -43,6 +44,11 @@ public class SensorAppService {
         return mapToList(m_sensorServiceHelper.findSensorByNameContains(text), m_sensorMapper::toSensorDTO, false);
     }
 
+    private SensorsDTO findSensorByNameContainsCallbackDetail(String text)
+    {
+        return m_sensorMapper.toSensorsDTO(mapToList(m_sensorServiceHelper.findSensorByNameContains(text), m_sensorMapper::toSensorDTO, false));
+    }
+
     public SensorAppService(SensorServiceHelper sensorServiceHelper, ISensorMapper sensorMapper, ISensorDataMapper sensorDataMapper)
     {
         m_sensorServiceHelper = sensorServiceHelper;
@@ -58,6 +64,12 @@ public class SensorAppService {
     public Iterable<SensorDTO> findSensorByNameContains(String text)
     {
         return doWorkForService(() -> findSensorByNameContainsCallback(text), "SensorAppService.findSensorByName");
+    }
+
+    public SensorsDTO findSensorByNameContainsDetail(String text)
+    {
+        return doWorkForService(() -> findSensorByNameContainsCallbackDetail(text),
+                "SensorAppService.findSensorByNameContainsDetail");
     }
 
     public List<SensorDTO> findAllSensors()
