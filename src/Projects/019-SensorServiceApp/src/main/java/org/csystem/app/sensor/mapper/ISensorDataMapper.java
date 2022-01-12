@@ -17,7 +17,5 @@ public interface ISensorDataMapper {
     @Mapping(target = "readDateTime", source = "dataDateTime", dateFormat = "dd/MM/yyyy hh:mm:ss")
     SensorData toSensorData(SensorDataDTO sensorDataDTO);
 
-    @Mapping(target = "value", source = "data")
-    @Mapping(target = "readDateTime", source = "dataDateTime", dateFormat = "dd/MM/yyyy hh:mm:ss")
     Set<SensorDataDTO> toSensorDataDTOs(Set<SensorData> sensorData);
 }

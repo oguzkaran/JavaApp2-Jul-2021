@@ -5,12 +5,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 public class SensorDTO {
     private String m_name;
     private LocalDate m_registerDate;
     private boolean m_active;
-    private List<SensorDataDTO> m_data;
+    private Set<SensorDataDTO> m_data;
 
     public String getName()
     {
@@ -44,13 +45,13 @@ public class SensorDTO {
         m_active = active;
     }
 
-    public List<SensorDataDTO> getData()
+    public Set<SensorDataDTO> getData()
     {
         return m_data;
     }
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    public void setData(List<SensorDataDTO> data)
+    public void setData(Set<SensorDataDTO> data)
     {
         m_data = data;
     }

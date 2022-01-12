@@ -19,13 +19,9 @@ public class SensorData {
     @Column(name = "read_date_time", nullable = false)
     public LocalDateTime readDateTime;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sensor_id", nullable = false)
     //@JsonIgnore
     public Sensor sensor;
-
-    public int getSensorId() {return sensor.id;}
-
     //...
 }

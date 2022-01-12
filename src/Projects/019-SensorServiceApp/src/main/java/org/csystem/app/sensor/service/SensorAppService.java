@@ -1,6 +1,7 @@
 package org.csystem.app.sensor.service;
 
 import org.csystem.app.sensor.data.dal.SensorServiceHelper;
+import org.csystem.app.sensor.data.entity.Sensor;
 import org.csystem.app.sensor.dto.SensorDTO;
 import org.csystem.app.sensor.dto.SensorsDTO;
 import org.csystem.app.sensor.mapper.ISensorDataMapper;
@@ -44,9 +45,20 @@ public class SensorAppService {
         return mapToList(m_sensorServiceHelper.findSensorByNameContains(text), m_sensorMapper::toSensorDTO, false);
     }
 
+    private SensorDTO findSensorByNameContainsDetailMapCallback(Sensor sensor)
+    {
+        var dto = m_sensorMapper.toSensorDTO(sensor);
+
+        dto.setData(m_sensorDataMapper.toSensorDataDTOs(sensor.sensorData));
+
+        return dto;
+    }
+
     private SensorsDTO findSensorByNameContainsCallbackDetail(String text)
     {
-        return m_sensorMapper.toSensorsDTO(mapToList(m_sensorServiceHelper.findSensorByNameContains(text), m_sensorMapper::toSensorDTO, false));
+        return m_sensorMapper.toSensorsDTO(StreamSupport.stream(m_sensorServiceHelper.findSensorByNameContains(text).spliterator(), false)
+                .map(this::findSensorByNameContainsDetailMapCallback)
+                .collect(Collectors.toList()));
     }
 
     public SensorAppService(SensorServiceHelper sensorServiceHelper, ISensorMapper sensorMapper, ISensorDataMapper sensorDataMapper)

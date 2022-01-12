@@ -3,13 +3,14 @@ package org.csystem.app.sensor.data.dal;
 import org.csystem.app.sensor.data.entity.Sensor;
 import org.csystem.app.sensor.data.repository.ISensorDataRepository;
 import org.csystem.app.sensor.data.repository.ISensorRepository;
+import org.hibernate.annotations.SQLInsert;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 import static org.csystem.util.data.DatabaseUtil.doWorkForRepository;
 
-@Component()
+@Component
 public class SensorServiceHelper {
     private final ISensorRepository m_sensorRepository;
     private final ISensorDataRepository m_sensorDataRepository;
