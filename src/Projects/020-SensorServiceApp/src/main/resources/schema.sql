@@ -1,5 +1,5 @@
-drop table member_roles;
-drop table members;
+drop table if exists member_roles;
+drop table if exists members;
 
 create table members (
     member_id serial primary key,
