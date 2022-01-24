@@ -4,10 +4,13 @@ import org.csystem.app.sensor.dto.SensorDTO;
 import org.csystem.app.sensor.dto.SensorInfoNotFoundDTO;
 import org.csystem.app.sensor.dto.SensorsDTO;
 import org.csystem.app.sensor.service.SensorAppService;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @RestController
@@ -21,12 +24,14 @@ public class SensorController {
     }
 
     @GetMapping("sensor/all")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_SYSTEM')")
     public List<SensorDTO> findAllSensors()
     {
         return m_sensorAppService.findAllSensors();
     }
 
     @GetMapping("sensor/name")
+    @PreAuthorize("hasAuthority('ROLE_SYSTEM')")
     public Object findSensorByName(String name)
     {
         var so = m_sensorAppService.findSensorByName(name);
@@ -35,12 +40,14 @@ public class SensorController {
     }
 
     @GetMapping("sensor/contains")
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     public Iterable<SensorDTO> findSensorsByNameContains(String text)
     {
         return m_sensorAppService.findSensorByNameContains(text);
     }
 
     @GetMapping("sensor/detail/contains")
+    @Secured({"ROLE_SYSTEM", "ROLE_ADMIN"})
     public SensorsDTO findSensorsByNameContainsDetail(String text)
     {
         return m_sensorAppService.findSensorByNameContainsDetail(text);
