@@ -43,6 +43,10 @@ public class SystemAdminAppSecurityDevConfig extends WebSecurityConfigurerAdapte
         http.httpBasic().and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/members/*").hasRole("SYS_ADMIN")
-                .and().formLogin().disable();
+                .and()
+                .csrf()
+                .disable()
+                .formLogin()
+                .disable();
     }
 }
