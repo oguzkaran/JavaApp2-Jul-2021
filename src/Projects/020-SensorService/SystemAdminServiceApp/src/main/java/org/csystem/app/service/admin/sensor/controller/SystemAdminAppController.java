@@ -2,8 +2,12 @@ package org.csystem.app.service.admin.sensor.controller;
 
 import org.csystem.app.service.admin.sensor.dto.MemberSaveDTO;
 import org.csystem.app.service.admin.sensor.service.SystemAdminAppService;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.security.RolesAllowed;
 
 @RestController
 @RequestMapping("api/members")
@@ -16,7 +20,7 @@ public class SystemAdminAppController {
     }
 
     @PostMapping("member/save")
-    @Secured("ROLE_SYS_ADMIN")
+    @RolesAllowed("SYS_ADMIN")
     public MemberSaveDTO saveMember(@RequestBody MemberSaveDTO memberSaveDTO)
     {
         return m_systemAdminAppService.saveMember(memberSaveDTO);

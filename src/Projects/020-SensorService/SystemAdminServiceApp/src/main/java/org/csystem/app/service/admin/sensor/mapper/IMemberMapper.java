@@ -7,4 +7,5 @@ import org.mapstruct.Mapper;
 @Mapper(implementationName = "MemberMapperImpl", componentModel = "spring")
 public interface IMemberMapper {
     Member toMember(MemberSaveDTO memberSaveDTO);
+    MemberSaveDTO toMemberSaveDTO(Member member);
 }

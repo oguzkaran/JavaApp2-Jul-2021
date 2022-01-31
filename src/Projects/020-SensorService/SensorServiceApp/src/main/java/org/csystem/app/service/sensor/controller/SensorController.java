@@ -24,14 +24,15 @@ public class SensorController {
     }
 
     @GetMapping("sensor/all")
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_SYSTEM')")
+    //@PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_SYSTEM')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_SYSTEM')")
     public List<SensorDTO> findAllSensors()
     {
         return m_sensorAppService.findAllSensors();
     }
 
     @GetMapping("sensor/name")
-    @PreAuthorize("hasAuthority('ROLE_SYSTEM')")
+    @PreAuthorize("hasRole('ADMIN')")
     public Object findSensorByName(String name)
     {
         var so = m_sensorAppService.findSensorByName(name);
@@ -40,14 +41,14 @@ public class SensorController {
     }
 
     @GetMapping("sensor/contains")
-    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
+    //@RolesAllowed({"ADMIN", "USER"})
     public Iterable<SensorDTO> findSensorsByNameContains(String text)
     {
         return m_sensorAppService.findSensorByNameContains(text);
     }
 
     @GetMapping("sensor/detail/contains")
-    @Secured({"ROLE_SYSTEM", "ROLE_ADMIN"})
+    @Secured({"ROLE_SYSTEM", "ROLE_VIEWER"})
     public SensorsDTO findSensorsByNameContainsDetail(String text)
     {
         return m_sensorAppService.findSensorByNameContainsDetail(text);

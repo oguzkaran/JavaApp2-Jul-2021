@@ -12,4 +12,4 @@ create table if not exists member_roles (
 );
 
 
--- ROLE_SYSADMIN, ROLE_ADMIN, ROLE_USER, ROLE_VIEWER
+-- ROLE_SYS_ADMIN, ROLE_ADMIN, ROLE_SYSTEM, ROLE_USER, ROLE_VIEWER
