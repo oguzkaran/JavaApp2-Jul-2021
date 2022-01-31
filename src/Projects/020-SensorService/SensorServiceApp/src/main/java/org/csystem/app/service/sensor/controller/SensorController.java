@@ -1,5 +1,6 @@
 package org.csystem.app.service.sensor.controller;
 
+import org.csystem.app.service.sensor.configuration.security.PreAdminOrSystem;
 import org.csystem.app.service.sensor.dto.SensorDTO;
 import org.csystem.app.service.sensor.dto.SensorInfoNotFoundDTO;
 import org.csystem.app.service.sensor.dto.SensorsDTO;
@@ -24,8 +25,7 @@ public class SensorController {
     }
 
     @GetMapping("sensor/all")
-    //@PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_SYSTEM')")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_SYSTEM')")
+    @PreAdminOrSystem
     public List<SensorDTO> findAllSensors()
     {
         return m_sensorAppService.findAllSensors();
@@ -41,7 +41,7 @@ public class SensorController {
     }
 
     @GetMapping("sensor/contains")
-    //@RolesAllowed({"ADMIN", "USER"})
+    @RolesAllowed({"ADMIN", "USER"})
     public Iterable<SensorDTO> findSensorsByNameContains(String text)
     {
         return m_sensorAppService.findSensorByNameContains(text);

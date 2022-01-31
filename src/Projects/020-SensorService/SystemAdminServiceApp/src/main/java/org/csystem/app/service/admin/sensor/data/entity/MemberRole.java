@@ -16,5 +16,4 @@ public class MemberRole {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     public Member member;
-
 }

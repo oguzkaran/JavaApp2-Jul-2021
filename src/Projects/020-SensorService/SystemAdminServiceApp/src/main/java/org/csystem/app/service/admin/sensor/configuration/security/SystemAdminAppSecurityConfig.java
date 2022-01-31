@@ -2,7 +2,6 @@ package org.csystem.app.service.admin.sensor.configuration.security;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,8 +11,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
-@Profile("dev")
-public class SystemAdminAppSecurityDevConfig extends WebSecurityConfigurerAdapter {
+public class SystemAdminAppSecurityConfig extends WebSecurityConfigurerAdapter {
     private final DataSource m_dataSource;
 
     @Value("${app.security.member_query}")
@@ -22,7 +20,7 @@ public class SystemAdminAppSecurityDevConfig extends WebSecurityConfigurerAdapte
     @Value("${app.security.role_query}")
     private String m_roleQuery;
 
-    public SystemAdminAppSecurityDevConfig(DataSource dataSource)
+    public SystemAdminAppSecurityConfig(DataSource dataSource)
     {
         m_dataSource = dataSource;
     }

@@ -1,4 +1,4 @@
-package org.csystem.app.service.sensor.configuration;
+package org.csystem.app.service.sensor.configuration.security;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
