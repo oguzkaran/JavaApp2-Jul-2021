@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import static org.csystem.util.collection.CollectionUtil.toList;
 import static org.csystem.util.data.DatabaseUtil.doWorkForService;
 
 @Service
@@ -22,14 +22,9 @@ public class SensorAppService {
     private final ISensorMapper m_sensorMapper;
     private final ISensorDataMapper m_sensorDataMapper;
 
-    private static <T, R> List<R> mapToList(Iterable<T> iterable, Function<? super T, R> func, boolean parallel) //Şimdilik Kütüphanede olduğunu varsayınız
-    {
-        return StreamSupport.stream(iterable.spliterator(), parallel).map(func).collect(Collectors.toList());
-    }
-
     private List<SensorDTO> findAllSensorsCallback()
     {
-        return mapToList(m_sensorServiceHelper.findAllSensors(), m_sensorMapper::toSensorDTO, true);
+        return toList(m_sensorServiceHelper.findAllSensors(), m_sensorMapper::toSensorDTO, true);
     }
 
     private Optional<SensorDTO> findSensorByNameCallback(String name)
@@ -41,7 +36,7 @@ public class SensorAppService {
 
     private List<SensorDTO> findSensorByNameContainsCallback(String text)
     {
-        return mapToList(m_sensorServiceHelper.findSensorByNameContains(text), m_sensorMapper::toSensorDTO, false);
+        return toList(m_sensorServiceHelper.findSensorByNameContains(text), m_sensorMapper::toSensorDTO, false);
     }
 
     private SensorDTO findSensorByNameContainsDetailMapCallback(Sensor sensor)
