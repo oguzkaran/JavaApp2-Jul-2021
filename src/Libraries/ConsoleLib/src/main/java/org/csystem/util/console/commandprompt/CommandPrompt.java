@@ -1,30 +1,29 @@
 /*----------------------------------------------------------------------
 	FILE        : CommandPrompt.java
-	AUTHOR      : CSD Project Group
-	LAST UPDATE : 07.02.2022
+	AUTHOR      : Oğuz Karan
+	LAST UPDATE : 06.02.2022
 
-	CommandPrompt class which manages commands
+	Annotation based command prompt
 
 	Copyleft (c) 1993 by C and System Programmers Association (CSD)
 	All Rights Free
 -----------------------------------------------------------------------*/
-package org.csystem.util.commandprompt;
+package org.csystem.util.console.commandprompt;
+
+import org.csystem.util.console.Console;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Scanner;
 
-@Deprecated(since = "2.0.0", forRemoval = true)
 public class CommandPrompt {
-    private final Scanner m_kb = new Scanner(System.in);
     private Object m_regObject;
     private final ArrayList<MethodCallInfo> m_methodCallInfos = new ArrayList<>();
     private Method m_errorMethod;
     private String m_prompt = "csd";
-    private String m_promptSuffix = ">";
+    private String m_promptSuffix = "$";
     private String m_paramStringTypeErrorMessage = "Method parameters must be String";
     private String m_wrongNumberOfArgumentsMessage = "Wrong number of arguments";
     private String m_invalidCommandMessage = "Invalid Command";
@@ -34,7 +33,7 @@ public class CommandPrompt {
         Method method;
         int argCount;
 
-        public MethodCallInfo(String commandText, Method method, int argCount)
+        MethodCallInfo(String commandText, Method method, int argCount)
         {
             this.commandText = commandText;
             this.method = method;
@@ -42,9 +41,9 @@ public class CommandPrompt {
         }
     }
 
-    public static boolean areAllString(Parameter [] parameters)
+    private static boolean areAllString(Parameter [] parameters)
     {
-        for (Parameter parameter : parameters)
+        for (var parameter : parameters)
             if (parameter.getParameterizedType() != String.class)
                 return false;
 
@@ -53,11 +52,11 @@ public class CommandPrompt {
 
     private void registerCommands(Command [] commands, Method method)
     {
-        for (Command command : commands) {
+        for (var command : commands) {
             String value = command.value();
             String commandText = value.isBlank() ? method.getName() : value;
 
-            Parameter [] parameters = method.getParameters();
+            var parameters = method.getParameters();
 
             if (!areAllString(parameters))
                 throw new IllegalArgumentException(m_paramStringTypeErrorMessage);
@@ -66,12 +65,12 @@ public class CommandPrompt {
         }
     }
 
-    public void runCommands(String [] args, String [] params) throws InvocationTargetException, IllegalAccessException
+    private void runCommands(String [] args, String [] params) throws InvocationTargetException, IllegalAccessException
     {
         boolean flag = false;
         boolean argsFlag = false;
 
-        for (MethodCallInfo methodCallInfo : m_methodCallInfos) {
+        for (var methodCallInfo : m_methodCallInfos) {
             if (methodCallInfo.commandText.equals(args[0])) {
                 flag = true;
                 argsFlag = true;
@@ -79,24 +78,39 @@ public class CommandPrompt {
                     argsFlag = false;
                     continue;
                 }
+
                 methodCallInfo.method.setAccessible(true);
                 methodCallInfo.method.invoke(m_regObject, (Object[])params);
                 methodCallInfo.method.setAccessible(false);
                 break;
             }
         }
-        if (!flag) {
+        if (!flag)
             if (m_errorMethod != null) {
                 m_errorMethod.setAccessible(true);
                 m_errorMethod.invoke(m_regObject);
                 m_errorMethod.setAccessible(false);
             }
             else
-                System.err.println(m_invalidCommandMessage);
-        }
-        else if (!argsFlag) {
-            System.err.println(m_wrongNumberOfArgumentsMessage);
-        }
+                Console.Error.writeLine(m_invalidCommandMessage);
+        else if (!argsFlag)
+            Console.Error.writeLine(m_wrongNumberOfArgumentsMessage);
+    }
+
+
+    public Object getRegObject()
+    {
+        return m_regObject;
+    }
+
+    public ArrayList<MethodCallInfo> getMethodCallInfos()
+    {
+        return m_methodCallInfos;
+    }
+
+    public Method getErrorMethod()
+    {
+        return m_errorMethod;
     }
 
     public String getPrompt()
@@ -122,6 +136,20 @@ public class CommandPrompt {
     public String getInvalidCommandMessage()
     {
         return m_invalidCommandMessage;
+    }
+
+    public CommandPrompt setRegObject(Object regObject)
+    {
+        m_regObject = regObject;
+
+        return this;
+    }
+
+    public CommandPrompt setErrorMethod(Method errorMethod)
+    {
+        m_errorMethod = errorMethod;
+
+        return this;
     }
 
     public CommandPrompt setPrompt(String prompt)
@@ -162,11 +190,11 @@ public class CommandPrompt {
     public CommandPrompt register(Object regObject)
     {
         m_regObject = regObject;
-        Class<?> regObjectClass = m_regObject.getClass();
-        Method [] methods = regObjectClass.getDeclaredMethods();
+        var clsRegObject = m_regObject.getClass();
+        var methods = clsRegObject.getDeclaredMethods();
 
-        for (Method method : methods) {
-            Command[] commands = method.getAnnotationsByType(Command.class);
+        for (var method : methods) {
+            var commands = method.getDeclaredAnnotationsByType(Command.class);
 
             if (commands.length == 0) {
                 if (m_errorMethod == null && method.getDeclaredAnnotation(ErrorCommand.class) != null
@@ -174,6 +202,7 @@ public class CommandPrompt {
                     m_errorMethod = method;
                 continue;
             }
+
             registerCommands(commands, method);
         }
 
@@ -184,22 +213,19 @@ public class CommandPrompt {
     {
         try {
             for (;;) {
-                System.out.print(m_prompt + m_promptSuffix);
-                String cmd = m_kb.nextLine().strip();
+                var cmd = Console.read(m_prompt + m_promptSuffix).strip();
 
                 if (cmd.isEmpty())
                     continue;
 
-                String [] args = cmd.split("[ \t]+");
-                String [] params = Arrays.copyOfRange(args, 1, args.length);
-
+                var args = cmd.split("[ \t]+");
+                var params = Arrays.copyOfRange(args, 1, args.length);
                 runCommands(args, params);
             }
         }
         catch (Throwable ex) {
             ex.printStackTrace();
             throw new IllegalStateException(ex.getMessage(), ex);
-
         }
     }
 }
