@@ -12,4 +12,15 @@ create table if not exists member_roles (
 );
 
 
+create or replace function insert_member(varchar(50), varchar(100), boolean)
+returns void
+as $$
+begin
+    insert into members (username, password, enabled) values ($1, $2, $3);
+end
+$$ language plpgsql;
+
 -- ROLE_SYS_ADMIN, ROLE_ADMIN, ROLE_SYSTEM, ROLE_USER, ROLE_VIEWER
+
+
+
