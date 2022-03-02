@@ -4,12 +4,14 @@ import org.csystem.app.service.admin.sensor.data.entity.Member;
 import org.csystem.app.service.admin.sensor.data.entity.MemberRole;
 import org.csystem.app.service.admin.sensor.data.repository.IMemberRepository;
 import org.csystem.app.service.admin.sensor.data.repository.IMemberRoleRepository;
+import org.csystem.util.console.Console;
 import org.springframework.stereotype.Component;
 
 import java.lang.management.MemoryPoolMXBean;
 import java.util.Optional;
 
 import static org.csystem.util.data.DatabaseUtil.doWorkForRepository;
+import static org.csystem.util.data.DatabaseUtil.doWorkForRepositoryRunnable;
 
 @Component
 public class SystemAdminAppHelper {
@@ -21,6 +23,11 @@ public class SystemAdminAppHelper {
         m_memberRepository.insertMember(member.username, member.password, member.enabled);
 
         return member;
+    }
+
+    private void saveMemberRoleCallback(MemberRole memberRole)
+    {
+        m_memberRoleRepository.insertMemberRoleByMemberId(memberRole.member.id, memberRole.role);
     }
 
     public SystemAdminAppHelper(IMemberRepository memberRepository, IMemberRoleRepository memberRoleRepository)
@@ -39,9 +46,9 @@ public class SystemAdminAppHelper {
         return doWorkForRepository(() -> saveMemberCallback(member), "SystemAdminAppHelper.saveMember");
     }
 
-    public MemberRole saveMemberRole(MemberRole memberRole)
+    public void saveMemberRole(MemberRole memberRole)
     {
-        return doWorkForRepository(() -> m_memberRoleRepository.save(memberRole), "SystemAdminAppHelper.saveMemberRole");
+        doWorkForRepositoryRunnable(() -> saveMemberRoleCallback(memberRole), "SystemAdminAppHelper.saveMemberRole");
     }
     //...
 }

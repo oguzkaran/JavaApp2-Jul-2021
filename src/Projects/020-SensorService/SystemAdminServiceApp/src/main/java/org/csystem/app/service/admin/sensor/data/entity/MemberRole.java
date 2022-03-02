@@ -2,6 +2,7 @@ package org.csystem.app.service.admin.sensor.data.entity;
 
 import javax.persistence.*;
 
+
 @Entity
 @Table(name = "member_roles")
 public class MemberRole {

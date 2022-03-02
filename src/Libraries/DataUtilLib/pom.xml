@@ -11,11 +11,11 @@
 
 	<groupId>org.csystem</groupId>
 	<artifactId>org-csystem-util-data</artifactId>
-	<version>1.0.0</version>
+	<version>1.1.0</version>
 	<name>org-csystem-util-data</name>
 
 	<properties>
-		<java.version>8</java.version>
+		<java.version>11</java.version>
 	</properties>
 
 	<dependencies>

@@ -20,6 +20,17 @@ begin
 end
 $$ language plpgsql;
 
+
+create or replace procedure sp_insert_member_role_by_member_id(int, varchar(50))
+language plpgsql
+as $$
+begin
+    insert into member_roles (member_id, role) values ($1, $2);
+end
+$$;
+
+
+
 -- ROLE_SYS_ADMIN, ROLE_ADMIN, ROLE_SYSTEM, ROLE_USER, ROLE_VIEWER
 
 
