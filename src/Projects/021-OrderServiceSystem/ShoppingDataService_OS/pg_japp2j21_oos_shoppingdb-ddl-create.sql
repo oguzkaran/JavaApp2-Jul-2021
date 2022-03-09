@@ -1,4 +1,4 @@
--- japp2j21_companydb
+-- japp2j21_oos_shoppingdb
 
 create table customers (
     customer_id serial primary key,

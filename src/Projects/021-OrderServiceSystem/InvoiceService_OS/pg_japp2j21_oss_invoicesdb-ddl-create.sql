@@ -1,4 +1,4 @@
--- japp2j21_invoicesdb
+-- japp2j21_oss_invoicesdb
 
 create table invoices (
     invoice_id bigserial primary key,

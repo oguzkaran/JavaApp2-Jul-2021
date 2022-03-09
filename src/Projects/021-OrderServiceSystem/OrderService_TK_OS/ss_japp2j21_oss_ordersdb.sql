@@ -1,15 +1,15 @@
-create database japp2j21_ordersdb
+create database japp2j21_oss_ordersdb
 
 go
 
-use japp2j21_ordersdb
+use japp2j21_oss_ordersdb
 
 
 go
 
 create table orders (
 	order_id bigint primary key identity(1, 1),
-	odatetime datetime not null,
+	odatetime datetime default(SYSDATETIME()) not null,
 	client_id int not null
 )
 
