@@ -6,11 +6,8 @@ import org.springframework.data.mongodb.repository.Query;
 
 public interface ISensorMongoRepository extends MongoRepository<Sensor, String> {
     Iterable<Sensor> findByName(String name);
-
     Iterable<Sensor> findByData(double value);
-
     Sensor findFirstByName(String name);
-
     Iterable<Sensor> findByHost(String host);
 
     @Query("{data: {$gt: ?0}}")
