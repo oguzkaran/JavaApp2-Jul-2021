@@ -1,36 +1,36 @@
 package org.csystem.app.service.sensor.data.dal;
 
 import org.csystem.app.service.sensor.data.entity.Sensor;
-import org.csystem.app.service.sensor.data.repository.ISensorMongoRepository;
+import org.csystem.app.service.sensor.data.repository.ISensorRepository;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SensorServiceAppHelper {
-    private final ISensorMongoRepository m_sensorMongoRepository;
+    private final ISensorRepository m_sensorRepository;
 
-    public SensorServiceAppHelper(ISensorMongoRepository sensorMongoRepository)
+    public SensorServiceAppHelper(ISensorRepository sensorRepository)
     {
-        m_sensorMongoRepository = sensorMongoRepository;
+        m_sensorRepository = sensorRepository;
     }
 
     public Iterable<Sensor> findAllSensors()
     {
-        return m_sensorMongoRepository.findAll();
+        return m_sensorRepository.findAll();
     }
 
     public Iterable<Sensor> findSensorsByGreater(double value)
     {
-        return m_sensorMongoRepository.findByGreater(value);
+        return m_sensorRepository.findByGreater(value);
     }
 
     public Iterable<Sensor> findSensorsByLess(double value)
     {
-        return m_sensorMongoRepository.findByLess(value);
+        return m_sensorRepository.findByLess(value);
     }
 
     public Iterable<Sensor> findSensorsBetween(double min, double max)
     {
-        return m_sensorMongoRepository.findBetween(min, max);
+        return m_sensorRepository.findBetween(min, max);
     }
 
     //...
