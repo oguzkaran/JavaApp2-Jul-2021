@@ -65,6 +65,12 @@
 			<version>1.0.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.csystem</groupId>
+			<artifactId>org-csystem-util-net</artifactId>
+			<version>4.0.0</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/io.reactivex.rxjava3/rxjava -->
 		<dependency>
 			<groupId>io.reactivex.rxjava3</groupId>
