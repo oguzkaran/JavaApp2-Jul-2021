@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ApplicationUserDetailsService implements UserDetailsService {
 
-    private IApplicationUserRepository applicationUserRepository;
+    private final IApplicationUserRepository applicationUserRepository;
 
     public ApplicationUserDetailsService(IApplicationUserRepository applicationUserRepository)
     {

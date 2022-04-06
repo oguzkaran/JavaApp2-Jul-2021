@@ -17,9 +17,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthenticationService implements AuthenticationProvider {
 
-    private ApplicationUserDetailsService userDetailsService;
+    private final ApplicationUserDetailsService userDetailsService;
 
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     public AuthenticationService(ApplicationUserDetailsService userDetailsService, PasswordEncoder passwordEncoder)
     {
@@ -35,7 +35,9 @@ public class AuthenticationService implements AuthenticationProvider {
 
     private Authentication ensurePassword(ApplicationUserDetails applicationUserDetails, String password, PasswordEncoder passwordEncoder)
     {
-        if(! passwordEncoder.matches(password, applicationUserDetails.getPassword())) throw new BadCredentialsException("Username or password is bad");
+        if (!passwordEncoder.matches(password, applicationUserDetails.getPassword()))
+            throw new BadCredentialsException("Username or password is bad");
+
         return new UsernamePasswordAuthenticationToken(applicationUserDetails.getUsername(), applicationUserDetails.getPassword(),applicationUserDetails.getAuthorities());
     }
 
