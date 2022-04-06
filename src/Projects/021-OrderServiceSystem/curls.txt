@@ -1,0 +1,28 @@
+### Order Service System Admin Service App cURLs ###
+
+Create User : 
+	curl -u csds:csd1993 -X POST http://161.97.141.113:50503/api/users -H "Content-Type: application/json" -d '{"username":"onder", "password":"onder123","enabled":true}'
+
+Assign Role to User : 
+	curl -u csds:csd1993 -X POST http://161.97.141.113:50503/api/users/roles -H "Content-Type: application/json" -d '{"roleName":"ROLE_USER","applicationUser":2}'
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+### Invoice Service System Admin Service App cURLs ###
+
+Create User : 
+	curl -u csdr:csd1993 -X POST http://161.97.141.113:50504/api/users -H "Content-Type: application/json" -d '{"username":"onder", "password":"onder123","enabled":true}'
+
+Assign Role to User : 
+	curl -u csdr:csd1993 -X POST http://161.97.141.113:50504/api/users/roles -H "Content-Type: application/json" -d '{"roleName":"ROLE_USER","applicationUser":2}'
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+### Shopping Service System Admin Service App cURLs ###
+
+Create User : 
+	curl -u csds:csd1993 -X POST http://161.97.141.113:50500/api/users/user/save -H "Content-Type: application/json" -d '{"username":"onder", "password":"onder123","enabled":1}'
+
+Assign Role to User : 
+	curl -u csds:csd1993 -X POST http://161.97.141.113:50500/api/users/user/authority/save -H "Content-Type: application/json" -d '{"username":"onder", "authority":"ROLE_USER"}'
+	
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	

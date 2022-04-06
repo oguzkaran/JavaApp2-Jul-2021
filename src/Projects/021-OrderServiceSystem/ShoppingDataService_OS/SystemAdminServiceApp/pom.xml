@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>org.csystem</groupId>
-	<artifactId>SensorsSystemAdminService</artifactId>
+	<artifactId>ShoppingServiceSystemAdminApp</artifactId>
 	<version>1.0.0</version>
-	<name>SensorsSystemAdminService</name>
+	<name>ShoppingServiceSystemAdminApp</name>
 
 
 	<repositories>
