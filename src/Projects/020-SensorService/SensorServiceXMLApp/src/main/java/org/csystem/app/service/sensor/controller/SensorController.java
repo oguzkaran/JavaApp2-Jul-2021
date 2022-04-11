@@ -1,15 +1,12 @@
 package org.csystem.app.service.sensor.controller;
 
-import org.csystem.app.service.sensor.configuration.security.PreAdminOrSystem;
 import org.csystem.app.service.sensor.dto.SensorDTO;
 import org.csystem.app.service.sensor.dto.SensorInfoNotFoundDTO;
 import org.csystem.app.service.sensor.dto.SensorsDTO;
 import org.csystem.app.service.sensor.service.SensorAppService;
-import org.csystem.util.data.service.DataServiceException;
-import org.hibernate.service.spi.ServiceException;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.context.annotation.Scope;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +15,7 @@ import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/sensorJSON")
+@RequestMapping("api/sensorXML")
 public class SensorController {
     private final SensorAppService m_sensorAppService;
 
@@ -27,8 +24,8 @@ public class SensorController {
         m_sensorAppService = sensorAppService;
     }
 
-    @GetMapping("sensors/all")
-    @PreAdminOrSystem
+    @GetMapping(value = "sensors/all", produces = MediaType.APPLICATION_XML_VALUE)
+    //@PreAdminOrSystem
     public List<SensorDTO> findAllSensors()
     {
         return m_sensorAppService.findAllSensors();
@@ -44,14 +41,14 @@ public class SensorController {
     }
 
     @GetMapping("sensors/contains")
-    @RolesAllowed({"ADMIN", "USER"})
+    //@RolesAllowed({"ADMIN", "USER"})
     public Iterable<SensorDTO> findSensorsByNameContains(String text)
     {
         return m_sensorAppService.findSensorByNameContains(text);
     }
 
-    @GetMapping("sensors/detail/contains")
-    @Secured({"ROLE_SYSTEM", "ROLE_VIEWER"})
+    @GetMapping(value = "sensors/detail/contains", produces = MediaType.APPLICATION_XML_VALUE)
+    //@Secured({"ROLE_SYSTEM", "ROLE_VIEWER"})
     public SensorsDTO findSensorsByNameContainsDetail(String text)
     {
         return m_sensorAppService.findSensorByNameContainsDetail(text);
