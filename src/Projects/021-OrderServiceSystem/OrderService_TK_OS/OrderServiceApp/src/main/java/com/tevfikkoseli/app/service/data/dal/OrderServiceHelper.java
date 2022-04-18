@@ -20,8 +20,6 @@ public class OrderServiceHelper {
         m_iOrderProductsServiceRepository = iOrderProductsServiceRepository;
     }
 
-
-
     public Order saveOrder(Order order)
     {
         return doWorkForRepository(() -> m_iOrderServiceRepository.save(order), "OrderServiceDAL.saveOrder");
