@@ -1,6 +1,6 @@
 package com.tevfikkoseli.app.service.data.dto;
 
-import com.tevfikkoseli.app.service.data.entity.OrderProducts;
+import com.tevfikkoseli.app.service.data.entity.OrderProduct;
 
 import java.time.LocalDateTime;
 
@@ -8,7 +8,7 @@ public class OrderProductsDTO {//POJO (Plain Old Java Object)
 
     private LocalDateTime m_dateTime;
     private int m_clientId;
-    private OrderProducts m_orderProducts;
+    private OrderProduct m_orderProducts;
 
     public LocalDateTime getDateTime() {
         return m_dateTime;
@@ -26,11 +26,11 @@ public class OrderProductsDTO {//POJO (Plain Old Java Object)
         this.m_clientId = clientId;
     }
 
-    public OrderProducts getOrderProducts() {
+    public OrderProduct getOrderProducts() {
         return m_orderProducts;
     }
 
-    public void setOrderProducts(OrderProducts orderProducts) {
+    public void setOrderProducts(OrderProduct orderProducts) {
         this.m_orderProducts = orderProducts;
     }
 }

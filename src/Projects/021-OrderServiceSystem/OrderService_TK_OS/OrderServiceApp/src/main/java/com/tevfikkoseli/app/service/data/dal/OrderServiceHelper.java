@@ -1,35 +1,78 @@
 package com.tevfikkoseli.app.service.data.dal;
 
 
+import com.tevfikkoseli.app.service.data.entity.OrderProduct;
+import com.tevfikkoseli.app.service.data.repository.IOrderProductRepository;
 import com.tevfikkoseli.app.service.data.repository.IOrderRepository;
 import com.tevfikkoseli.app.service.data.entity.Order;
-import com.tevfikkoseli.app.service.data.entity.OrderProducts;
-import com.tevfikkoseli.app.service.data.repository.IOrderProductsRepository;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Component;
+
+import java.sql.ResultSet;
+import java.sql.Types;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.csystem.util.data.DatabaseUtil.*;
 
 @Component
 public class OrderServiceHelper {
-    private final IOrderRepository m_iOrderServiceRepository;
-    //private final IOrderProductsRepository m_iOrderProductsServiceRepository;
+    private final IOrderRepository m_orderRepository;
+    private final IOrderProductRepository m_orderProductRepository;
 
-
-    public OrderServiceHelper(IOrderRepository iOrderServiceRepository)
+    public OrderServiceHelper(IOrderRepository orderRepository, IOrderProductRepository orderProductRepository)
     {
-        m_iOrderServiceRepository = iOrderServiceRepository;
+        m_orderRepository = orderRepository;
+        m_orderProductRepository = orderProductRepository;
+    }
+
+
+    public Iterable<Order> findOrderByMonthAndYear(int month, int year)
+    {
+        return m_orderRepository.findByMonthAndYear(month, year);
+    }
+
+    public Iterable<Order> findOrdersByYearBetween(int begin, int end)
+    {
+        return m_orderRepository.findByYearBetween(begin, end);
+    }
+
+    public Iterable<Order> findOrdersByDate(LocalDate date)
+    {
+        return m_orderRepository.findByDate(date);
+    }
+
+    public Iterable<Order> findOrdersByClientId(int clientId)
+    {
+        return m_orderRepository.findByClientId(clientId);
+    }
+
+    public Iterable<Order> findOrdersByDateTimeBetween(LocalDateTime begin, LocalDateTime end)
+    {
+        return m_orderRepository.findByDateTimeBetween(begin, end);
+    }
+
+    public Iterable<Order> findOrdersByProductId(int productId)
+    {
+        return m_orderRepository.findByProductId(productId);
     }
 
     public Order saveOrder(Order order)
     {
-        return doWorkForRepository(() -> m_iOrderServiceRepository.save(order), "OrderServiceDAL.saveOrder");
+        return m_orderRepository.save(order);
     }
 
-    /*
-    public OrderProducts saveOrderProducts(OrderProducts orderProducts)
+    public Iterable<OrderProduct> findOrderProductsByOrderId(long orderId)
     {
-        return doWorkForRepository(() -> m_iOrderProductsServiceRepository.save(orderProducts), "OrderProductsServiceDAL.saveOrderProducts");
+        return m_orderProductRepository.findByOrderId(orderId);
     }
-    */
+
+    public Iterable<OrderProduct> findOrderProductsByProductId(int orderId)
+    {
+        return m_orderProductRepository.findByProductId(orderId);
+    }
 
 }
