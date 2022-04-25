@@ -3,7 +3,7 @@ package com.tevfikkoseli.app.service.data.entity;
 import java.time.LocalDateTime;
 
 public class Order { //POJO (Plain Old Java Object)
-    private long m_id;
+    private Long m_id;
     private LocalDateTime m_oDateTime = LocalDateTime.now();
     private int m_clientId;
 
@@ -14,14 +14,14 @@ public class Order { //POJO (Plain Old Java Object)
         m_clientId = clientId;
     }
 
-    public long getId()
+    public Long getId()
     {
         return m_id;
     }
 
-    public void setId(long id)
+    public void setId(Long id)
     {
-        this.m_id = id;
+        m_id = id;
     }
 
     public LocalDateTime getoDateTime()

@@ -28,7 +28,7 @@ public class OrderRepository implements IOrderRepository {
                    """;
     private static final String FIND_BY_DATETIME_BETWEEN_SQL = "select * from orders where odatetime between :begin and :end";
     private static final String FIND_BY_DATE_SQL = "select * from orders where cast(odatetime as date) = :date";
-    private static final String SAVE_SQL = "insert into orders (odatetime, client_id) values (:oDateTime, :clientId)";
+    private static final String SAVE_SQL = "exec sp_insert_order :oDateTime, :clientId";
 
     private static void fillOrders(ResultSet rs, List<Order> orders) throws SQLException
     {
@@ -125,7 +125,6 @@ public class OrderRepository implements IOrderRepository {
         parameterSource.registerSqlType("oDateTime", Types.TIMESTAMP);
 
         m_jdbcTemplate.update(SAVE_SQL, parameterSource, keyHolder, new String [] {"order_id"});
-
         order.setId(keyHolder.getKey().longValue());
 
         return order;

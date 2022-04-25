@@ -27,9 +27,9 @@ class AppRepositoryTests {
 	}
 
 	@Test
-	void saveOrder_id_Repository_Test()
+	void saveOrder_Repository_Test()
 	{
-		var order = new Order(0, LocalDateTime.now(), 2);
+		var order = new Order(0, LocalDateTime.now(), 3);
 		var orderRepo = m_applicationContext.getBean(OrderRepository.class);
 
 		orderRepo.save(order);
