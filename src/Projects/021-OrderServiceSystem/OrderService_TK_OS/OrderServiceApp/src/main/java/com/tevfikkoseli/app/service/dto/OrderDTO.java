@@ -1,11 +1,12 @@
-package com.tevfikkoseli.app.service.data.dto;
+package com.tevfikkoseli.app.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tevfikkoseli.app.service.data.entity.OrderProduct;
 
 import java.time.LocalDateTime;
 import java.util.Set;
 
-public class OrderDTO {//POJO (Plain Old Java Object)
+public class OrderDTO {
     private LocalDateTime m_dateTime;
     private int m_clientId;
     private Set<OrderProduct> m_orderProducts;
@@ -13,6 +14,7 @@ public class OrderDTO {//POJO (Plain Old Java Object)
         return m_dateTime;
     }
 
+    @JsonProperty("orderDateTime")
     public void setDateTime(LocalDateTime dateTime) {
         m_dateTime = dateTime;
     }

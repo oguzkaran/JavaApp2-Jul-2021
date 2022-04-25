@@ -1,37 +1,46 @@
 package com.tevfikkoseli.app.service.data.entity;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 public class Order { //POJO (Plain Old Java Object)
-    private Long m_id;
-    private LocalDateTime m_oDateTime = LocalDateTime.now();
+    private long m_id;
+    private Optional<LocalDateTime> m_oDateTime;
     private int m_clientId;
+
+    public Order()
+    {}
 
     public Order(long id, LocalDateTime oDateTime, int clientId)
     {
         m_id = id;
-        m_oDateTime = oDateTime;
+        m_oDateTime = Optional.ofNullable(oDateTime);
         m_clientId = clientId;
     }
 
-    public Long getId()
+    public Order(long id, int clientId)
+    {
+        this(id, null, clientId);
+    }
+
+    public long getId()
     {
         return m_id;
     }
 
-    public void setId(Long id)
+    public void setId(long id)
     {
         m_id = id;
     }
 
-    public LocalDateTime getoDateTime()
+    public Optional<LocalDateTime> getoDateTime()
     {
         return m_oDateTime;
     }
 
-    public void setoDateTime(LocalDateTime oDateTime)
+    public void setoDateTime(Optional<LocalDateTime> oDateTime)
     {
-        this.m_oDateTime = oDateTime;
+        m_oDateTime = oDateTime;
     }
 
     public int getClientId()

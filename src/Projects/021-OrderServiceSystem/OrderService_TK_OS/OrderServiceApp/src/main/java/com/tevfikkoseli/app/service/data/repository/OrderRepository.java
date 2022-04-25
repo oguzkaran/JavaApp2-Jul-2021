@@ -2,14 +2,15 @@ package com.tevfikkoseli.app.service.data.repository;
 
 import com.tevfikkoseli.app.service.data.entity.Order;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.core.*;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -21,14 +22,13 @@ import java.util.Optional;
 @Repository
 public class OrderRepository implements IOrderRepository {
     private static final String FIND_BY_CLIENT_ID_SQL = "select * from orders where client_id = :client_id";
-    private static final String FIND_BY_PRODUCT_ID_SQL = """
-                   select o.order_id, o.odatetime, o.client_id 
-                   from orders o inner join orderproducts op  on op.order_id = o.order_id 
-                   where product_id = :product_id
-                   """;
+
+    private static final String FIND_BY_PRODUCT_ID_SQL = "select * from dbo.get_orders_by_product_id(:product_id)";
+
     private static final String FIND_BY_DATETIME_BETWEEN_SQL = "select * from orders where odatetime between :begin and :end";
     private static final String FIND_BY_DATE_SQL = "select * from orders where cast(odatetime as date) = :date";
-    private static final String SAVE_SQL = "exec sp_insert_order :oDateTime, :clientId";
+    private static final String SAVE_SQL = "exec sp_insert_order ?, ?, ?";
+    private static final String SAVE_CLIENT_ID_SQL = "exec sp_insert_order_client_id ?, ?";
 
     private static void fillOrders(ResultSet rs, List<Order> orders) throws SQLException
     {
@@ -41,14 +41,34 @@ public class OrderRepository implements IOrderRepository {
         } while (rs.next());
     }
 
-    private final NamedParameterJdbcTemplate m_jdbcTemplate;
+    private final NamedParameterJdbcTemplate m_namedParameterJdbcTemplate;
     private final DateTimeFormatter m_isoLocalDateFormatter;
+    private final JdbcTemplate m_jdbcTemplate;
 
-    public OrderRepository(NamedParameterJdbcTemplate jdbcTemplate,
+    private CallableStatement saveJdbcTemplateCallCallback(Order order, Connection con) throws SQLException
+    {
+        var optDateTime = order.getoDateTime();
+        var stmt = con.prepareCall(optDateTime.isPresent() ? SAVE_SQL : SAVE_CLIENT_ID_SQL);
+
+        if (optDateTime.isPresent()) {
+            stmt.setTimestamp(1, Timestamp.valueOf(order.getoDateTime().get()));
+            stmt.setInt(2, order.getClientId());
+            stmt.registerOutParameter(3, Types.BIGINT);
+        }
+        else {
+            stmt.setInt(1, order.getClientId());
+            stmt.registerOutParameter(2, Types.BIGINT);
+        }
+
+        return stmt;
+    }
+
+    public OrderRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate, JdbcTemplate jdbcTemplate,
                            @Qualifier("iso_local_date_formatter") DateTimeFormatter isoLocalDateFormatter)
     {
-        m_jdbcTemplate = jdbcTemplate;
+        m_namedParameterJdbcTemplate = namedParameterJdbcTemplate;
         m_isoLocalDateFormatter = isoLocalDateFormatter;
+        m_jdbcTemplate = jdbcTemplate;
     }
 
     @Override
@@ -71,7 +91,7 @@ public class OrderRepository implements IOrderRepository {
 
         paramMap.put("date", m_isoLocalDateFormatter.format(date));
 
-        m_jdbcTemplate.query(FIND_BY_DATE_SQL, paramMap, (ResultSet rs) -> fillOrders(rs, orders));
+        m_namedParameterJdbcTemplate.query(FIND_BY_DATE_SQL, paramMap, (ResultSet rs) -> fillOrders(rs, orders));
 
         return orders;
     }
@@ -84,7 +104,7 @@ public class OrderRepository implements IOrderRepository {
 
         paramMap.put("client_id", clientId);
 
-        m_jdbcTemplate.query(FIND_BY_CLIENT_ID_SQL, paramMap, (ResultSet rs) -> fillOrders(rs, orders));
+        m_namedParameterJdbcTemplate.query(FIND_BY_CLIENT_ID_SQL, paramMap, (ResultSet rs) -> fillOrders(rs, orders));
 
         return orders;
     }
@@ -98,7 +118,7 @@ public class OrderRepository implements IOrderRepository {
         paramMap.put("begin", begin);
         paramMap.put("end", end);
 
-        m_jdbcTemplate.query(FIND_BY_DATETIME_BETWEEN_SQL, paramMap, (ResultSet rs) -> fillOrders(rs, orders));
+        m_namedParameterJdbcTemplate.query(FIND_BY_DATETIME_BETWEEN_SQL, paramMap, (ResultSet rs) -> fillOrders(rs, orders));
 
         return orders;
     }
@@ -111,7 +131,7 @@ public class OrderRepository implements IOrderRepository {
 
         paramMap.put("product_id", productId);
 
-        m_jdbcTemplate.query(FIND_BY_PRODUCT_ID_SQL, paramMap, (ResultSet rs) -> fillOrders(rs, orders));
+        m_namedParameterJdbcTemplate.query(FIND_BY_PRODUCT_ID_SQL, paramMap, (ResultSet rs) -> fillOrders(rs, orders));
 
         return orders;
     }
@@ -119,13 +139,16 @@ public class OrderRepository implements IOrderRepository {
     @Override
     public <S extends Order> S save(S order)
     {
-        var keyHolder = new GeneratedKeyHolder();
-        var parameterSource = new BeanPropertySqlParameterSource(order);
+        var paramList = new ArrayList<SqlParameter>();
 
-        parameterSource.registerSqlType("oDateTime", Types.TIMESTAMP);
+        if (order.getoDateTime().isPresent())
+            paramList.add(new SqlParameter(Types.TIMESTAMP));
+        paramList.add(new SqlParameter(Types.INTEGER));
+        paramList.add(new SqlOutParameter("id", Types.BIGINT));
 
-        m_jdbcTemplate.update(SAVE_SQL, parameterSource, keyHolder, new String [] {"order_id"});
-        order.setId(keyHolder.getKey().longValue());
+        var map = m_jdbcTemplate.call(con -> saveJdbcTemplateCallCallback(order, con), paramList);
+
+        order.setId((long)map.get("id"));
 
         return order;
     }

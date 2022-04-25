@@ -1,7 +1,6 @@
 package com.tevfikkoseli.app.service;
 
 import com.tevfikkoseli.app.service.data.entity.Order;
-import com.tevfikkoseli.app.service.data.entity.OrderProduct;
 import com.tevfikkoseli.app.service.data.repository.OrderProductRepository;
 import com.tevfikkoseli.app.service.data.repository.OrderRepository;
 import org.junit.jupiter.api.Test;
@@ -29,7 +28,18 @@ class AppRepositoryTests {
 	@Test
 	void saveOrder_Repository_Test()
 	{
-		var order = new Order(0, LocalDateTime.now(), 3);
+		var order = new Order(0, LocalDateTime.of(2022, Month.JANUARY, 10,  23, 12, 34), 3);
+		var orderRepo = m_applicationContext.getBean(OrderRepository.class);
+
+		orderRepo.save(order);
+
+		Assert.isTrue(order.getId() != 0, "Equals");
+	}
+
+	@Test
+	void saveOrderClientId_Repository_Test()
+	{
+		var order = new Order(0, 3);
 		var orderRepo = m_applicationContext.getBean(OrderRepository.class);
 
 		orderRepo.save(order);

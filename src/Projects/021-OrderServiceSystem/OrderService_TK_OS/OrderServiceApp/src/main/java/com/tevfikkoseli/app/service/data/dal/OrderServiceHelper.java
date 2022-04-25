@@ -60,11 +60,6 @@ public class OrderServiceHelper {
         return m_orderRepository.findByProductId(productId);
     }
 
-    public Order saveOrder(Order order)
-    {
-        return m_orderRepository.save(order);
-    }
-
     public Iterable<OrderProduct> findOrderProductsByOrderId(long orderId)
     {
         return m_orderProductRepository.findByOrderId(orderId);
@@ -75,4 +70,8 @@ public class OrderServiceHelper {
         return m_orderProductRepository.findByProductId(orderId);
     }
 
+    public Order saveOrder(Order order)
+    {
+        return m_orderRepository.save(order);
+    }
 }

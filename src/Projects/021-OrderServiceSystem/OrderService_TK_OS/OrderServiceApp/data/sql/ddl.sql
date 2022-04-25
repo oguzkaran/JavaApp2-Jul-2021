@@ -54,11 +54,33 @@ end
 
 go
 
-create procedure sp_insert_order_client_id(@client_id int)
+drop procedure if exists sp_insert_order_client_id
+
+go
+
+create procedure sp_insert_order_client_id(@client_id int, @id bigint output)
     as
 begin
-insert into orders (client_id) values (@client_id)
+    begin tran
+        declare @status int = 0
+        insert into orders (client_id) values (@client_id)
+
+        if @@ERROR <> 0
+            begin
+                set @status = @@ERROR
+                goto END_TRAN
+            end
+
+        set @id = @@IDENTITY
+    commit tran
+    END_TRAN:
+    if @status <> 0
+        rollback tran
 end
+
+go
+
+drop function if exists get_orders_by_product_id
 
 go
 

@@ -1,10 +1,10 @@
-package com.tevfikkoseli.app.service.data.dto;
+package com.tevfikkoseli.app.service.dto;
 
 import com.tevfikkoseli.app.service.data.entity.OrderProduct;
 
 import java.time.LocalDateTime;
 
-public class OrderProductsDTO {//POJO (Plain Old Java Object)
+public class OrderProductsDTO {
 
     private LocalDateTime m_dateTime;
     private int m_clientId;
