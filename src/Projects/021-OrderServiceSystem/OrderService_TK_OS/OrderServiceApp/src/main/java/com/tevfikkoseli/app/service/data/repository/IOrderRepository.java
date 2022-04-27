@@ -1,7 +1,6 @@
 package com.tevfikkoseli.app.service.data.repository;
 import com.tevfikkoseli.app.service.data.entity.Order;
 import org.csystem.util.data.repository.ICrudRepository;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

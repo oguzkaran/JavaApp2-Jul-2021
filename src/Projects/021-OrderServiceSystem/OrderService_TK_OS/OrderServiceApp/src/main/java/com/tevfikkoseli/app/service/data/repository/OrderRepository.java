@@ -3,11 +3,7 @@ package com.tevfikkoseli.app.service.data.repository;
 import com.tevfikkoseli.app.service.data.entity.Order;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.*;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.core.simple.SimpleJdbcCall;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -21,12 +17,10 @@ import java.util.Optional;
 
 @Repository
 public class OrderRepository implements IOrderRepository {
-    private static final String FIND_BY_CLIENT_ID_SQL = "select * from orders where client_id = :client_id";
-
+    private static final String FIND_BY_CLIENT_ID_SQL = "select * from dbo.get_orders_by_client_id(:client_id)";
     private static final String FIND_BY_PRODUCT_ID_SQL = "select * from dbo.get_orders_by_product_id(:product_id)";
-
-    private static final String FIND_BY_DATETIME_BETWEEN_SQL = "select * from orders where odatetime between :begin and :end";
-    private static final String FIND_BY_DATE_SQL = "select * from orders where cast(odatetime as date) = :date";
+    private static final String FIND_BY_DATETIME_BETWEEN_SQL = "select * from dbo.get_orders_by_datetime_between(:begin, :end)";
+    private static final String FIND_BY_DATE_SQL = "select * from dbo.get_orders_by_date(:date)";
     private static final String SAVE_SQL = "exec sp_insert_order ?, ?, ?";
     private static final String SAVE_CLIENT_ID_SQL = "exec sp_insert_order_client_id ?, ?";
 

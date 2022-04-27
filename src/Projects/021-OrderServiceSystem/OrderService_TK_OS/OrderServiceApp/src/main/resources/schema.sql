@@ -1,19 +1,24 @@
-create database japp2j21_oss_ordersdb
+IF NOT EXISTS(SELECT * FROM sys.databases WHERE name = 'japp2j21_oss_ordersdb_dev')
+begin
+    create database japp2j21_oss_ordersdb_dev
+end
 
 go
 
-use japp2j21_oss_ordersdb
+use japp2j21_oss_ordersdb_dev
 
 go
 
+IF NOT EXISTS (SELECT * FROM sys.sysobjects WHERE name='orders' and xtype='U')
 create table orders (
-	order_id bigint primary key identity(1, 1),
-	odatetime datetime default(SYSDATETIME()) not null,
-	client_id int not null
+    order_id bigint primary key identity(1, 1),
+    odatetime datetime default(SYSDATETIME()) not null,
+    client_id int not null
 )
 
 go
 
+IF NOT EXISTS (SELECT * FROM sys.sysobjects WHERE name='orderproducts' and xtype='U')
 create table orderproducts (
 	order_product_id bigint primary key identity(1, 1),
 	order_id bigint foreign key references orders(order_id) not null,
@@ -24,7 +29,36 @@ create table orderproducts (
 
 go
 
+-- Drop procedures and functions
 drop procedure if exists sp_insert_order
+
+go
+
+drop procedure if exists sp_insert_order_client_id
+
+go
+
+drop function if exists get_orders_by_product_id
+
+go
+
+drop function if exists get_orders_by_client_id
+
+go
+
+drop function if exists get_orders_by_datetime_between
+
+go
+
+drop function if exists get_orders_by_date
+
+go
+
+drop function if exists get_order_products_by_order_id
+
+go
+
+drop function if exists get_order_products_by_product_id
 
 go
 
@@ -50,9 +84,6 @@ end
 
 go
 
-drop procedure if exists sp_insert_order_client_id
-
-go
 
 create procedure sp_insert_order_client_id(@client_id int, @id bigint output)
     as
@@ -74,9 +105,7 @@ begin
         rollback tran
 end
 
-go
 
-drop function if exists get_orders_by_product_id
 
 go
 

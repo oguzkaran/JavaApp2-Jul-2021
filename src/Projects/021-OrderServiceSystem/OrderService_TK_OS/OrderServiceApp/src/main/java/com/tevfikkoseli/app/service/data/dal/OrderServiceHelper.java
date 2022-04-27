@@ -5,18 +5,10 @@ import com.tevfikkoseli.app.service.data.entity.OrderProduct;
 import com.tevfikkoseli.app.service.data.repository.IOrderProductRepository;
 import com.tevfikkoseli.app.service.data.repository.IOrderRepository;
 import com.tevfikkoseli.app.service.data.entity.Order;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Component;
 
-import java.sql.ResultSet;
-import java.sql.Types;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import static org.csystem.util.data.DatabaseUtil.*;
 
 @Component
 public class OrderServiceHelper {

@@ -14,7 +14,8 @@ import java.util.Optional;
 
 @Repository
 public class OrderProductRepository implements IOrderProductRepository {
-    private static final String FIND_BY_ORDER_ID_SQL = "select * from orderproducts where order_id=:order_id";
+    private static final String FIND_BY_ORDER_ID_SQL = "select * from dbo.get_order_products_by_order_id(:order_id)";
+    private static final String FIND_BY_PRODUCT_ID_SQL = "select * from dbo.get_order_products_by_product_id(:product_id)";
     private final NamedParameterJdbcTemplate m_jdbcTemplate;
 
     private static void fillOrderProducts(ResultSet rs, List<OrderProduct> orders) throws SQLException
@@ -49,9 +50,16 @@ public class OrderProductRepository implements IOrderProductRepository {
     }
 
     @Override
-    public Iterable<OrderProduct> findByProductId(int orderId) //TODO
+    public Iterable<OrderProduct> findByProductId(int productId)
     {
-        throw new UnsupportedOperationException();
+        var paramMap = new HashMap<String, Object>();
+        var orderProducts = new ArrayList<OrderProduct>();
+
+        paramMap.put("product_id", productId);
+
+        m_jdbcTemplate.query(FIND_BY_PRODUCT_ID_SQL, paramMap, (ResultSet rs) -> fillOrderProducts(rs, orderProducts));
+
+        return orderProducts;
     }
 
     //////////////////////////////////////////////////////////////////////////////////////

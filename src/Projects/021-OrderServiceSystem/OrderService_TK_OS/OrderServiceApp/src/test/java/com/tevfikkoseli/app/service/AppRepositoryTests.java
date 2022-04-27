@@ -16,7 +16,7 @@ import java.time.Month;
 import java.util.stream.StreamSupport;
 
 @SpringBootTest
-@ActiveProfiles("test")
+@ActiveProfiles("unittest")
 class AppRepositoryTests {
 	private final ApplicationContext m_applicationContext;
 
@@ -104,6 +104,12 @@ class AppRepositoryTests {
 		var result = orderProductRepo.findByOrderId(orderId);
 
 		Assert.isTrue(StreamSupport.stream(result.spliterator(), false).count() == count, "Equals");
+	}
+
+	@Test
+	void findOrderProductsByProductId_Test_RepositoryTest() //TODO: Belirli id'leri veritabanından okuyup test ediniz
+	{
+		throw new UnsupportedOperationException();
 	}
 
 	@Test
