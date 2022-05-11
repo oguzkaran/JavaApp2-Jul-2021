@@ -9,7 +9,7 @@ import java.util.Set;
 public class OrderDTO {
     private LocalDateTime m_dateTime;
     private int m_clientId;
-    private Set<OrderProduct> m_orderProducts;
+    private Set<OrderProductDTO> m_orderProducts;
     public LocalDateTime getDateTime() {
         return m_dateTime;
     }
@@ -27,11 +27,13 @@ public class OrderDTO {
         m_clientId = clientId;
     }
 
-    public Set<OrderProduct> getOrderProducts() {
+    public Set<OrderProductDTO> getOrderProducts()
+    {
         return m_orderProducts;
     }
 
-    public void setOrderProducts(Set<OrderProduct> orderProducts) {
+    public void setOrderProducts(Set<OrderProductDTO> orderProducts)
+    {
         m_orderProducts = orderProducts;
     }
 }

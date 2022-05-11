@@ -1,7 +1,7 @@
 package com.tevfikkoseli.app.service.data.entity;
 
 
-public class OrderProduct {//POJO (Plain Old Java Object)
+public class OrderProduct { //POJO (Plain Old Java Object)
     public long id;
     public long orderId;
     public int productId;

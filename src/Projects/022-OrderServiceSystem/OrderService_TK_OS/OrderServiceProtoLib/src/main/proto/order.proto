@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.tevfikkoseli.app.service.grpc.order.proto";
+
+service GreetingService {
+  rpc findOrderByClientId(OrderByClientIdRequest) returns (stream OrderInfo);
+  rpc findOrderByProductId(OrderProductIdRequest) returns (stream OrderInfo);
+  //...
+}
+
+message OrderByClientIdRequest {
+  fixed32 clientId = 1;
+}
+
+message OrderProductIdRequest {
+  fixed32 productId = 1;
+}
+
+message OrderInfo {
+  string datetime = 1;
+  fixed32 clientId = 2;
+}
+
+message OrderProductInfo {
+  fixed64 orderId = 1;
+  fixed32 productId = 2;
+  double quantity = 3;
+  double unitPrice = 4;
+}
+
+
+
+
