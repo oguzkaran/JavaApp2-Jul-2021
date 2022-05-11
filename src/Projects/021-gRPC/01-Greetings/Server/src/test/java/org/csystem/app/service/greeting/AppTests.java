@@ -1,10 +1,10 @@
-package org.csystem.app;
+package org.csystem.app.service.greeting;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class GenericappApplicationTests {
+class AppTests {
 
 	@Test
 	void contextLoads() {
