@@ -13,8 +13,13 @@ public class GreetingServiceGRPClientAppService {
     @GrpcClient("greetingService")
     private GreetingServiceGrpc.GreetingServiceBlockingStub m_greetingServiceBlockingStub;
 
-    @Autowired
-    private IGreetingResponseMapper m_greetingResponseMapper;
+
+    private final IGreetingResponseMapper m_greetingResponseMapper;
+
+    public GreetingServiceGRPClientAppService(IGreetingResponseMapper greetingResponseMapper)
+    {
+        m_greetingResponseMapper = greetingResponseMapper;
+    }
 
     public GreetingResponseDTO receiveMessageTR(String firstName, String lastName, boolean married)
     {

@@ -1,4 +1,5 @@
 syntax = "proto3";
+
 option java_multiple_files = true;
 option java_package = "org.csystem.app.service.grpc.greeting.proto";
 
@@ -17,4 +18,7 @@ message GreetingResponse {
   string greeting = 1;
   string maritalStatus = 2;
 }
+
+
+
 
