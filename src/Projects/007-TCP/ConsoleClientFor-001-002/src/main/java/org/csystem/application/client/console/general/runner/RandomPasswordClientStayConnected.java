@@ -18,6 +18,7 @@ public class RandomPasswordClientStayConnected {
     private void clientCallback()
     {
         try (var socket = new Socket(m_host, m_port)) {
+            socket.setSoTimeout(1000);
             for (;;) {
                 var count = Console.readInt("Count?");
 
