@@ -116,6 +116,23 @@ return (
     select * from orders where cast(odatetime as date) = @date
 )
 
+go
+
+create function get_orders_by_month_and_year(@month int, @year int)
+returns table
+as
+return (
+    select * from orders where DATEPART(MONTH, odatetime) = @month and  DATEPART(YEAR, odatetime) = @year
+)
+
+go
+
+create function get_orders_by_year_between(@begin int, @end int)
+returns table
+as
+return (
+    select * from orders where DATEPART(YEAR, odatetime) between @begin and @end
+)
 
 go
 

@@ -21,6 +21,8 @@ public class OrderRepository implements IOrderRepository {
     private static final String FIND_BY_PRODUCT_ID_SQL = "select * from dbo.get_orders_by_product_id(:product_id)";
     private static final String FIND_BY_DATETIME_BETWEEN_SQL = "select * from dbo.get_orders_by_datetime_between(:begin, :end)";
     private static final String FIND_BY_DATE_SQL = "select * from dbo.get_orders_by_date(:date)";
+    private static final String FIND_BY_MONTH_AND_YEAR = "select * from dbo.get_orders_by_month_and_year(:month, :year)";
+    private static final String FIND_BY_YEAR_BETWEEN = "select * from dbo.get_orders_by_year_between(:begin, :end)";
     private static final String SAVE_SQL = "exec sp_insert_order ?, ?, ?";
     private static final String SAVE_CLIENT_ID_SQL = "exec sp_insert_order_client_id ?, ?";
 
@@ -66,15 +68,31 @@ public class OrderRepository implements IOrderRepository {
     }
 
     @Override
-    public Iterable<Order> findByMonthAndYear(int month, int year) //TODO
+    public Iterable<Order> findByMonthAndYear(int month, int year)
     {
-        throw new UnsupportedOperationException();
+        var paramMap = new HashMap<String, Object>();
+        var orders = new ArrayList<Order>();
+
+        paramMap.put("month", month);
+        paramMap.put("year", year);
+
+        m_namedParameterJdbcTemplate.query(FIND_BY_MONTH_AND_YEAR, paramMap, (ResultSet rs) -> fillOrders(rs, orders));
+
+        return orders;
     }
 
     @Override
-    public Iterable<Order> findByYearBetween(int begin, int end) //TODO
+    public Iterable<Order> findByYearBetween(int begin, int end)
     {
-        throw new UnsupportedOperationException();
+        var paramMap = new HashMap<String, Object>();
+        var orders = new ArrayList<Order>();
+
+        paramMap.put("begin", begin);
+        paramMap.put("end", end);
+
+        m_namedParameterJdbcTemplate.query(FIND_BY_YEAR_BETWEEN, paramMap, (ResultSet rs) -> fillOrders(rs, orders));
+
+        return orders;
     }
 
     @Override

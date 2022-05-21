@@ -22,7 +22,7 @@ public class OrderServiceHelper {
     }
 
 
-    public Iterable<Order> findOrderByMonthAndYear(int month, int year)
+    public Iterable<Order> findOrdersByMonthAndYear(int month, int year)
     {
         return m_orderRepository.findByMonthAndYear(month, year);
     }
