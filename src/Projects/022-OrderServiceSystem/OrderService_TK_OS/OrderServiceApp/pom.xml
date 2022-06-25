@@ -67,6 +67,8 @@
 			<groupId>com.tevfikkoseli</groupId>
 			<artifactId>OrderServiceProtoLib</artifactId>
 			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/libs/</systemPath>
 		</dependency>
 
 

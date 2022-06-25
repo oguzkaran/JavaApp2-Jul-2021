@@ -57,9 +57,9 @@ public class OrderServiceHelper {
         return m_orderProductRepository.findByOrderId(orderId);
     }
 
-    public Iterable<OrderProduct> findOrderProductsByProductId(int orderId)
+    public Iterable<OrderProduct> findOrderProductsByProductId(int productId)
     {
-        return m_orderProductRepository.findByProductId(orderId);
+        return m_orderProductRepository.findByProductId(productId);
     }
 
     public Order saveOrder(Order order)
