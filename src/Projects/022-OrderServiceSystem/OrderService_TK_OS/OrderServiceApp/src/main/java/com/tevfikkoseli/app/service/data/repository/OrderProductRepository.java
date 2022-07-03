@@ -16,6 +16,7 @@ import java.util.Optional;
 public class OrderProductRepository implements IOrderProductRepository {
     private static final String FIND_BY_ORDER_ID_SQL = "select * from dbo.get_order_products_by_order_id(:order_id)";
     private static final String FIND_BY_PRODUCT_ID_SQL = "select * from dbo.get_order_products_by_product_id(:product_id)";
+    private static final String SAVE_SQL = "exec sp_insert_order_product ?, ?, ?, ?";
     private final NamedParameterJdbcTemplate m_jdbcTemplate;
 
     private static void fillOrderProducts(ResultSet rs, List<OrderProduct> orders) throws SQLException
@@ -60,6 +61,12 @@ public class OrderProductRepository implements IOrderProductRepository {
         m_jdbcTemplate.query(FIND_BY_PRODUCT_ID_SQL, paramMap, (ResultSet rs) -> fillOrderProducts(rs, orderProducts));
 
         return orderProducts;
+    }
+
+    @Override
+    public <S extends OrderProduct> S save(S entity)
+    {
+        throw new UnsupportedOperationException();
     }
 
     //////////////////////////////////////////////////////////////////////////////////////
@@ -117,11 +124,7 @@ public class OrderProductRepository implements IOrderProductRepository {
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public <S extends OrderProduct> S save(S entity)
-    {
-        throw new UnsupportedOperationException();
-    }
+
 
     @Override
     public <S extends OrderProduct> Iterable<S> save(Iterable<S> entities)

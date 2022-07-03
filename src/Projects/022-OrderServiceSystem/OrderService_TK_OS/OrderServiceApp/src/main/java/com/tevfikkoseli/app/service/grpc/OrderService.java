@@ -55,37 +55,33 @@ public class  OrderService extends OrderGRPCServiceGrpc.OrderGRPCServiceImplBase
         responseObserver.onCompleted();
     }
 
-
-    ////////////// benim eklediklerim
-
-
+    ////////////// Test yapılacak metotlar. grpcurl ile test edebilirsiniz
 
     @Override
-    public void findOrdersByProductId(IntId request, StreamObserver<OrderInfo> responseObserver) {
-
+    public void findOrdersByProductId(IntId request, StreamObserver<OrderInfo> responseObserver) 
+    {
         var orders = m_orderServiceHelper.findOrdersByProductId(request.getId());
         orders.forEach(o -> responseObserver.onNext(m_orderMapper.toOrderInfo(o)));
         responseObserver.onCompleted();
     }
 
     @Override
-    public void findOrderProductsByOrderId(LongId request, StreamObserver<OrderProductInfo> responseObserver) {
+    public void findOrderProductsByOrderId(LongId request, StreamObserver<OrderProductInfo> responseObserver) 
+    {
 
         var orderProducts = m_orderServiceHelper.findOrderProductsByOrderId(request.getId());
+
         orderProducts.forEach(op -> responseObserver.onNext(m_orderProductMapper.toOrderProductInfo(op)));
         responseObserver.onCompleted();
     }
 
     @Override
-    public void findOrderProductsByProductId(IntId request, StreamObserver<OrderProductInfo> responseObserver) {
-
+    public void findOrderProductsByProductId(IntId request, StreamObserver<OrderProductInfo> responseObserver)
+    {
         var orderProducts = m_orderServiceHelper.findOrderProductsByProductId(request.getId());
-
 
         orderProducts.forEach(op -> responseObserver.onNext(m_orderProductMapper.toOrderProductInfo(op)));
 
         responseObserver.onCompleted();
     }
-
-
 }

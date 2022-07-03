@@ -106,8 +106,6 @@ class AppRepositoryTests {
 		Assert.isTrue(StreamSupport.stream(result.spliterator(), false).count() == count, "Equals");
 	}
 
-
-
 	@Test
 	void findOrdersByProductId_RepositoryTest()
 	{
