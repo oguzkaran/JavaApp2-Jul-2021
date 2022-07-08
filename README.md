@@ -25,7 +25,7 @@ KAYNAK GÖSTERMEK KOŞULUYLA HER TÜRLÜ ALINTI YAPILABİLİR
 #udp
 #datastructures
 #algorithms
-#rcursion
+#recursion
 #docker
 #mongodb
 #nosql
