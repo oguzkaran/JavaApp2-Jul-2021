@@ -1,4 +1,4 @@
-package com.umututkuk.app.service.rest.weather.configuration.datasource;
+package com.umututkuk.app.service.rest.weather.configuration.data.datasource;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;

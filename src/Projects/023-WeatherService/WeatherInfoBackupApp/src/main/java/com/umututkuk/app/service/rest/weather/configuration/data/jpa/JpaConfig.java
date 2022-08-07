@@ -1,4 +1,4 @@
-package com.umututkuk.app.service.rest.weather.configuration.jpa;
+package com.umututkuk.app.service.rest.weather.configuration.data.jpa;
 
 import org.csystem.app.weather.repository.data.entity.WeatherInfo;
 import org.springframework.beans.factory.annotation.Qualifier;

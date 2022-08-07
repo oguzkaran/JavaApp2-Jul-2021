@@ -1,6 +1,5 @@
 package com.umututkuk.app.service.rest.weather.scheduler;
 
-import com.umututkuk.app.service.rest.weather.mapper.IPlaceInfoMapper;
 import com.umututkuk.app.service.rest.weather.mapper.IWeatherInfoMapper;
 import org.csystem.app.weather.repository.backup.data.dal.WeatherInfoBackupAppHelper;
 import org.csystem.app.weather.repository.backup.data.entity.PlaceInfo;
@@ -36,8 +35,8 @@ public class WeatherInfoScheduler {
         m_weatherMapper = weatherMapper;
     }
 
-    //@Scheduled(cron = "0 13 23 * * *")
-    @Scheduled(cron = "0 55 23 * * *")
+    @Scheduled(cron = "0 41 21 * * *")
+    //@Scheduled(cron = "0 55 23 * * *")
     public void schedulerCallback()
     {
         var places = m_weatherInfoBackupAppHelper.findAllPlaces();

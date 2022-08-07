@@ -1,4 +1,4 @@
-package com.umututkuk.app.service.rest.weather.configuration.datasourceproperties;
+package com.umututkuk.app.service.rest.weather.configuration.data.datasourceproperties;
 
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -6,10 +6,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class DataSourcePropertiesConfig {
-    @Bean("spring.datasource.weatherinfo")
-    @ConfigurationProperties("spring.datasource.weatherinfo")
-    public DataSourceProperties weatherInfoDataProperties()
+public class BackupDataSourcePropertiesConfig {
+    @Bean("spring.datasource.weatherinfo.backup")
+    @ConfigurationProperties("spring.datasource.weatherinfo.backup")
+    public DataSourceProperties weatherInfoBackupDataProperties()
     {
         return new DataSourceProperties();
     }
