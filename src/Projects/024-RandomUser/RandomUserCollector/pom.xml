@@ -8,21 +8,22 @@
 		<version>2.7.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.tevfikkoseli</groupId>
-	<artifactId>OrderServiceApp</artifactId>
-	<version>1.0.0</version>
-	<name>OrderServiceApp</name>
+
+	<groupId>org.csystem</groupId>
+	<artifactId>RandomUserCollectorApp</artifactId>
+	<version>10.0.0</version>
+	<name>RandomUserCollectorApp</name>
+
+	<repositories>
+		<repository>
+			<id>JavaApp1-Oct-2021</id>
+			<url>https://raw.github.com/oguzkaran/javaapp1-oct-2021-maven-repo/main</url>
+		</repository>
+	</repositories>
 
 	<properties>
 		<java.version>17</java.version>
 	</properties>
-
-	<repositories>
-		<repository>
-			<id>javaapp2-Jul-2021</id>
-			<url>https://raw.github.com/oguzkaran/javaapp2-jul-2021-maven-repo/main</url>
-		</repository>
-	</repositories>
 
 	<dependencies>
 		<dependency>
@@ -32,75 +33,56 @@
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jdbc</artifactId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>tomcat-embed-el</artifactId>
+					<groupId>org.apache.tomcat.embed</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>tomcat-embed-core</artifactId>
+					<groupId>org.apache.tomcat.embed</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>tomcat-embed-websocket</artifactId>
+					<groupId>org.apache.tomcat.embed</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
-
 		<dependency>
-			<groupId>com.microsoft.sqlserver</groupId>
-			<artifactId>mssql-jdbc</artifactId>
-			<scope>runtime</scope>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>com.vladmihalcea</groupId>
+			<artifactId>hibernate-types-52</artifactId>
+			<version>2.17.1</version>
+		</dependency>
 
 		<dependency>
-			<groupId>com.fasterxml.jackson.datatype</groupId>
-			<artifactId>jackson-datatype-jsr310</artifactId>
-			<version>2.13.2</version>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.4.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.9.1</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
-			<version>1.5.2.Final</version>
-		</dependency>
-
-		<dependency>
-			<groupId>net.devh</groupId>
-			<artifactId>grpc-server-spring-boot-starter</artifactId>
-			<version>2.13.1.RELEASE</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.tevfikkoseli</groupId>
-			<artifactId>OrderServiceProtoLib</artifactId>
-			<version>2.0.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.csystem</groupId>
-			<artifactId>org-csystem-util-scheduler</artifactId>
-			<version>1.0.0</version>
+			<version>1.4.2.Final</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.csystem</groupId>
 			<artifactId>org-csystem-util-console</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.csystem</groupId>
-			<artifactId>org-csystem-util-net</artifactId>
-			<version>1.1.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.csystem</groupId>
-			<artifactId>org-csystem-util-exception</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.csystem</groupId>
-			<artifactId>org-csystem-util-data</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.csystem</groupId>
-			<artifactId>org-csystem-util</artifactId>
-			<version>3.0.0</version>
+			<version>10.1.0</version>
 		</dependency>
 
 		<dependency>
@@ -115,7 +97,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -128,9 +109,8 @@
 						<path>
 							<groupId>org.mapstruct</groupId>
 							<artifactId>mapstruct-processor</artifactId>
-							<version>1.4.1.Final</version>
+							<version>1.4.2.Final</version>
 						</path>
-
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>

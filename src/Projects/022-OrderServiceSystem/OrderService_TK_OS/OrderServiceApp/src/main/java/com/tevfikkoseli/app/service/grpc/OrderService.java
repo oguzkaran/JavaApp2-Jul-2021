@@ -23,7 +23,7 @@ public class  OrderService extends OrderGRPCServiceGrpc.OrderGRPCServiceImplBase
     }
 
     @Override
-    public void findOrdersByMonthAndYear(IntPair request, StreamObserver<OrderInfo> responseObserver)//
+    public void findOrdersByMonthAndYear(IntPair request, StreamObserver<OrderInfo> responseObserver)
     {
         var month = request.getFirst();
         var year = request.getSecond();
@@ -68,7 +68,6 @@ public class  OrderService extends OrderGRPCServiceGrpc.OrderGRPCServiceImplBase
     @Override
     public void findOrderProductsByOrderId(LongId request, StreamObserver<OrderProductInfo> responseObserver) 
     {
-
         var orderProducts = m_orderServiceHelper.findOrderProductsByOrderId(request.getId());
 
         orderProducts.forEach(op -> responseObserver.onNext(m_orderProductMapper.toOrderProductInfo(op)));

@@ -13,7 +13,6 @@ public class GreetingServiceGRPClientAppService {
     @GrpcClient("greetingService")
     private GreetingServiceGrpc.GreetingServiceBlockingStub m_greetingServiceBlockingStub;
 
-
     private final IGreetingResponseMapper m_greetingResponseMapper;
 
     public GreetingServiceGRPClientAppService(IGreetingResponseMapper greetingResponseMapper)
