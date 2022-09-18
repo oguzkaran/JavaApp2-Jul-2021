@@ -12,15 +12,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderAppGRPCService {
     @GrpcClient("orderGRPCService")
-    private final OrderGRPCServiceGrpc.OrderGRPCServiceStub m_orderGRPCServiceStub;
+    private OrderGRPCServiceGrpc.OrderGRPCServiceStub m_orderGRPCServiceStub;
 
     private final OrderInfoStreamObserver m_orderInfoStreamObserver;
     private final OrderProductInfoStreamObserver m_orderProductInfoStreamObserver;
 
 
-    public OrderAppGRPCService(OrderGRPCServiceGrpc.OrderGRPCServiceStub orderGRPCServiceStub, OrderInfoStreamObserver orderInfoStreamObserver, OrderProductInfoStreamObserver orderProductInfoStreamObserver)
+    public OrderAppGRPCService(OrderInfoStreamObserver orderInfoStreamObserver, OrderProductInfoStreamObserver orderProductInfoStreamObserver)
     {
-        m_orderGRPCServiceStub = orderGRPCServiceStub;
         m_orderInfoStreamObserver = orderInfoStreamObserver;
         m_orderProductInfoStreamObserver = orderProductInfoStreamObserver;
     }
