@@ -24,7 +24,7 @@ public class OrderAppGRPCService {
         m_orderProductInfoStreamObserver = orderProductInfoStreamObserver;
     }
 
-    public Iterable<OrderInfoDTO> findOrdersByMonthAndYear(int month, int year)
+    public void findOrdersByMonthAndYear(int month, int year)
     {
         var pair = IntPair.newBuilder()
                 .setFirst(month)
@@ -32,22 +32,18 @@ public class OrderAppGRPCService {
                 .build();
 
         m_orderGRPCServiceStub.findOrdersByMonthAndYear(pair, m_orderInfoStreamObserver);
-
-        return m_orderInfoStreamObserver.getOrderInfoList();
     }
 
-    public Iterable<OrderInfoDTO> findOrdersClientId(int clientId)
+    public void findOrdersClientId(int clientId)
     {
         var intId = IntId.newBuilder()
                 .setId(clientId)
                 .build();
 
         m_orderGRPCServiceStub.findOrdersByClientId(intId, m_orderInfoStreamObserver);
-
-        return m_orderInfoStreamObserver.getOrderInfoList();
     }
 
-    public Iterable<OrderInfoDTO> findOrdersByYearBetween(int begin, int end)
+    public void findOrdersByYearBetween(int begin, int end)
     {
         var pair = IntPair.newBuilder()
                 .setFirst(begin)
@@ -55,20 +51,15 @@ public class OrderAppGRPCService {
                 .build();
 
         m_orderGRPCServiceStub.findOrdersByYearBetween(pair, m_orderInfoStreamObserver);
-
-        return m_orderInfoStreamObserver.getOrderInfoList();
     }
 
-
-    public Iterable<OrderProductInfoDTO> findOrderProductsByOrderId(long id)
+    public void findOrderProductsByOrderId(long id)
     {
         var longId = LongId.newBuilder()
                 .setId(id)
                 .build();
 
         m_orderGRPCServiceStub.findOrderProductsByOrderId(longId, m_orderProductInfoStreamObserver);
-
-        return m_orderProductInfoStreamObserver.getOrderProductInfoList();
     }
 
 

@@ -12,8 +12,7 @@ import java.util.Objects;
  * @author onder sahin
  */
 @MappedSuperclass
-public class AbstractEntity implements GenericEntity{
-
+public class AbstractEntity implements GenericEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

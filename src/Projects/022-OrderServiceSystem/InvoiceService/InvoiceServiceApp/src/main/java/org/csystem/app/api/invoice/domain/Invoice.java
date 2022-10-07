@@ -13,7 +13,6 @@ import java.util.Set;
 @Entity
 @Table(name = "t_invoices")
 public class Invoice extends AbstractEntity {
-
     @Column(name = "customer_title", nullable = false)
     private String customerTitle;
 

@@ -4,6 +4,7 @@ import org.csystem.app.api.invoice.domain.Invoice;
 import org.csystem.app.pdb.repository.domain.AbstractEntity;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 /**
  * @author onder sahin
@@ -11,7 +12,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "t_orders")
 public class Order extends AbstractEntity {
-
     @ManyToOne
     @JoinColumn
     private Invoice invoice;
@@ -27,6 +27,9 @@ public class Order extends AbstractEntity {
 
     @Column(name = "unit_price", nullable = false)
     private float unitPrice;
+
+    @Column(name = "date_time", nullable = false)
+    private LocalDateTime dateTime;
 
     public Invoice getInvoice() {
         return invoice;
@@ -66,5 +69,15 @@ public class Order extends AbstractEntity {
 
     public void setUnitPrice(float unitPrice) {
         this.unitPrice = unitPrice;
+    }
+
+    public void setDateTime(LocalDateTime dateTime)
+    {
+        this.dateTime = dateTime;
+    }
+
+    public LocalDateTime getDateTime()
+    {
+        return dateTime;
     }
 }

@@ -10,6 +10,8 @@ service OrderGRPCService {
   rpc findOrdersByYearBetween(IntPair) returns (stream OrderInfo);
   rpc findOrderProductsByOrderId(LongId) returns (stream OrderProductInfo);
   rpc findOrderProductsByProductId(IntId) returns (stream OrderProductInfo);
+  ///////////////////////////////////////////////////////////////////////////////
+  rpc findOrderInformationBy(IdentityInfo) returns (stream OrderInformation);
   //...
 }
 
@@ -44,5 +46,17 @@ message OrderProductInfo {
   fixed32 productId = 2;
   double quantity = 3;
   double unitPrice = 4;
+}
+
+message IdentityInfo {
+  string identity = 1;
+}
+
+message OrderInformation {
+  fixed32 productId = 1;
+  fixed32 clientId = 2;
+  string datetime = 3;
+  double quantity = 4;
+  double unitPrice = 5;
 }
 

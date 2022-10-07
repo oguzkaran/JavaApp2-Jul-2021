@@ -48,7 +48,6 @@ public class OrderService extends OrderGRPCServiceGrpc.OrderGRPCServiceImplBase 
     {
         var begin = request.getFirst();
         var end = request.getSecond();
-
         var orders = m_orderServiceHelper.findOrdersByYearBetween(begin, end);
 
         orders.forEach(o -> responseObserver.onNext(m_orderMapper.toOrderInfo(o)));
