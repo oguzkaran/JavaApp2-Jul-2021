@@ -11,7 +11,7 @@ service OrderGRPCService {
   rpc findOrderProductsByOrderId(LongId) returns (stream OrderProductInfo);
   rpc findOrderProductsByProductId(IntId) returns (stream OrderProductInfo);
   ///////////////////////////////////////////////////////////////////////////////
-  rpc findOrderInformationBy(IdentityInfo) returns (stream OrderInformation);
+  rpc findOrderInformationByIdentity(IdentityInfo) returns (stream OrderInformation);
   //...
 }
 

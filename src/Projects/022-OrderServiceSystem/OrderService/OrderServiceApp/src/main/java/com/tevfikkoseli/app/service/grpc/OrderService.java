@@ -22,6 +22,13 @@ public class OrderService extends OrderGRPCServiceGrpc.OrderGRPCServiceImplBase 
         m_orderProductMapper = orderProductMapper;
     }
 
+
+    @Override
+    public void findOrderInformationByIdentity(IdentityInfo request, StreamObserver<OrderInformation> responseObserver)
+    {
+        super.findOrderInformationByIdentity(request, responseObserver);
+    }
+
     @Override
     public void findOrdersByMonthAndYear(IntPair request, StreamObserver<OrderInfo> responseObserver)
     {
