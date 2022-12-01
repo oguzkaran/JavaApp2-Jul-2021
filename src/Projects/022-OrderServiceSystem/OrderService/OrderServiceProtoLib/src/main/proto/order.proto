@@ -1,4 +1,4 @@
- syntax = "proto3";
+syntax = "proto3";
 
 option java_multiple_files = true;
 option java_package = "com.tevfikkoseli.app.service.grpc.order.proto";
@@ -38,7 +38,7 @@ message IntPair {
 
 message OrderInfo {
   string datetime = 1;
-  fixed32 clientId = 2;
+  fixed32 clientId = 2;  
 }
 
 message OrderProductInfo {
