@@ -11,6 +11,6 @@ public class ExecutorServiceConfig {
     @Bean
     public ExecutorService getExecutorService()
     {
-        return Executors.newSingleThreadExecutor();
+        return Executors.newCachedThreadPool();
     }
 }

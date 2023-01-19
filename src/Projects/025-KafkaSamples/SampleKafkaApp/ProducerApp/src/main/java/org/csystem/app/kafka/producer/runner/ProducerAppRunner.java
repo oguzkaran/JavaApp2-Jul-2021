@@ -1,10 +1,14 @@
 package org.csystem.app.kafka.producer.runner;
 
 import org.csystem.app.kafka.producer.service.kafka.ProducerAppKafkaService;
+import org.csystem.util.string.StringUtil;
+import org.csystem.util.thread.ThreadUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 
 @Component
@@ -12,17 +16,28 @@ public class ProducerAppRunner implements ApplicationRunner {
     private final ExecutorService m_executorService;
     private final ProducerAppKafkaService m_producerAppKafkaService;
 
+    private final Random m_random;
+
+    @Value("${producer.name}")
+    private String m_name;
+
+    @Value("${spring.kafka.producer.topic}")
+    private String m_topic;
 
     private void schedulerCallback()
     {
-        for (int i = 0; i < 10; ++i)
-            m_producerAppKafkaService.senMessage("Message-" + i);
+        for (;;) {
+            var message = String.format("%s:%s -> %s", m_name, m_topic, StringUtil.getRandomTextEN(m_random, m_random.nextInt(4, 7)));
+            m_producerAppKafkaService.senMessage(message);
+            ThreadUtil.sleep(10);
+        }
     }
 
-    public ProducerAppRunner(ExecutorService executorService, ProducerAppKafkaService producerAppKafkaService)
+    public ProducerAppRunner(ExecutorService executorService, ProducerAppKafkaService producerAppKafkaService, Random random)
     {
         m_executorService = executorService;
         m_producerAppKafkaService = producerAppKafkaService;
+        m_random = random;
     }
 
     @Override

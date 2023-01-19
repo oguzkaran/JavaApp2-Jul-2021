@@ -16,5 +16,10 @@
       <option name="name" value="JBoss Community repository" />
       <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="javaapp2-jul-2022" />
+      <option name="name" value="javaapp2-jul-2022" />
+      <option name="url" value="https://raw.github.com/oguzkaran/javaapp2-jul-2021-maven-repo/main" />
+    </remote-repository>
   </component>
 </project>
