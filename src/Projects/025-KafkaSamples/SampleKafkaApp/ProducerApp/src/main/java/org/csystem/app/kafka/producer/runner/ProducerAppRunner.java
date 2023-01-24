@@ -27,7 +27,7 @@ public class ProducerAppRunner implements ApplicationRunner {
     private void schedulerCallback()
     {
         for (;;) {
-            var message = String.format("%s:%s -> %s", m_name, m_topic, StringUtil.getRandomTextEN(m_random, m_random.nextInt(4, 7)));
+            var message = String.format("%s", StringUtil.getRandomTextEN(m_random, m_random.nextInt(4, 7)));
             m_producerAppKafkaService.senMessage(message);
             ThreadUtil.sleep(10);
         }
