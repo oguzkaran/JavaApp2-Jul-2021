@@ -43,12 +43,12 @@ truncate table animals restart identity cascade;
 truncate table veterinarians_to_animals restart identity cascade;
 
 create or replace function find_veterinarian_by_year_between(int, int)
-    returns table (
-                      diploma_no bigint,
-                      full_name varchar(300),
-                      birth_date date,
-                      register_date date
-                  )
+returns table (
+                  diploma_no bigint,
+                  full_name varchar(300),
+                  birth_date date,
+                  register_date date
+              )
 as '
 begin
     return query
