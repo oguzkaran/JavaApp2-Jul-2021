@@ -23,6 +23,8 @@ public class KafkaProducerConfig {
         factoryProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, m_kafkaBootstrapServer);
         factoryProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         factoryProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        factoryProps.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, "true");
+        factoryProps.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, "csd-producer-1");
 
         return new DefaultKafkaProducerFactory<>(factoryProps);
     }
